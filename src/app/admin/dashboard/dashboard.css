@@ -1,0 +1,56 @@
+.dashboard-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-card {
+  padding: 10px;
+}
+
+.top-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-field {
+  width: 300px;
+}
+
+.table-responsive {
+  overflow-x: auto; /* Garante scroll horizontal em telas pequenas */
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+/* Ajuste do tamanho da coluna Ações para não ocupar muito espaço */
+.mat-column-acoes {
+  width: 120px;
+  text-align: center;
+}
+
+/* Responsividade: Empilha botões e campo de busca em mobile */
+@media (max-width: 600px) {
+  .top-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .search-field {
+    width: 100%;
+  }
+  
+  .new-car-btn {
+    width: 100%;
+  }
+  
+  /* Ajusta o tamanho da fonte da tabela para caber melhor */
+  .mat-table {
+    font-size: 12px;
+  }
+}

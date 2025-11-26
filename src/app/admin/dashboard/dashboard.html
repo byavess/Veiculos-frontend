@@ -1,0 +1,74 @@
+<div class="dashboard-container">
+  <mat-card class="admin-card">
+    <mat-card-header>
+      <mat-card-title>Gerenciamento de Inventário de Veículos</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      
+      <div class="top-actions">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Filtrar por Modelo/Marca</mat-label>
+          <input matInput (keyup)="aplicarFiltro($event)" placeholder="Ex: Fusion" #input>
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        
+        <button mat-raised-button color="primary" routerLink="/admin/veiculo-form" class="new-car-btn">
+          <mat-icon>add_circle_outline</mat-icon> Cadastrar Novo
+        </button>
+      </div>
+      
+      <div class="table-responsive mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" class="full-width-table">
+          
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="marca">
+            <th mat-header-cell *matHeaderCellDef> Marca </th>
+            <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="modelo">
+            <th mat-header-cell *matHeaderCellDef> Modelo </th>
+            <td mat-cell *matCellDef="let element"> {{element.modelo}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ano">
+            <th mat-header-cell *matHeaderCellDef> Ano </th>
+            <td mat-cell *matCellDef="let element"> {{element.ano}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="preco">
+            <th mat-header-cell *matHeaderCellDef> Preço </th>
+            <td mat-cell *matCellDef="let element"> R$ {{element.preco | number:'1.2-2'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="editarVeiculo(element.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deletarVeiculo(element.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">Nenhum veículo encontrado no inventário.</td>
+          </tr>
+        </table>
+        
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

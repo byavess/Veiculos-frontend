@@ -1,0 +1,36 @@
+<div class="vitrine-container">
+  <h2>Ofertas em Destaque</h2>
+
+  <mat-card class="filter-panel mat-elevation-z2">
+    <h3>Filtros de Busca</h3>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Marca</mat-label>
+      <mat-select>
+        <mat-option value="ford">Ford</mat-option>
+        <mat-option value="bmw">BMW</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="accent">Buscar</button>
+  </mat-card>
+
+  <div class="veiculo-grid">
+    <mat-card *ngFor="let veiculo of veiculos" class="veiculo-card mat-elevation-z4">
+      <img src="assets/logo-pequeno.png" class="logo-overlay" alt="Revenda Logo">
+
+      <img mat-card-image [src]="veiculo.urlsFotos[0]" alt="{{ veiculo.modelo }}" class="card-image">
+
+      <mat-card-header>
+        <mat-card-title>{{ veiculo.marca }} {{ veiculo.modelo }}</mat-card-title>
+        <mat-card-subtitle>{{ veiculo.ano }} | {{ veiculo.quilometragem | number }} km</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <h3 class="preco">R$ {{ veiculo.preco | number:'1.2-2' }}</h3>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <a mat-button color="primary" [routerLink]="['/public/details', veiculo.id]">VER DETALHES</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

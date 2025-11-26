@@ -1,0 +1,54 @@
+.form-container {
+  padding: 20px;
+  max-width: 900px; /* Limita a largura do formulário em telas grandes */
+  margin: 20px auto;
+}
+
+/* Garante que o Formulário use layout flexível para responsividade */
+.form-row {
+  display: flex;
+  gap: 20px; /* Espaço entre as colunas */
+  margin-bottom: 10px;
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+/* Colunas em Desktop: 50% de largura */
+.form-field-half {
+  flex: 1 1 48%; /* Flex-grow, Flex-shrink, Largura base */
+}
+
+/* Colunas em Desktop: 33.3% de largura */
+.form-field-third {
+  flex: 1 1 30%;
+}
+
+/* Campo de foto: ocupa quase toda a linha */
+.form-field-large {
+    flex: 1 1 90%;
+}
+
+/* Layout da linha de foto (campo + botão de remover) */
+.foto-row {
+    align-items: center;
+}
+
+mat-divider {
+  margin: 20px 0;
+}
+
+/* Media Query: Torna os campos de coluna única em telas pequenas (Mobile) */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .form-field-half,
+  .form-field-third,
+  .form-field-large {
+    flex: 1 1 100%; /* Ocupa a largura total */
+  }
+}

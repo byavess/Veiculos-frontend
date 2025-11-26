@@ -1,0 +1,53 @@
+<div class="login-container mat-elevation-z8">
+    <mat-card class="login-card">
+        
+        <mat-card-header>
+            <mat-card-title>Acesso Administrativo</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form (ngSubmit)="logar()" #loginForm="ngForm">
+                
+                <mat-form-field appearance="outline" class="full-width-input">
+                    <mat-label>Email</mat-label>
+                    <input 
+                        matInput 
+                        type="email" 
+                        name="email" 
+                        placeholder="exemplo@admin.com"
+                        [(ngModel)]="credenciais.email"
+                        required>
+                    <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" class="full-width-input">
+                    <mat-label>Senha</mat-label>
+                    <input 
+                        matInput 
+                        type="password" 
+                        name="senha"
+                        placeholder="Sua senha secreta"
+                        [(ngModel)]="credenciais.senha"
+                        required>
+                    <mat-icon matSuffix>lock</mat-icon>
+                </mat-form-field>
+                
+                <div class="button-container">
+                    <button 
+                        mat-raised-button 
+                        color="primary" 
+                        type="submit" 
+                        [disabled]="!loginForm.valid">
+                        <mat-icon>login</mat-icon> Entrar
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+
+        <mat-card-actions class="action-footer">
+            <a [routerLink]="['/public/home']" mat-button color="accent">
+                <mat-icon>arrow_back</mat-icon> Voltar para Home
+            </a>
+        </mat-card-actions>
+    </mat-card>
+</div>
