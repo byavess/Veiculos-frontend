@@ -1,1 +1,19 @@
-<p>detalhes-veiculos works!</p>
+<div *ngIf="veiculo">
+    <!-- Galeria de Fotos -->
+    <div class="gallery-container">
+        <img [src]="veiculo.imagem" [alt]="veiculo.modelo" class="main-image">
+    </div>
+
+    <h1>{{ veiculo.marca }} {{ veiculo.modelo }}</h1>
+    
+    <div class="details-container">
+        <p><strong>Ano:</strong> {{ veiculo.ano }}</p>
+        <p><strong>Preço:</strong> R$ {{ veiculo.preco | number:'1.2-2' }}</p>
+        <p><strong>Cor:</strong> {{ veiculo.cor || 'Não informada' }}</p>
+        <p><strong>Descrição:</strong> {{ veiculo.descricao }}</p>
+    </div>
+</div>
+
+<div *ngIf="!veiculo">
+    <p>Carregando veículo...</p>
+</div>

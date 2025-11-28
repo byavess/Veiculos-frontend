@@ -1,22 +1,28 @@
-// src/app/app.routes.ts - CÓDIGO COMPLETO E CORRIGIDO
 import { Routes } from '@angular/router';
-// CORREÇÃO: Removendo o .ts para o Angular conseguir resolver o guarda
-import { authGuard } from './guards/auth-guard' 
+import { Home } from './public/home/home';
+import { DetalhesVeiculos } from './public/detalhes-veiculos/detalhes-veiculos';
 
 export const routes: Routes = [
   {
+    path: 'public/home',
+    component: Home
+  },
+  {
+    path: 'public/details/:id',
+    component: DetalhesVeiculos
+  },
+  {
     path: 'public',
-    loadChildren: () => import('./public/public.routes').then((m) => m.publicRoutes),
+    redirectTo: 'public/home',
+    pathMatch: 'full'
   },
-  {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.routes').then((m) => m.authRoutes),
+  { 
+    path: '', 
+    redirectTo: 'public/home', 
+    pathMatch: 'full' 
   },
-  {
-    path: 'admin',
-    loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes),
-    canActivate: [authGuard]
-  },
-  { path: '', redirectTo: 'public', pathMatch: 'full' },
-  { path: '**', redirectTo: 'public' },
+  { 
+    path: '**', 
+    redirectTo: 'public/home' 
+  }
 ];

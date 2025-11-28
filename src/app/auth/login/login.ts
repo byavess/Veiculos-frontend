@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router'; // Para navegação e links
 import { HttpClient } from '@angular/common/http'; // Para chamadas HTTP (POST)
 import { FormsModule } from '@angular/forms'; // Para [(ngModel)]
@@ -33,6 +33,9 @@ import { CommonModule } from '@angular/common';
 })
 export class Login implements OnInit {
 
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
   // Objeto para armazenar as credenciais do formulário via [(ngModel)]
   credenciais = {
     email: '',
@@ -43,10 +46,7 @@ export class Login implements OnInit {
   // ATENÇÃO: Verifique a porta do seu Back-end (comumente 8080 ou 8085)
   private readonly LOGIN_API = 'http://localhost:8080/auth/login'; 
 
-  constructor(
-    private http: HttpClient, // Injeção do HttpClient
-    private router: Router    // Injeção do Router para navegação
-  ) { }
+  
 
   ngOnInit(): void {
     // Se o usuário já tiver um token, redireciona diretamente para o admin

@@ -1,76 +1,218 @@
-// src/app/admin/veiculo-form/veiculo-form.ts - COMPLETO E CORRIGIDO
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; 
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// 🛑 ESSENCIAL: Reactive Forms e FormBuilder
-import { 
-  FormBuilder, 
-  FormGroup, 
-  Validators, 
-  FormArray, 
-  ReactiveFormsModule // Módulo para [formGroup] e [formControlName]
-} from '@angular/forms';
-
-// Imports do Material para o template
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon'; 
-import { MatDividerModule } from '@angular/material/divider'; // Para mat-divider
-import { MatSelectModule } from '@angular/material/select'; // Para mat-select e mat-option
-
-// Importa o serviço (verifique o caminho, pode ser '../../veiculo.service' dependendo de onde está)
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { VeiculoService, Veiculo } from '../../veiculo.service';
 
 @Component({
   selector: 'app-veiculo-form',
   standalone: true,
-  imports: [
-    CommonModule, 
-    ReactiveFormsModule, // 🛑 RESOLVE NG8002: [formGroup]
-    MatCardModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule, // 🛑 RESOLVE NG8001: mat-divider
-    MatSelectModule // 🛑 RESOLVE NG8001: mat-option e mat-select
-  ],
-  templateUrl: './veiculo-form.html', 
-  styleUrls: ['./veiculo-form.css']
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  template: `
+    <div class="container">
+      <button [routerLink]="['/public/home']" class="back-btn">← Voltar para Loja</button>
+      
+      <div class="form-container">
+        <h1>{{ isEdicao ? 'Editar Veículo' : 'Cadastrar Novo Veículo' }}</h1>
+        
+        <form [formGroup]="veiculoForm" (ngSubmit)="onSubmit()" class="vehicle-form">
+          <div class="form-group">
+            <label>Marca *</label>
+            <input type="text" formControlName="marca" class="form-input">
+            <div *ngIf="veiculoForm.get('marca')?.invalid && veiculoForm.get('marca')?.touched" class="error">
+              Marca é obrigatória
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Modelo *</label>
+            <input type="text" formControlName="modelo" class="form-input">
+            <div *ngIf="veiculoForm.get('modelo')?.invalid && veiculoForm.get('modelo')?.touched" class="error">
+              Modelo é obrigatório
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ano *</label>
+              <input type="number" formControlName="ano" class="form-input">
+              <div *ngIf="veiculoForm.get('ano')?.invalid && veiculoForm.get('ano')?.touched" class="error">
+                Ano deve ser maior que 1900
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Preço *</label>
+              <input type="number" formControlName="preco" class="form-input">
+              <div *ngIf="veiculoForm.get('preco')?.invalid && veiculoForm.get('preco')?.touched" class="error">
+                Preço deve ser maior que 1000
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Cor</label>
+            <input type="text" formControlName="cor" class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label>Descrição</label>
+            <textarea formControlName="descricao" class="form-textarea" rows="4"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>URL da Imagem *</label>
+            <input type="text" formControlName="imagem" class="form-input">
+            <div *ngIf="veiculoForm.get('imagem')?.invalid && veiculoForm.get('imagem')?.touched" class="error">
+              URL da imagem é obrigatória
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="submit-btn" [disabled]="veiculoForm.invalid">
+              {{ isEdicao ? 'Atualizar Veículo' : 'Cadastrar Veículo' }}
+            </button>
+            <button type="button" class="cancel-btn" [routerLink]="['/public/home']">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .back-btn { 
+      background: none; 
+      border: 1px solid #ddd; 
+      padding: 8px 15px; 
+      border-radius: 5px; 
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .form-container h1 {
+      color: #2c3e50;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .vehicle-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .form-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #34495e;
+    }
+    
+    .form-input, .form-textarea {
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    .form-input:focus, .form-textarea:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+    
+    .form-textarea {
+      resize: vertical;
+    }
+    
+    .error {
+      color: #e74c3c;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    .submit-btn {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      flex: 1;
+    }
+    
+    .submit-btn:disabled {
+      background: #bdc3c7;
+      cursor: not-allowed;
+    }
+    
+    .submit-btn:hover:not(:disabled) {
+      background: #219a52;
+    }
+    
+    .cancel-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      flex: 1;
+    }
+    
+    .cancel-btn:hover {
+      background: #c0392b;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+    }
+  `]
 })
 export class VeiculoFormComponent implements OnInit {
-  
-  // 🛑 PROPRIEDADES FALTANTES (RESOLVE TS2339)
-  veiculoForm!: FormGroup; // ! para indicar que será inicializado no ngOnInit
-  isEdicao: boolean = false; 
+  veiculoForm!: FormGroup;
+  isEdicao: boolean = false;
   veiculoId: number | null = null;
-  
-  // Lista de marcas para o <mat-select>
-  marcasDisponiveis = ['Chevrolet', 'Ford', 'Fiat', 'Honda', 'Toyota', 'Volkswagen'];
 
-  // 🛑 GETTER PARA ACESSAR FormArray (RESOLVE urlsFotos.controls)
-  get urlsFotos(): FormArray {
-    return this.veiculoForm.get('urlsFotos') as FormArray;
-  }
-
-  constructor(
-    private fb: FormBuilder, // Injeção do FormBuilder
-    private veiculoService: VeiculoService, 
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+  // ✅ Usando inject() para injeção de dependências
+  private fb = inject(FormBuilder);
+  private veiculoService = inject(VeiculoService);
+  private router = inject(Router);
 
   ngOnInit(): void {
-    // Lógica para inicializar e carregar dados em caso de edição
-    this.veiculoId = Number(this.route.snapshot.paramMap.get('id'));
-    this.isEdicao = !!this.veiculoId && !isNaN(this.veiculoId);
     this.inicializarFormulario();
-    if (this.isEdicao) {
-      this.carregarVeiculoParaEdicao(this.veiculoId as number);
-    }
   }
 
   inicializarFormulario(): void {
@@ -79,30 +221,26 @@ export class VeiculoFormComponent implements OnInit {
       modelo: ['', Validators.required],
       ano: [null, [Validators.required, Validators.min(1900)]],
       preco: [null, [Validators.required, Validators.min(1000)]],
-      quilometragem: [null, [Validators.required, Validators.min(0)]],
+      cor: [''],
       descricao: [''],
-      urlsFotos: this.fb.array([this.fb.control('', Validators.required)])
+      imagem: ['', Validators.required]
     });
-  }
-
-  carregarVeiculoParaEdicao(id: number): void {
-    // Lógica de carregamento de veículo aqui
-  }
-
-  // 🛑 MÉTODOS FALTANTES (RESOLVE TS2339)
-  adicionarCampoFoto(): void {
-    this.urlsFotos.push(this.fb.control('', Validators.required));
-  }
-
-  removerCampoFoto(index: number): void {
-    if (this.urlsFotos.length > 1) {
-      this.urlsFotos.removeAt(index);
-    }
   }
 
   onSubmit(): void {
     if (this.veiculoForm.valid) {
-      // Lógica de envio
+      const veiculo: Veiculo = this.veiculoForm.value;
+      
+      if (this.isEdicao && this.veiculoId) {
+        // Edição
+        
+      } else {
+        // Criação
+        
+      }
+    } else {
+     alert('Funcionalidade de cadastrar será implementada depois');
+this.router.navigate(['/public/home']);
     }
   }
 }

@@ -2,14 +2,27 @@
 
 import { Routes } from '@angular/router';
 // Importa o Home, assumindo que está em ./home/home.ts
-import { Home} from './home/home'; 
 
-import { authGuard } from '../guards/auth-guard';
-// O arquivo real é 'src/app/public/detalhes-veiculos/detalhes-veiculos.ts'
+
+
+
 import { DetalhesVeiculos } from './detalhes-veiculos/detalhes-veiculos'; 
+import { Home } from './home/home';
 
 export const publicRoutes: Routes = [
-  { path: 'home', component: Home },
-  { path: 'details/:id', component: DetalhesVeiculos }, 
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: 'home', // O segmento '/public/home' irá carregar este
+    component: Home,
+    title: 'Vitrine de Veículos'
+  },
+  {
+    path: 'details/:id', // Rota para detalhes (usa o ID como parâmetro)
+    component: DetalhesVeiculos,
+    title: 'Detalhes do Veículo'
+  },
+  {
+    path: '', // Redireciona a rota base '/public' para '/public/home'
+    redirectTo: 'home',
+    pathMatch: 'full'
+  }
 ];

@@ -1,13 +1,11 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http'; // <--- ESSENCIAL!
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(), // <--- Correção se estiver faltando
- 
-
+    provideHttpClient(withFetch()) // ✅ ESSENCIAL para HTTP
   ]
 };
