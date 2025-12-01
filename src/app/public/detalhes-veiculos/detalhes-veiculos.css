@@ -1,29 +1,200 @@
-.gallery-container {
-    text-align: center;
+/* Estilos Gerais */
+.container-detalhes {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f7fa; /* Fundo suave */
+    min-height: 100vh;
+}
+
+.back-button {
     margin-bottom: 20px;
+    background-color: #78909c; /* Azul cinzento */
+    color: white;
+}
+
+/* --- Card Principal de Detalhes --- */
+.detalhes-card {
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-content-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Padrão Mobile: Coluna única */
+    gap: 30px;
+    padding: 20px;
+}
+
+/* Coluna de Imagem */
+.image-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.main-image-container {
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .main-image {
-    max-width: 100%;
-    height: auto;
-    max-height: 400px;
-    border-radius: 8px;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
 }
 
-.details-container {
-    background: #f5f5f5;
+.thumbnail-gallery {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.thumbnail-image {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.thumbnail-image:hover {
+    border-color: #3f51b5;
+}
+
+.no-photos-placeholder {
+    color: #999;
+    font-size: 0.9em;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+}
+
+/* Coluna de Informações */
+.info-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-model {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.subtitle-info {
+    font-size: 1.1em;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+.price-highlight {
+    background: #e8f5e9; /* Verde muito claro */
+    border: 1px solid #c8e6c9;
     padding: 20px;
     border-radius: 8px;
-    margin-top: 20px;
-}
-
-.details-container p {
-    margin: 10px 0;
-    font-size: 16px;
-}
-
-h1 {
-    color: #333;
-    text-align: center;
     margin: 20px 0;
+    text-align: center;
+}
+
+.price-label {
+    display: block;
+    font-size: 1.1em;
+    color: #388e3c; /* Verde escuro */
+    margin-bottom: 5px;
+}
+
+.price-value {
+    font-size: 3em;
+    font-weight: 900;
+    color: #388e3c;
+}
+
+.description-section h3 {
+    display: flex;
+    align-items: center;
+    color: #3f51b5;
+    margin-bottom: 10px;
+}
+
+.description-section mat-icon {
+    margin-right: 8px;
+}
+
+.description-section p {
+    line-height: 1.6;
+    font-size: 1.05em;
+    color: #34495e;
+}
+
+/* Botões de Ação */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap; /* Garante que os botões se ajustem em telas menores */
+}
+
+.action-buttons button {
+    flex-grow: 1;
+    height: 50px;
+    font-weight: 600;
+}
+
+.buy-button {
+    flex-basis: 100%; /* Botão Comprar ocupa linha inteira em mobile */
+    font-size: 1.1em;
+}
+
+/* --- Mensagens de Status --- */
+.status-card {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.status-card mat-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.status-card span {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.error-card {
+    background-color: #ffcdd2; /* Red Light */
+    color: #c62828; /* Red Dark */
+    border: 1px solid #c62828;
+}
+
+.success-card {
+    background-color: #c8e6c9; /* Green Light */
+    color: #388e3c; /* Green Dark */
+    border: 1px solid #388e3c;
+}
+
+/* --- Seção de Carregamento --- */
+.loading-section {
+    text-align: center;
+    padding: 50px 0;
+}
+
+/* Media Queries para Desktop */
+@media (min-width: 992px) {
+    .card-content-grid {
+        grid-template-columns: 2fr 1.5fr; /* 2 Colunas no desktop */
+    }
+    .buy-button {
+        flex-basis: auto; /* Volta ao layout flexível */
+        flex-grow: 2;
+    }
 }

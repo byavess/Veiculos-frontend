@@ -1,95 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Observable, catchError, EMPTY, switchMap, tap } from 'rxjs';
+
+// Angular Material
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { VeiculoService, Veiculo } from '../../veiculo.service';
 
 @Component({
   selector: 'app-detalhes-veiculos',
   standalone: true,
-  imports: [CommonModule, RouterLink],
-  template: `
-    <div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
-      
-      <!-- Botão Voltar -->
-      <button 
-        [routerLink]="['/public/home']"
-        style="background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">
-        ← Voltar para Vitrine
-      </button>
-
-      <!-- Loading -->
-      <div *ngIf="carregando" style="text-align: center; padding: 40px;">
-        <p>Carregando detalhes do veículo...</p>
-      </div>
-
-      <!-- Erro -->
-      <div *ngIf="erro" style="background: #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; text-align: center;">
-        <p style="color: #e74c3c; margin: 0;">{{ erro }}</p>
-        <button 
-          [routerLink]="['/public/home']"
-          style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; margin-top: 10px;">
-          Voltar para Home
-        </button>
-      </div>
-
-      <!-- Detalhes do Veículo -->
-      <div *ngIf="!carregando && veiculo" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        
-        <!-- Imagem Grande -->
-        <div style="width: 100%; height: 400px; overflow: hidden;">
-  <img 
-    [src]="getPrimeiraImagem(veiculo)" 
-    [alt]="veiculo.modelo"
-    style="width: 100%; height: 100%; object-fit: cover;"
-    (error)="onImageError($event)">
-</div>
-
-        <!-- Informações -->
-        <div style="padding: 30px;">
-          <h1 style="color: #2c3e50; margin: 0 0 10px 0;">{{ veiculo.marca }} {{ veiculo.modelo }}</h1>
-          <p style="color: #7f8c8d; font-size: 1.2em; margin: 0 0 20px 0;">Ano: {{ veiculo.ano }} | Cor: {{ veiculo.cor || 'Não informada' }}</p>
-          
-          <div style="background: #27ae60; color: white; padding: 15px; border-radius: 5px; text-align: center; margin: 20px 0;">
-            <h2 style="margin: 0; font-size: 2em;">R$ {{ veiculo.preco | number:'1.2-2' }}</h2>
-          </div>
-
-          <div style="margin: 20px 0;">
-            <h3 style="color: #2c3e50;">Descrição</h3>
-            <p style="color: #34495e; line-height: 1.6; font-size: 1.1em;">{{ veiculo.descricao || 'Descrição não disponível.' }}</p>
-          </div>
-
-          <!-- Botões de Ação -->
-          <div style="display: flex; gap: 15px; margin-top: 30px;">
-            <button 
-              style="background: #e74c3c; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; flex: 1;"
-              (click)="deletarVeiculo()">
-              🗑️ Deletar Veículo
-            </button>
-            <button 
-              style="background: #f39c12; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; flex: 1;">
-              ✏️ Editar Veículo
-            </button>
-            <button 
-              style="background: #27ae60; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; flex: 2;"
-              (click)="comprarVeiculo()">
-              🛒 Comprar Agora
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `
+  templateUrl: './detalhes-veiculos.html',
+  styleUrls: ['./detalhes-veiculos.css'],
+  imports: [
+    CommonModule,
+    RouterLink,
+    CurrencyPipe,
+    // Material
+    MatCardModule, MatButtonModule, MatIconModule, MatToolbarModule, MatProgressSpinnerModule
+  ],
 })
 export class DetalhesVeiculos implements OnInit {
-  veiculo: Veiculo | null = null;
-  carregando: boolean = false;
-  erro: string = '';
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private veiculoService = inject(VeiculoService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private veiculoService: VeiculoService
-  ) {}
+  veiculo$!: Observable<Veiculo | null>;
+  carregando: boolean = true;
+  statusMessage: { text: string; type: 'success' | 'error' | '' } = { text: '', type: '' };
 
   ngOnInit(): void {
     this.carregarDetalhes();
@@ -97,53 +40,68 @@ export class DetalhesVeiculos implements OnInit {
 
   carregarDetalhes(): void {
     this.carregando = true;
-    
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('🔍 Carregando detalhes do veículo ID:', id);
+    this.statusMessage = { text: '', type: '' };
 
-    this.veiculoService.getVeiculoById(id).subscribe({
-      next: (dados: Veiculo) => {
-        this.veiculo = dados;
-        this.carregando = false;
-        console.log('✅ Detalhes carregados:', this.veiculo);
-      },
-      error: (erro: any) => {
-        this.carregando = false;
-        this.erro = 'Erro ao carregar detalhes do veículo.';
-        console.error('❌ Erro:', erro);
-      }
-    });
+    this.veiculo$ = this.route.paramMap.pipe(
+      // Pega o parâmetro 'id' da rota
+      switchMap(params => {
+        const id = Number(params.get('id'));
+        if (isNaN(id) || id <= 0) {
+          console.error('ID inválido na rota.');
+          this.carregando = false;
+          this.statusMessage = { text: 'ID do veículo inválido.', type: 'error' };
+          return EMPTY; // Encerra o fluxo
+        }
+
+        // Chama o serviço para buscar o veículo
+        return this.veiculoService.getVeiculoById(id).pipe(
+          tap(veiculo => {
+            this.carregando = false;
+            if (!veiculo) {
+              this.statusMessage = { text: 'Veículo não encontrado.', type: 'error' };
+            }
+          }),
+          catchError(erro => {
+            this.carregando = false;
+            this.statusMessage = { text: 'Erro de conexão ao carregar detalhes do veículo. Verifique o backend.', type: 'error' };
+            console.error('❌ Erro:', erro);
+            return EMPTY; // Encerra o fluxo e evita que o template tente usar dados
+          })
+        );
+      })
+    );
   }
 
-  deletarVeiculo(): void {
-    if (this.veiculo && confirm(`Tem certeza que deseja deletar ${this.veiculo.marca} ${this.veiculo.modelo}?`)) {
-      this.veiculoService.deleteVeiculo(this.veiculo.id).subscribe({
+  deletarVeiculo(id: number, modelo: string): void {
+    // 🛑 Substituído 'confirm()' por uma lógica de status/modal (aqui apenas logando)
+    console.log(`Solicitação de deleção para o veículo ID: ${id}.`);
+    
+    // Na aplicação real, você usaria um MatDialog para confirmar antes
+    const confirmacao = true; // Simulação de confirmação positiva
+
+    if (confirmacao) {
+      this.veiculoService.deleteVeiculo(id).subscribe({
         next: () => {
-          alert('Veículo deletado com sucesso!');
-          this.router.navigate(['/public/home']);
+          this.statusMessage = { text: `✅ ${modelo} deletado com sucesso! Redirecionando...`, type: 'success' };
+          setTimeout(() => {
+            this.router.navigate(['/home']); // Redireciona
+          }, 2000);
         },
         error: (erro) => {
-          alert('Erro ao deletar veículo. Veja o console.');
+          this.statusMessage = { text: '❌ Erro ao deletar veículo. Tente novamente.', type: 'error' };
           console.error('❌ Erro ao deletar:', erro);
         }
       });
     }
   }
 
-  comprarVeiculo(): void {
-    if (this.veiculo) {
-      alert(`🎉 Parabéns! Você comprou o ${this.veiculo.marca} ${this.veiculo.modelo} por R$ ${this.veiculo.preco}`);
-    }
+  comprarVeiculo(modelo: string, preco: number): void {
+    // 🛑 Substituído 'alert()'
+    this.statusMessage = { text: `🎉 Parabéns! Você simulou a compra do ${modelo} por R$ ${preco}.`, type: 'success' };
+    console.log('Simulação de compra concluída.');
   }
 
   onImageError(event: any): void {
     event.target.src = 'https://placehold.co/800x400?text=Imagem+Não+Encontrada';
   }
-
-  getPrimeiraImagem(veiculo: Veiculo): string {
-  if (veiculo.urlsFotos && veiculo.urlsFotos.length > 0) {
-    return veiculo.urlsFotos[0];
-  }
-  return 'https://placehold.co/800x400?text=Sem+Imagem';
-}
 }

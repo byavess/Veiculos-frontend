@@ -1,19 +1,96 @@
-<div *ngIf="veiculo">
-    <!-- Galeria de Fotos -->
-    <div class="gallery-container">
-        <img [src]="veiculo.imagem" [alt]="veiculo.modelo" class="main-image">
-    </div>
+<div class="container-detalhes">
+  <!-- Botão Voltar -->
+  <button mat-flat-button color="accent" routerLink="/home" class="back-button">
+    <mat-icon>arrow_back</mat-icon> Voltar para Vitrine
+  </button>
 
-    <h1>{{ veiculo.marca }} {{ veiculo.modelo }}</h1>
-    
-    <div class="details-container">
-        <p><strong>Ano:</strong> {{ veiculo.ano }}</p>
-        <p><strong>Preço:</strong> R$ {{ veiculo.preco | number:'1.2-2' }}</p>
-        <p><strong>Cor:</strong> {{ veiculo.cor || 'Não informada' }}</p>
-        <p><strong>Descrição:</strong> {{ veiculo.descricao }}</p>
-    </div>
-</div>
+  <!-- Loading -->
+  <div *ngIf="carregando" class="loading-section">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando detalhes do veículo...</p>
+  </div>
 
-<div *ngIf="!veiculo">
-    <p>Carregando veículo...</p>
+  <!-- Mensagens de Status (Erro/Sucesso) -->
+  <mat-card *ngIf="statusMessage.text" [ngClass]="{'error-card': statusMessage.type === 'error', 'success-card': statusMessage.type === 'success'}" class="status-card">
+    <mat-card-content class="flex items-center">
+      <mat-icon *ngIf="statusMessage.type === 'error'" color="warn">error_outline</mat-icon>
+      <mat-icon *ngIf="statusMessage.type === 'success'" color="primary">check_circle_outline</mat-icon>
+      <span>{{ statusMessage.text }}</span>
+      <button mat-icon-button (click)="statusMessage.text = ''" *ngIf="statusMessage.type !== 'success'">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Detalhes do Veículo (Usando async pipe) -->
+  <mat-card *ngIf="(veiculo$ | async) as veiculo" class="detalhes-card">
+    <div class="card-content-grid">
+      <!-- Coluna Esquerda: Imagem e Galeria -->
+      <div class="image-column">
+        <!-- Imagem Principal -->
+        <div class="main-image-container">
+          <img
+            [src]="veiculo.urlsFotos && veiculo.urlsFotos.length > 0 ? veiculo.urlsFotos[0] : 'https://placehold.co/800x400?text=Sem+Imagem'"
+            [alt]="veiculo.modelo"
+            (error)="onImageError($event)"
+            class="main-image">
+        </div>
+
+        <!-- Galeria de miniaturas (mock) -->
+        <div class="thumbnail-gallery">
+          <img *ngFor="let url of veiculo.urlsFotos; let i = index"
+               [src]="url"
+               [alt]="veiculo.modelo + ' - Foto ' + (i + 1)"
+               class="thumbnail-image"
+               (error)="onImageError($event)">
+          <div *ngIf="!veiculo.urlsFotos || veiculo.urlsFotos.length === 0" class="no-photos-placeholder">
+            Sem outras fotos
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna Direita: Informações e Ações -->
+      <div class="info-column">
+        <!-- Cabeçalho -->
+        <mat-card-header>
+          <mat-card-title class="title-model">{{ veiculo.marca }} {{ veiculo.modelo }}</mat-card-title>
+          <mat-card-subtitle class="subtitle-info">Ano: {{ veiculo.ano }} | Cor: {{ veiculo.cor || 'Não informada' }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <!-- Preço em Destaque -->
+        <div class="price-highlight">
+          <span class="price-label">Preço Sugerido:</span>
+          <span class="price-value">{{ veiculo.preco | currency:'BRL':'symbol':'1.2-2':'pt' }}</span>
+        </div>
+
+        <!-- Descrição -->
+        <div class="description-section">
+          <h3><mat-icon>description</mat-icon> Detalhes do Veículo</h3>
+          <p>{{ veiculo.descricao || 'Descrição detalhada não disponível para este modelo.' }}</p>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="action-buttons">
+          <button mat-raised-button color="warn" (click)="deletarVeiculo(veiculo.id, veiculo.modelo)">
+            <mat-icon>delete</mat-icon> Deletar
+          </button>
+          <button mat-raised-button color="accent">
+            <mat-icon>edit</mat-icon> Editar
+          </button>
+          <button mat-raised-button color="primary" class="buy-button" (click)="comprarVeiculo(veiculo.modelo, veiculo.preco)">
+            <mat-icon>shopping_cart</mat-icon> Comprar Agora
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Mensagem de Veículo Não Encontrado (Se veiculo$ emitir null e não estiver carregando) -->
+  <mat-card *ngIf="!carregando && !statusMessage.text && !(veiculo$ | async)">
+    <mat-card-title>Veículo Não Encontrado</mat-card-title>
+    <mat-card-content>O veículo solicitado não existe ou foi removido.</mat-card-content>
+    <mat-card-actions>
+      <button mat-button routerLink="/home">Voltar</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

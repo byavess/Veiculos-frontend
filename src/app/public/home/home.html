@@ -1,69 +1,156 @@
-<div class="container-concessionaria">
- 
- <mat-card class="filtro-card">
- <mat-card-content>
- <h2>Filtros de Busca</h2>
- <div class="filtro-group">
- <mat-form-field appearance="outline">
- <mat-label>Marca/Modelo</mat-label>
- <!-- 🛑 CORRIGIDO: Usando marcaFiltro.marca, que é uma string, não o objeto inteiro -->
- <input matInput placeholder="Ex: BMW, Sedan" [(ngModel)]="marcaFiltro.marca"> 
- </mat-form-field>
- <!-- 🛑 ADICIONADO: Evento de clique para chamar a função de filtro -->
- <button 
- mat-raised-button 
- color="primary"
- (click)="aplicarFiltros()"
- >
- Buscar
- </button>
- </div>
- </mat-card-content>
- </mat-card>
+<!-- Header Principal -->
+<header class="main-header">
+  <div class="header-content">
+    <div class="logo-section">
+      <mat-icon class="logo-icon">directions_car</mat-icon>
+      <span class="logo-text"> Seminovos</span>
+    </div>
+    <nav class="main-nav">
+      <a href="#" class="nav-link active">Home</a>
+      <a href="#" class="nav-link">Estoque</a>
+      <a href="#" class="nav-link">Financiamento</a>
+      <a href="#" class="nav-link">Contato</a>
+    </nav>
+    <button mat-flat-button color="primary" class="login-btn" routerLink="/auth/login">
+      <mat-icon>person</mat-icon>
+      Área do Cliente
+    </button>
+  </div>
+</header>
 
- <!-- Seção de carregamento/erro -->
- <div *ngIf="loading" class="flex justify-center items-center h-40">
- <mat-spinner></mat-spinner>
- <p>Carregando veículos...</p>
- </div>
+<!-- Hero Banner -->
+<section class="hero-banner">
+  <div class="hero-overlay">
+    <div class="hero-content">
+      <h1 class="hero-title">Encontre o carro dos seus sonhos</h1>
+      <p class="hero-subtitle">+ de 50 veículos seminovos com garantia e procedência</p>
+      
+      <!-- Barra de Busca -->
+      <div class="search-bar">
+        <mat-form-field appearance="outline" class="search-input">
+          <mat-label>Buscar por marca ou modelo</mat-label>
+          <input matInput [(ngModel)]="marcaFiltro.marca" placeholder="Ex: BMW, Honda, Toyota...">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <button mat-raised-button color="accent" class="search-btn" (click)="aplicarFiltros()">
+          Buscar Veículos
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
- <div *ngIf="erroCarregamento && !loading" class="text-center p-8">
- <mat-card-title>Erro ao carregar</mat-card-title>
- <p>Não foi possível carregar os veículos. Verifique a conexão com o servidor.</p>
- <button mat-raised-button color="accent" (click)="carregarVeiculos()">Tentar Novamente</button>
- </div>
+<!-- Destaques -->
+<section class="features-section">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-item">
+        <mat-icon class="feature-icon">verified</mat-icon>
+        <h3>Veículos Verificados</h3>
+        <p>Garantia de procedência e qualidade</p>
+      </div>
+      <div class="feature-item">
+        <mat-icon class="feature-icon">paid</mat-icon>
+        <h3>Financiamento</h3>
+        <p>Parcele em até 60 meses</p>
+      </div>
+      <div class="feature-item">
+        <mat-icon class="feature-icon">security</mat-icon>
+        <h3>Compra Segura</h3>
+        <p>Todo processo acompanhado</p>
+      </div>
+    </div>
+  </div>
+</section>
 
- <div *ngIf="!loading && veiculos.length === 0" class="text-center p-8">
- <p>Nenhum veículo encontrado.</p>
- </div>
+<!-- Vitrine de Veículos -->
+<section class="vehicles-section">
+  <div class="container">
+    <h2 class="section-title">Veículos em Destaque</h2>
+    
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Carregando veículos...</p>
+    </div>
 
- <!-- Grid de Veículos -->
- <div class="veiculos-grid" *ngIf="!loading && veiculos.length > 0">
- <mat-card *ngFor="let veiculo of veiculos" class="veiculo-card">
- 
-<!-- Tratamento básico para URLs vazias e primeiro índice -->
-<img 
- mat-card-image 
- [src]="veiculo.imagem && veiculo.imagem.length > 0 ? veiculo.imagem[0] : '[https://placehold.co/600x400?text=Sem+Foto](https://placehold.co/600x400?text=Sem+Foto)'" 
- [alt]="veiculo.modelo">
- 
- <mat-card-header>
- <mat-card-title>{{ veiculo.marca }} {{ veiculo.modelo }}</mat-card-title>
- <mat-card-subtitle>{{ veiculo.ano }} | {{ veiculo.cor }}</mat-card-subtitle>
- </mat-card-header>
+    <!-- Error State -->
+    <div *ngIf="erroCarregamento && !loading" class="error-state">
+      <mat-icon color="warn">error_outline</mat-icon>
+      <h3>Erro de Conexão</h3>
+      <p>Não foi possível carregar os veículos. Verifique se o backend está rodando.</p>
+      <button mat-raised-button color="primary" (click)="carregarVeiculos()">
+        Tentar Novamente
+      </button>
+    </div>
 
- <mat-card-content>
- <!-- 🛑 CORRIGIDO: Pipe de formatação com locale 'pt' para R$ -->
- <p class="preco">R$ {{ veiculo.preco | number:'1.2-2':'pt' }}</p>
- <p class="descricao">{{ veiculo.descricao }}</p>
- </mat-card-content>
+    <!-- Grid de Veículos -->
+    <div class="vehicles-grid" *ngIf="!loading && !erroCarregamento">
+      <mat-card *ngFor="let veiculo of veiculos$ | async" class="vehicle-card">
+        <div class="vehicle-image">
+          <img 
+            [src]="veiculo.urlsFotos && veiculo.urlsFotos.length > 0 ? veiculo.urlsFotos[0] : 'https://placehold.co/600x400?text=Sem+Foto'"
+            [alt]="veiculo.marca + ' ' + veiculo.modelo"
+            class="vehicle-img">
+          <div class="vehicle-badge">{{ veiculo.ano }}</div>
+        </div>
+        
+        <mat-card-content class="vehicle-content">
+          <h3 class="vehicle-name">{{ veiculo.marca }} {{ veiculo.modelo }}</h3>
+          <p class="vehicle-description">{{ veiculo.descricao }}</p>
+          
+          <div class="vehicle-details">
+            <span class="vehicle-color">
+              <mat-icon>palette</mat-icon>
+              {{ veiculo.cor || 'Cor não informada' }}
+            </span>
+          </div>
+          
+          <div class="vehicle-price">
+            {{ veiculo.preco | currency:'BRL':'symbol':'1.2-2':'pt' }}
+          </div>
+        </mat-card-content>
 
- <mat-card-actions>
- <!-- CORRIGIDO: Usando o nome da rota '/public/details/:id' -->
- <a mat-button color="primary" [routerLink]="['/public/details', veiculo.id]"> 
- VER DETALHES
- </a>
- </mat-card-actions>
- </mat-card>
- </div>
-</div>
+        <mat-card-actions class="vehicle-actions">
+          <button mat-flat-button color="primary" class="details-btn" [routerLink]="['/details', veiculo.id]">
+            <mat-icon>visibility</mat-icon>
+            Ver Detalhes
+          </button>
+          <button mat-stroked-button color="primary" class="contact-btn">
+            <mat-icon>whatsapp</mat-icon>
+            Contato
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!(veiculos$ | async)?.length && !loading && !erroCarregamento" class="empty-state">
+      <mat-icon>search_off</mat-icon>
+      <h3>Nenhum veículo encontrado</h3>
+      <p>Tente ajustar os filtros de busca</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Seminovos</h4>
+        <p>Há mais de 10 anos no mercado de veículos seminovos com qualidade e confiança.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Contato</h4>
+        <p><mat-icon>phone</mat-icon> (11) 9999-9999</p>
+        <p><mat-icon>email</mat-icon> contato@rcarseminovos.com.br</p>
+      </div>
+      <div class="footer-section">
+        <h4>Horário de Funcionamento</h4>
+        <p>Segunda a Sexta: 8h às 18h</p>
+        <p>Sábado: 8h às 12h</p>
+      </div>
+    </div>
+  </div>
+</footer>

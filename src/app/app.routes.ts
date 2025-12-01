@@ -4,25 +4,15 @@ import { DetalhesVeiculos } from './public/detalhes-veiculos/detalhes-veiculos';
 
 export const routes: Routes = [
   {
-    path: 'public/home',
+    path: '',
     component: Home
   },
   {
-    path: 'public/details/:id',
+    path: 'details/:id',
     component: DetalhesVeiculos
-  },
-  {
-    path: 'public',
-    redirectTo: 'public/home',
-    pathMatch: 'full'
-  },
-  { 
-    path: '', 
-    redirectTo: 'public/home', 
-    pathMatch: 'full' 
   },
   { 
     path: '**', 
-    redirectTo: 'public/home' 
+    redirectTo: '' 
   }
 ];
