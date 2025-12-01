@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, EMPTY, switchMap, tap } from 'rxjs';
-import { VeiculoService, Veiculo } from '../../veiculo.service';
+import { VeiculoService, Veiculo } from '../veiculo.service';
 
 @Component({
   selector: 'app-detalhes-veiculos',

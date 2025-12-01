@@ -67,10 +67,10 @@
 
     <!-- Grid de Veículos -->
     <div class="vehicles-grid" *ngIf="!loading && !erroCarregamento">
-      <mat-card *ngFor="let veiculo of veiculos$ | async" class="vehicle-card">
+      <mat-card *ngFor="let veiculo of veiculos | async" class="vehicle-card">
         <div class="vehicle-image">
           <img
-            [src]="veiculo.urlsFotos && veiculo.urlsFotos.length > 0 ? veiculo.urlsFotos[0] : 'https://placehold.co/600x400?text=Sem+Foto'"
+            [src]="veiculo.imagem != undefined ? veiculo.imagem : 'https://placehold.co/600x400?text=Sem+Foto'"
             [alt]="veiculo.marca + ' ' + veiculo.modelo"
             class="vehicle-img">
           <div class="vehicle-badge">{{ veiculo.ano }}</div>
@@ -106,7 +106,7 @@
     </div>
 
     <!-- Empty State -->
-    <div *ngIf="!(veiculos$ | async)?.length && !loading && !erroCarregamento" class="empty-state">
+    <div *ngIf="!(veiculos | async)?.length && !loading && !erroCarregamento" class="empty-state">
       <mat-icon>search_off</mat-icon>
       <h3>Nenhum veículo encontrado</h3>
       <p>Tente ajustar os filtros de busca</p>

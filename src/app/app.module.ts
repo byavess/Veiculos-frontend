@@ -26,8 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Componentes
 import { Header } from './header/header';
-import { Home } from './public/home/home';
-import { DetalhesVeiculos } from './public/detalhes-veiculos/detalhes-veiculos';
+import { Home } from './home/home';
+import { DetalhesVeiculos } from './detalhes-veiculos/detalhes-veiculos';
 import { Login } from './auth/login/login';
 import { AdminDashboardComponent } from './admin/dashboard/dashboard';
 import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
