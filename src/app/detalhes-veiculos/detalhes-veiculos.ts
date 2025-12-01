@@ -18,6 +18,9 @@ export class DetalhesVeiculos implements OnInit {
   carregando: boolean = true;
   statusMessage: { text: string; type: 'success' | 'error' | '' } = { text: '', type: '' };
 
+  // Imagem selecionada na galeria
+  selectedImage: string | null = null;
+
   ngOnInit(): void {
     this.carregarDetalhes();
   }
@@ -85,7 +88,21 @@ export class DetalhesVeiculos implements OnInit {
     console.log('Simulação de compra concluída.');
   }
 
-  onImageError(event: any): void {
-    event.target.src = 'https://placehold.co/800x400?text=Imagem+Não+Encontrada';
+  // Galeria: selecionar uma miniatura
+  selectImage(url: string): void {
+    this.selectedImage = url;
+  }
+
+  // Constrói URL da imagem via endpoint
+  getImagemUrl(path: string): string {
+    return this.veiculoService.getImagemUrl(path);
+  }
+
+  onMainImageError(event: any): void {
+    event.target.src = 'https://placehold.co/800x400?text=Imagem+N%C3%A3o+Encontrada';
+  }
+
+  onThumbnailError(event: any): void {
+    event.target.src = 'https://placehold.co/80x60?text=Sem+Foto';
   }
 }

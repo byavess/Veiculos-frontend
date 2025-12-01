@@ -1,4 +1,3 @@
-
 <!-- Hero Banner -->
 <section class="hero-banner">
   <div class="hero-overlay">
@@ -70,9 +69,10 @@
       <mat-card *ngFor="let veiculo of veiculos | async" class="vehicle-card">
         <div class="vehicle-image">
           <img
-            [src]="veiculo.imagem != undefined ? veiculo.imagem : 'https://placehold.co/600x400?text=Sem+Foto'"
+            [src]="veiculo.urlsFotos && veiculo.urlsFotos.length > 0 ? getImagemUrl(veiculo.urlsFotos[0]) : 'https://placehold.co/600x400?text=Sem+Foto'"
             [alt]="veiculo.marca + ' ' + veiculo.modelo"
-            class="vehicle-img">
+            class="vehicle-img"
+            (error)="onImageError($event)">
           <div class="vehicle-badge">{{ veiculo.ano }}</div>
         </div>
 

@@ -49,9 +49,17 @@ export class VeiculoService {
     return of(null);
   }
 
+  // Helper para construir a URL da imagem via endpoint de imagens
+  getImagemUrl(path: string): string {
+    // Normaliza: remove possível prefixo '/images/' e barras iniciais
+    const normalized = path.replace(/^\/?images\//, '').replace(/^\//, '');
+    return `${this.apiUrl}/imagens?path=${encodeURIComponent(normalized)}`;
+  }
 
   buscarImagemVeiculo(path: string): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/imagens?path=${path}`, {
+    // Usa o mesmo normalizador e encoding
+    const normalized = path.replace(/^\/?images\//, '').replace(/^\//, '');
+    return this.http.get(`${this.apiUrl}/imagens?path=${encodeURIComponent(normalized)}`, {
       responseType: 'blob'
     });
   }

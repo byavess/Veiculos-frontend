@@ -30,19 +30,20 @@
         <!-- Imagem Principal -->
         <div class="main-image-container">
           <img
-            [src]="veiculo.urlsFotos && veiculo.urlsFotos.length > 0 ? veiculo.urlsFotos[0] : 'https://placehold.co/800x400?text=Sem+Imagem'"
+            [src]="selectedImage ? getImagemUrl(selectedImage) : (veiculo.urlsFotos && veiculo.urlsFotos.length ? getImagemUrl(veiculo.urlsFotos[0]) : 'https://placehold.co/800x400?text=Sem+Imagem')"
             [alt]="veiculo.modelo"
-            (error)="onImageError($event)"
+            (error)="onMainImageError($event)"
             class="main-image">
         </div>
 
         <!-- Galeria de miniaturas (mock) -->
         <div class="thumbnail-gallery">
           <img *ngFor="let url of veiculo.urlsFotos; let i = index"
-               [src]="url"
+               [src]="getImagemUrl(url)"
                [alt]="veiculo.modelo + ' - Foto ' + (i + 1)"
                class="thumbnail-image"
-               (error)="onImageError($event)">
+               (click)="selectImage(url)"
+               (error)="onThumbnailError($event)">
           <div *ngIf="!veiculo.urlsFotos || veiculo.urlsFotos.length === 0" class="no-photos-placeholder">
             Sem outras fotos
           </div>
