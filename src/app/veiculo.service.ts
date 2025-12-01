@@ -56,11 +56,4 @@ export class VeiculoService {
     return `${this.apiUrl}/imagens?path=${encodeURIComponent(normalized)}`;
   }
 
-  buscarImagemVeiculo(path: string): Observable<Blob> {
-    // Usa o mesmo normalizador e encoding
-    const normalized = path.replace(/^\/?images\//, '').replace(/^\//, '');
-    return this.http.get(`${this.apiUrl}/imagens?path=${encodeURIComponent(normalized)}`, {
-      responseType: 'blob'
-    });
-  }
 }
