@@ -1,1 +1,60 @@
-<p>header works!</p>
+<mat-toolbar color="primary" class="app-toolbar">
+  <div class="header-content">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <button mat-icon-button routerLink="/">
+        <mat-icon>directions_car</mat-icon>
+      </button>
+      <span class="app-title" routerLink="/" style="cursor: pointer;">Seminovos</span>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="nav-links">
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        Home
+      </a>
+      <a mat-button routerLink="/" fragment="estoque">
+        Estoque
+      </a>
+      <a mat-button routerLink="/" fragment="financiamento">
+        Financiamento
+      </a>
+      <a mat-button routerLink="/" fragment="contato">
+        Contato
+      </a>
+      <a mat-button *ngIf="isLoggedIn" routerLink="/admin/dashboard" routerLinkActive="active">
+        Dashboard
+      </a>
+    </nav>
+
+    <!-- User Actions -->
+    <div class="user-actions">
+      <button mat-flat-button color="accent" *ngIf="!isLoggedIn" routerLink="/login">
+        <mat-icon>person</mat-icon>
+        Área do Cliente
+      </button>
+
+      <button mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+        Minha Conta
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/admin/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </button>
+        <button mat-menu-item routerLink="/admin/veiculo/novo">
+          <mat-icon>add</mat-icon>
+          Novo Veículo
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Sair
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>
+

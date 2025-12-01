@@ -1,29 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, EMPTY, switchMap, tap } from 'rxjs';
-
-// Angular Material
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
 import { VeiculoService, Veiculo } from '../../veiculo.service';
 
 @Component({
   selector: 'app-detalhes-veiculos',
-  standalone: true,
+  standalone: false,
   templateUrl: './detalhes-veiculos.html',
-  styleUrls: ['./detalhes-veiculos.css'],
-  imports: [
-    CommonModule,
-    RouterLink,
-    CurrencyPipe,
-    // Material
-    MatCardModule, MatButtonModule, MatIconModule, MatToolbarModule, MatProgressSpinnerModule
-  ],
+  styleUrls: ['./detalhes-veiculos.css']
 })
 export class DetalhesVeiculos implements OnInit {
   private route = inject(ActivatedRoute);
@@ -75,7 +59,7 @@ export class DetalhesVeiculos implements OnInit {
   deletarVeiculo(id: number, modelo: string): void {
     // 🛑 Substituído 'confirm()' por uma lógica de status/modal (aqui apenas logando)
     console.log(`Solicitação de deleção para o veículo ID: ${id}.`);
-    
+
     // Na aplicação real, você usaria um MatDialog para confirmar antes
     const confirmacao = true; // Simulação de confirmação positiva
 

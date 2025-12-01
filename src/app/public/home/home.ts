@@ -1,22 +1,6 @@
-// src/app/public/home/home.ts (ou home.component.ts)
-
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // Para o ngModel
-
-// 🎯 Componentes Standalone do Angular Material
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
-
 import { VeiculoService, Veiculo } from '../../veiculo.service';
 import { Observable, catchError, of, tap } from 'rxjs';
-
-
 
 // Interface do filtro (simples, só para o input)
 interface Filtro {
@@ -25,17 +9,9 @@ interface Filtro {
 
 @Component({
   selector: 'app-home',
-  standalone: true,
+  standalone: false,
   templateUrl: './home.html',
-  styleUrls: ['./home.css'],
-  imports: [
-    CommonModule,
-    RouterLink,
-    FormsModule, // Para formulários
-    // 🎯 Módulos do Angular Material
-    MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatProgressSpinnerModule, MatIconModule
-],
+  styleUrls: ['./home.css']
 })
 export class Home implements OnInit {
   // Injeção de dependência moderna (inject)

@@ -1,32 +1,12 @@
-// src/app/admin/admin-dashboard/admin-dashboard.component.ts
-
-import { AfterViewInit, Component, OnInit, ViewChild,inject } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { Router, RouterLink } from '@angular/router';
-import { VeiculoService, Veiculo } from '../../veiculo.service'; // Ajuste o caminho se necessário
-import { MatCardModule } from '@angular/material/card';
-import { CommonModule, DecimalPipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { Router } from '@angular/router';
+import { VeiculoService, Veiculo } from '../../veiculo.service';
 
 @Component({
   selector: 'app-admin-dashboard',
-  standalone: true, // 🛑 Confirme se é standalone
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    DecimalPipe, // Pipe de formatação de número (preço)
-    RouterLink // Habilita routerLink
-  ],
+  standalone: false,
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
@@ -38,14 +18,14 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   // Colunas a serem exibidas na tabela (deve corresponder ao seu HTML)
   displayedColumns: string[] = ['id', 'marca', 'modelo', 'ano', 'preco', 'acoes'];
-  
+
   // Fonte de dados para a tabela
   dataSource = new MatTableDataSource<Veiculo>();
 
   // Referência ao MatPaginator no HTML
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  
+
 
   ngOnInit(): void {
     this.carregarVeiculos();
@@ -97,7 +77,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
    */
   deletarVeiculo(id: number): void {
     if (confirm(`Tem certeza que deseja deletar o veículo ID ${id}?`)) {
-      
+
     }
   }
 }

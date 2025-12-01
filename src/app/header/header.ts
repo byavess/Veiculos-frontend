@@ -1,25 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router'; // RouterLink para usar routerLink no HTML
+import { Router } from '@angular/router';
 
-// Imports do Angular Material para a Barra de Navegação
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { CommonModule } from '@angular/common'; // Necessário para *ngIf e *ngFor
 @Component({
   selector: 'app-header',
+  standalone: false,
   templateUrl: './header.html',
-  styleUrl: './header.css',
-  standalone: true,
-    imports: [
-      CommonModule,
-      // Módulos do Material
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    ],
+  styleUrls: ['./header.css']
 })
 export class Header implements OnInit {
 
@@ -42,6 +28,6 @@ export class Header implements OnInit {
   logout(): void {
     localStorage.removeItem('auth_token');
     this.isLoggedIn = false;
-    this.router.navigate(['/public/home']);
+    this.router.navigate(['/']);
   }
 }

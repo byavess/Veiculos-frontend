@@ -1,0 +1,11 @@
+/* Estilos globais do componente raiz */
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+/* Garantir que o router-outlet não cause problemas de layout */
+router-outlet {
+  display: none;
+}
+

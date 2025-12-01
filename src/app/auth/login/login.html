@@ -1,53 +1,75 @@
-<div class="login-container mat-elevation-z8">
-    <mat-card class="login-card">
-        
-        <mat-card-header>
-            <mat-card-title>Acesso Administrativo</mat-card-title>
-        </mat-card-header>
+<div class="login-page">
+  <div class="login-container">
+    <!-- Logo e Título -->
+    <div class="login-header">
+      <div class="logo-circle">
+        <mat-icon class="logo-icon">directions_car</mat-icon>
+      </div>
+      <h1 class="login-title">Bem-vindo de volta</h1>
+      <p class="login-subtitle">Acesse o painel administrativo</p>
+    </div>
 
-        <mat-card-content>
-            <form (ngSubmit)="logar()" #loginForm="ngForm">
-                
-                <mat-form-field appearance="outline" class="full-width-input">
-                    <mat-label>Email</mat-label>
-                    <input 
-                        matInput 
-                        type="email" 
-                        name="email" 
-                        placeholder="exemplo@admin.com"
-                        [(ngModel)]="credenciais.email"
-                        required>
-                    <mat-icon matSuffix>email</mat-icon>
-                </mat-form-field>
-                
-                <mat-form-field appearance="outline" class="full-width-input">
-                    <mat-label>Senha</mat-label>
-                    <input 
-                        matInput 
-                        type="password" 
-                        name="senha"
-                        placeholder="Sua senha secreta"
-                        [(ngModel)]="credenciais.senha"
-                        required>
-                    <mat-icon matSuffix>lock</mat-icon>
-                </mat-form-field>
-                
-                <div class="button-container">
-                    <button 
-                        mat-raised-button 
-                        color="primary" 
-                        type="submit" 
-                        [disabled]="!loginForm.valid">
-                        <mat-icon>login</mat-icon> Entrar
-                    </button>
-                </div>
-            </form>
-        </mat-card-content>
+    <!-- Card de Login -->
+    <mat-card class="login-card mat-elevation-z8">
+      <mat-card-content>
+        <form (ngSubmit)="logar()" #loginForm="ngForm" class="login-form">
 
-        <mat-card-actions class="action-footer">
-            <a [routerLink]="['/public/home']" mat-button color="accent">
-                <mat-icon>arrow_back</mat-icon> Voltar para Home
-            </a>
-        </mat-card-actions>
+          <!-- Campo Email -->
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              name="email"
+              placeholder="exemplo@admin.com"
+              [(ngModel)]="credenciais.email"
+              required
+              email>
+            <mat-icon matPrefix>email</mat-icon>
+          </mat-form-field>
+
+          <!-- Campo Senha -->
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Senha</mat-label>
+            <input
+              matInput
+              type="password"
+              name="senha"
+              placeholder="Digite sua senha"
+              [(ngModel)]="credenciais.senha"
+              required
+              minlength="4">
+            <mat-icon matPrefix>lock</mat-icon>
+          </mat-form-field>
+
+          <!-- Botão de Login -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="login-btn"
+            [disabled]="!loginForm.valid">
+            <mat-icon>login</mat-icon>
+            Entrar no Sistema
+          </button>
+        </form>
+      </mat-card-content>
     </mat-card>
+
+    <!-- Link de Voltar -->
+    <div class="back-link">
+      <a routerLink="/" mat-button color="primary">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar para Home
+      </a>
+    </div>
+
+    <!-- Footer Info -->
+    <div class="login-footer">
+      <p class="footer-text">
+        <mat-icon class="footer-icon">security</mat-icon>
+        Área restrita para administradores
+      </p>
+    </div>
+  </div>
 </div>
