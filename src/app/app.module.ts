@@ -20,7 +20,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppComponent } from './app';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -67,7 +67,8 @@ registerLocaleData(localePt, 'pt');
     MatTableModule,
     MatPaginatorModule,
     MatSelectModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule
   ],
   providers: [
     VeiculoService,

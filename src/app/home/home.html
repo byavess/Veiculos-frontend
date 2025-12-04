@@ -97,7 +97,14 @@
             <mat-icon>visibility</mat-icon>
             Ver Detalhes
           </button>
-          <button mat-stroked-button color="primary" class="contact-btn">
+          <!-- WhatsApp -->
+          <button mat-stroked-button color="primary" class="btn-whatsapp-card"
+          (click)="openWhatsApp(veiculo)"
+          aria-label="Contatar sobre este veículo via WhatsApp"
+          >
+           <i class="whatsapp-icon-card"></i>
+  Interesse no veículo
+          
             <mat-icon>whatsapp</mat-icon>
             Contato
           </button>

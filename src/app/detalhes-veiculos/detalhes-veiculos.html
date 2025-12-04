@@ -78,8 +78,16 @@
           <button mat-raised-button color="accent">
             <mat-icon>edit</mat-icon> Editar
           </button>
-          <button mat-raised-button color="primary" class="buy-button" (click)="comprarVeiculo(veiculo.modelo, veiculo.preco)">
-            <mat-icon>shopping_cart</mat-icon> Comprar Agora
+
+          <!-- WhatsApp -->
+          <button mat-raised-button color="primary" class="btn-whatsapp-card"
+           (click)="openWhatsApp(veiculo)"
+            aria-label="Contatar sobre este veículo via WhatsApp"
+           >
+           <i class="whatsapp-icon-card"></i>
+           Comprar Agora
+            <mat-icon>whatsapp</mat-icon> 
+         
           </button>
         </div>
       </div>

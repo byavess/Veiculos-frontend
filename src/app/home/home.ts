@@ -14,18 +14,21 @@ interface Filtro {
   styleUrls: ['./home.css']
 })
 export class Home implements OnInit {
+
   // Injeção de dependência moderna (inject)
   private veiculoService = inject(VeiculoService);
 
 
   constructor() {
   }
-
+  
   veiculos!: Observable<Veiculo[]>;
   loading: boolean = false;
   erroCarregamento: boolean = false;
   marcaFiltro: Filtro = { marca: '' }; // Objeto de filtro para o ngModel
 
+  private whatsappNumber = '61984321908';
+  private defaultMessage = 'Olá! Gostaria de mais de mais informações sobre os veiculos disponíveis?'
   ngOnInit() {
     this.carregarVeiculos();
   }
@@ -48,6 +51,8 @@ export class Home implements OnInit {
       })
     );
   }
+
+  
 
 
   aplicarFiltros(): void {
@@ -79,4 +84,31 @@ export class Home implements OnInit {
     console.log(path)
     return this.veiculoService.getImagemUrl(path);
   }
+
+
+  openWhatsApp(veiculo?: Veiculo): void {
+    let message = this.defaultMessage;
+    
+    if (veiculo) {
+      message = `Olá! Tenho interesse no veículo:
+      
+🏎️ ${veiculo.marca} ${veiculo.modelo}
+📅 Ano: ${veiculo.ano}
+💰 Valor: R$ ${(veiculo.preco)}
+${veiculo.marca ? `📏 ${veiculo.marca.toLocaleString()} km` : ''}
+
+Poderia me enviar mais informações?`;
+    }
+    
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${encodedMessage}`;
+    
+    // Abre o WhatsApp em nova aba
+    window.open(whatsappUrl, '_blank');
+    
+
+   
+  }
+ 
+
 }

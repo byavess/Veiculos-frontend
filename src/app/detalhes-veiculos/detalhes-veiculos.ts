@@ -17,6 +17,8 @@ export class DetalhesVeiculos implements OnInit {
   veiculo$!: Observable<Veiculo | null>;
   carregando: boolean = true;
   statusMessage: { text: string; type: 'success' | 'error' | '' } = { text: '', type: '' };
+ private whatsappNumber = '61984321908';
+  private defaultMessage = 'Olá! Gostaria de mais de mais informações sobre os veiculos disponíveis?'
 
   // Imagem selecionada na galeria
   selectedImage: string | null = null;
@@ -105,4 +107,29 @@ export class DetalhesVeiculos implements OnInit {
   onThumbnailError(event: any): void {
     event.target.src = 'https://placehold.co/80x60?text=Sem+Foto';
   }
+
+  openWhatsApp(veiculo?: Veiculo): void {
+    let message = this.defaultMessage;
+    
+    if (veiculo) {
+      message = `Olá! Tenho interesse no veículo:
+      
+🏎️ ${veiculo.marca} ${veiculo.modelo}
+📅 Ano: ${veiculo.ano}
+💰 Valor: R$ ${(veiculo.preco)}
+${veiculo.marca ? `📏 ${veiculo.marca.toLocaleString()} km` : ''}
+
+Poderia me enviar mais informações?`;
+    }
+    
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${encodedMessage}`;
+    
+    // Abre o WhatsApp em nova aba
+    window.open(whatsappUrl, '_blank');
+    
+
+   
+  }
+  
 }

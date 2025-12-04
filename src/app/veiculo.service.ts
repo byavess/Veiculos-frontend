@@ -22,6 +22,7 @@ export class VeiculoService {
 
   private http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:8080/api/veiculos';
+  veiculoService: any;
 
   constructor() {
   }
@@ -54,6 +55,9 @@ export class VeiculoService {
     // Normaliza: remove possível prefixo '/images/' e barras iniciais
     const normalized = path.replace(/^\/?images\//, '').replace(/^\//, '');
     return `${this.apiUrl}/imagens?path=${encodeURIComponent(normalized)}`;
+  }
+  openWhatsApp(veiculo?: Veiculo): void {
+    this.veiculoService.openWhatsApp(veiculo);
   }
 
 }
