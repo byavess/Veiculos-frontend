@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { VeiculoService, Veiculo } from '../veiculo.service';
 import { Observable, catchError, of, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 // Interface do filtro (simples, só para o input)
 interface Filtro {
@@ -20,6 +21,7 @@ export class Home implements OnInit {
 
 
   constructor() {
+    
   }
   
   veiculos!: Observable<Veiculo[]>;
@@ -27,6 +29,8 @@ export class Home implements OnInit {
   erroCarregamento: boolean = false;
   marcaFiltro: Filtro = { marca: '' }; // Objeto de filtro para o ngModel
 
+
+   private router: Router = new Router;
   private whatsappNumber = '61984321908';
   private defaultMessage = 'Olá! Gostaria de mais de mais informações sobre os veiculos disponíveis?'
   ngOnInit() {
@@ -84,6 +88,13 @@ export class Home implements OnInit {
     console.log(path)
     return this.veiculoService.getImagemUrl(path);
   }
+
+  verEstoque(): void {
+  console.log('✅ Botão Estoque clicado!');
+  this.router.navigate(['/estoque']);
+}
+
+
 
 
   openWhatsApp(veiculo?: Veiculo): void {

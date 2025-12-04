@@ -32,8 +32,10 @@ import { Login } from './auth/login/login';
 import { AdminDashboardComponent } from './admin/dashboard/dashboard';
 import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
 
+
 // Services
 import { VeiculoService } from './veiculo.service';
+import { EstoqueComponent } from './estoque/estoque';
 
 // Registrar locale pt-BR
 registerLocaleData(localePt, 'pt');
@@ -46,7 +48,9 @@ registerLocaleData(localePt, 'pt');
     DetalhesVeiculos,
     Login,
     AdminDashboardComponent,
-    VeiculoFormComponent
+    VeiculoFormComponent,
+    EstoqueComponent
+  
   ],
   imports: [
     BrowserModule,
@@ -68,7 +72,8 @@ registerLocaleData(localePt, 'pt');
     MatPaginatorModule,
     MatSelectModule,
     MatDividerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+     
   ],
   providers: [
     VeiculoService,

@@ -8,8 +8,11 @@ import { Login } from './auth/login/login';
 import { AdminDashboardComponent } from './admin/dashboard/dashboard';
 import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
 
+
 // Guards
 import { authGuard } from './guards/auth-guard';
+import { EstoqueComponent } from './estoque/estoque';
+
 
 const routes: Routes = [
   // Rota padrão - Home
@@ -28,6 +31,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: Login
+  },
+
+   {
+    path: 'estoque',
+    component: EstoqueComponent
   },
 
   // Rotas administrativas (protegidas por guard)
@@ -60,6 +68,8 @@ const routes: Routes = [
     path: '**',
     redirectTo: ''
   }
+
+
 ];
 
 @NgModule({
