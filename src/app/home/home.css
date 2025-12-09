@@ -299,6 +299,248 @@
   margin-bottom: 40px;
 }
 
+/* Barra de Ordenação */
+.ordenacao-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ordenacao-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2c3e50;
+  flex: 0 1 auto;
+}
+
+.ordenacao-icon {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  color: #2196F3;
+  flex-shrink: 0;
+  line-height: 1 !important;
+}
+
+.ordenacao-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3e50;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.ordenacao-select {
+  width: 200px;
+  flex: 0 0 200px;
+  margin-bottom: 0 !important;
+}
+
+::ng-deep .ordenacao-select .mat-mdc-text-field-wrapper {
+  height: 36px !important;
+  padding: 0 !important;
+}
+
+::ng-deep .ordenacao-select .mat-mdc-form-field-flex {
+  height: 36px !important;
+  align-items: center !important;
+}
+
+::ng-deep .ordenacao-select .mat-mdc-form-field-infix {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: 36px !important;
+  border-top: none !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .ordenacao-select .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+::ng-deep .ordenacao-select .mdc-notched-outline {
+  height: 36px !important;
+}
+
+::ng-deep .ordenacao-select .mdc-notched-outline__leading,
+::ng-deep .ordenacao-select .mdc-notched-outline__notch,
+::ng-deep .ordenacao-select .mdc-notched-outline__trailing {
+  border-color: #ddd !important;
+  height: 36px !important;
+}
+
+::ng-deep .ordenacao-select.mat-focused .mdc-notched-outline__leading,
+::ng-deep .ordenacao-select.mat-focused .mdc-notched-outline__notch,
+::ng-deep .ordenacao-select.mat-focused .mdc-notched-outline__trailing {
+  border-color: #2196F3 !important;
+  border-width: 2px !important;
+}
+
+::ng-deep .ordenacao-select .mat-mdc-select-value {
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 36px !important;
+}
+
+::ng-deep .ordenacao-select .mat-mdc-select-trigger {
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .ordenacao-select .mat-mdc-select-arrow-wrapper {
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .ordenacao-select .mat-mdc-select-arrow {
+  color: #2196F3;
+}
+
+/* Opções do select */
+::ng-deep .mat-mdc-option {
+  padding: 10px 16px !important;
+  min-height: 42px !important;
+  font-size: 0.9rem;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  background: rgba(33, 150, 243, 0.08);
+}
+
+::ng-deep .mat-mdc-option.mat-mdc-option-active {
+  background: rgba(33, 150, 243, 0.12);
+}
+
+.resultados-info {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 0.95rem;
+  margin-left: auto;
+}
+
+.total-veiculos {
+  font-weight: 600;
+  color: #2196F3;
+  padding: 8px 16px;
+  background: rgba(33, 150, 243, 0.1);
+  border-radius: 20px;
+}
+
+/* Responsivo para Ordenação */
+@media (max-width: 992px) {
+  .ordenacao-container {
+    padding: 15px 20px;
+    gap: 12px;
+  }
+
+  .ordenacao-select {
+    width: 180px;
+    flex: 0 0 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ordenacao-container {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .ordenacao-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ordenacao-label {
+    font-size: 0.9rem;
+  }
+
+  .ordenacao-select {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  ::ng-deep .ordenacao-select .mat-mdc-text-field-wrapper {
+    height: 44px !important;
+  }
+
+  ::ng-deep .ordenacao-select .mat-mdc-form-field-flex {
+    height: 44px !important;
+  }
+
+  ::ng-deep .ordenacao-select .mat-mdc-form-field-infix {
+    min-height: 44px !important;
+  }
+
+  ::ng-deep .ordenacao-select .mdc-notched-outline {
+    height: 44px !important;
+  }
+
+  ::ng-deep .ordenacao-select .mdc-notched-outline__leading,
+  ::ng-deep .ordenacao-select .mdc-notched-outline__notch,
+  ::ng-deep .ordenacao-select .mdc-notched-outline__trailing {
+    height: 44px !important;
+  }
+
+  ::ng-deep .ordenacao-select .mat-mdc-select-value {
+    line-height: 44px !important;
+    font-size: 0.9rem;
+  }
+
+  ::ng-deep .ordenacao-select .mat-mdc-select-trigger {
+    height: 44px !important;
+  }
+
+  ::ng-deep .ordenacao-select .mat-mdc-select-arrow-wrapper {
+    height: 44px !important;
+  }
+
+  .resultados-info {
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .total-veiculos {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ordenacao-container {
+    padding: 12px;
+  }
+
+  .ordenacao-icon {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .ordenacao-label {
+    font-size: 0.85rem;
+  }
+
+  ::ng-deep .ordenacao-select .mat-mdc-select-value {
+    font-size: 0.85rem;
+  }
+}
+
 .veiculos-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

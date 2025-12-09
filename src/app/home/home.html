@@ -113,6 +113,31 @@
 
       <!-- Grid de Veículos -->
       <section *ngIf="!loading && !erroCarregamento" class="veiculos-container">
+
+        <!-- Barra de Ordenação -->
+        <div class="ordenacao-container" *ngIf="veiculos.length > 0">
+          <div class="ordenacao-info">
+            <mat-icon class="ordenacao-icon">sort</mat-icon>
+            <span class="ordenacao-label">Ordenar por:</span>
+
+            <mat-form-field appearance="outline" class="ordenacao-select">
+              <mat-select [(value)]="ordenacaoSelecionada" (selectionChange)="aplicarOrdenacao()">
+                <mat-option value="oferta">🏷️ Ofertas em Destaque</mat-option>
+                <mat-option value="preco-asc">💰 Menor Preço</mat-option>
+                <mat-option value="preco-desc">💎 Maior Preço</mat-option>
+                <mat-option value="ano-desc">📅 Mais Recente</mat-option>
+                <mat-option value="ano-asc">🕐 Mais Antigo</mat-option>
+                <mat-option value="km-asc">🏁 Menor Km</mat-option>
+                <mat-option value="marca">🚗 Marca (A-Z)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="resultados-info">
+            <span class="total-veiculos">{{ totalElements }} veículos</span>
+          </div>
+        </div>
+
         <div class="veiculos-grid" *ngIf="veiculos.length > 0">
           <!-- Cards de veículos com Material Card -->
           <mat-card *ngFor="let veiculo of veiculos; let i = index" class="veiculo-card">

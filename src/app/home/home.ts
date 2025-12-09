@@ -30,6 +30,9 @@ export class Home implements OnInit {
   // Controle do carrossel de imagens
   currentImageIndexes: Map<number, number> = new Map();
 
+  // Ordenação
+  ordenacaoSelecionada: string = 'oferta';
+
 
   constructor(
     private fb: FormBuilder,
@@ -81,6 +84,7 @@ export class Home implements OnInit {
 
   carregarVeiculos(): void {
     console.log('🔄 Iniciando carregamento de veículos...');
+    console.log('🎯 ORDENAÇÃO ATUAL:', this.ordenacaoSelecionada);
     this.loading = true;
     this.erroCarregamento = false;
     const { marca, modelo, anoMin, anoMax } = this.filtroForm.value;
@@ -89,18 +93,56 @@ export class Home implements OnInit {
     console.log('   marca tipo:', typeof marca, 'vazio?', marca === '');
     console.log('   modelo tipo:', typeof modelo, 'vazio?', modelo === '');
 
+    // Configurar ordenação baseada na seleção
+    let sortBy = 'emOferta';
+    let direction = 'desc';
+
+    console.log('🔄 Ordenação selecionada:', this.ordenacaoSelecionada);
+
+    switch (this.ordenacaoSelecionada) {
+      case 'oferta':
+        sortBy = 'emOferta';
+        direction = 'desc';
+        break;
+      case 'preco-asc':
+        sortBy = 'preco';
+        direction = 'asc';
+        break;
+      case 'preco-desc':
+        sortBy = 'preco';
+        direction = 'desc';
+        break;
+      case 'ano-desc':
+        sortBy = 'ano';
+        direction = 'desc';
+        break;
+      case 'ano-asc':
+        sortBy = 'ano';
+        direction = 'asc';
+        break;
+      case 'km-asc':
+        sortBy = 'km';
+        direction = 'asc';
+        break;
+      case 'marca':
+        sortBy = 'marca';
+        direction = 'asc';
+        break;
+    }
+
     const params = {
       marca: marca || undefined,
       modelo: modelo || undefined,
       anoMin: anoMin ? Number(anoMin) : undefined,
       anoMax: anoMax ? Number(anoMax) : undefined,
-      sort: 'preco',
-      direction: 'asc',
+      sort: sortBy,
+      direction: direction,
       page: this.pageIndex,
       size: this.pageSize
     };
 
     console.log('📤 Parâmetros enviados:', params);
+    console.log('🎯 Ordenação aplicada:', sortBy, direction);
 
     this.veiculoService.getVeiculosPaginados(params).subscribe({
       next: (response) => {
@@ -120,6 +162,14 @@ export class Home implements OnInit {
 
           this.veiculos = response.content || [];
           this.totalElements = response.totalElements || 0;
+
+          // Log dos primeiros veículos para verificar ordenação
+          if (this.veiculos.length > 0) {
+            console.log('🎯 Primeiros 3 veículos (verificar ordenação):');
+            this.veiculos.slice(0, 3).forEach((v: any, idx: number) => {
+              console.log(`  ${idx + 1}. ${v.marca} ${v.modelo} - Oferta: ${v.emOferta ? '✅ SIM' : '❌ NÃO'} - Preço: R$ ${v.preco}`);
+            });
+          }
         }
 
         this.loading = false;
@@ -292,6 +342,16 @@ export class Home implements OnInit {
   goToImage(veiculoIndex: number, imageIndex: number, event: Event): void {
     event.stopPropagation();
     this.currentImageIndexes.set(veiculoIndex, imageIndex);
+  }
+
+  // Método de Ordenação
+  aplicarOrdenacao(): void {
+    console.log('🔄 Aplicando ordenação:', this.ordenacaoSelecionada);
+    this.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
+    this.carregarVeiculos();
   }
 }
 
