@@ -263,40 +263,15 @@ export class Home implements OnInit {
   }
 
   getCorHex(cor: string): string {
-    const coresMap: { [key: string]: string } = {
-      'branco': '#FFFFFF',
-      'preto': '#1A1A1A',
-      'prata': '#C0C0C0',
-      'cinza': '#808080',
-      'cinza escuro': '#4A4A4A',
-      'vermelho': '#DC143C',
-      'azul': '#1E90FF',
-      'verde': '#228B22',
-      'amarelo': '#FFD700',
-      'laranja': '#FF8C00',
-      'marrom': '#8B4513',
-      'bege': '#F5F5DC',
-      'dourado': '#DAA520',
-      'vinho': '#722F37',
-      'roxo': '#800080',
-      'rosa': '#FF69B4'
-    };
-
-    return coresMap[cor?.toLowerCase()] || '#808080';
+    return this.veiculoService.getCorHex(cor);
   }
 
   getCombustivelFormatado(combustivel: string): string {
-    const combustivelMap: { [key: string]: string } = {
-      'ALCOOL': 'Álcool',
-      'FLEX': 'Flex',
-      'GASOLINA': 'Gasolina',
-      'GNV': 'GNV',
-      'DIESEL': 'Diesel',
-      'ELETRICO': 'Elétrico',
-      'HIBRIDO': 'Híbrido'
-    };
+    return this.veiculoService.getCombustivelFormatado(combustivel);
+  }
 
-    return combustivelMap[combustivel] || combustivel;
+  getCambioFormatado(cambio: string): string {
+    return this.veiculoService.getCambioFormatado(cambio);
   }
 
   // Métodos do Carrossel de Imagens
