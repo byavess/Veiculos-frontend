@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { VeiculoService, Veiculo } from '../veiculo.service';
 import { catchError, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -14,6 +14,7 @@ export class EstoqueComponent implements OnInit {
   private veiculoService = inject(VeiculoService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private cdRef = inject(ChangeDetectorRef);
 
   
   
@@ -52,17 +53,21 @@ export class EstoqueComponent implements OnInit {
     });
   }
 
-  carregarVeiculos(): void {
-  // this.loading = true;
+ carregarVeiculos(): void {
+    console.log('🔍 Iniciando carregamento...');
+    this.loading = true;
     this.erroCarregamento = false;
-
+    
+    // Força o Angular a detectar a mudança no loading
+    this.cdRef.detectChanges();
+    
     this.veiculoService.getVeiculos().pipe(
       tap((veiculos) => {
-        console.log('✅ Veículos carregados:', veiculos);
+        console.log('✅ Veículos carregados:', veiculos.length, 'itens');
         this.veiculos = veiculos;
-        this.veiculosFiltrados = [...veiculos]; // Cópia inicial
+        this.veiculosFiltrados = [...veiculos];
         
-        // Extrair marcas únicas e ordenar alfabeticamente
+        // Extrair marcas únicas
         const marcasUnicas = [...new Set(veiculos.map(v => v.marca))];
         this.marcasDisponiveis = ['Todas as Marcas', ...marcasUnicas.sort()];
         
@@ -74,15 +79,22 @@ export class EstoqueComponent implements OnInit {
         this.atualizarModelosDisponiveis();
         
         this.loading = false;
+        console.log('✅ Loading definido como false');
+        
+        // Força detecção de mudanças APÓS carregar
+        this.cdRef.detectChanges();
       }),
       catchError((error) => {
-        console.error('❌ Erro ao carregar veículos do backend:', error);
+        console.error('❌ Erro ao carregar veículos:', error);
         this.loading = false;
         this.erroCarregamento = true;
+        this.cdRef.detectChanges();
         return of([]);
       })
     ).subscribe();
   }
+
+ 
 
   atualizarModelosDisponiveis(): void {
     const marcaSelecionada = this.filtroForm.get('marca')?.value;
