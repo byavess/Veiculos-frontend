@@ -1,9 +1,65 @@
-<!-- Hero Banner -->
-<section class="hero-banner">
-  <div class="hero-overlay">
-    <div class="hero-content">
-      <h1 class="hero-title">Encontre o carro dos seus sonhos</h1>
-      <p class="hero-subtitle">+ de 50 veículos seminovos com garantia e procedência</p>
+<!-- Hero Banner Carrossel -->
+<section class="hero-banner-carousel">
+  <div class="carousel-wrapper">
+    <!-- Slide 1 -->
+    <div class="carousel-slide" [class.active]="currentSlide === 0">
+      <div class="slide-background slide-bg-1"></div>
+      <div class="hero-overlay">
+        <div class="hero-content">
+          <h1 class="hero-title animate-fade-in">Encontre o carro dos seus sonhos</h1>
+          <p class="hero-subtitle animate-fade-in-delay">+ de 50 veículos seminovos com garantia e procedência</p>
+          <button mat-raised-button color="accent" class="hero-button animate-fade-in-delay-2" (click)="scrollToVehicles()">
+            VER ESTOQUE
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-slide" [class.active]="currentSlide === 1">
+      <div class="slide-background slide-bg-2"></div>
+      <div class="hero-overlay">
+        <div class="hero-content">
+          <h1 class="hero-title animate-fade-in">Financiamento Facilitado</h1>
+          <p class="hero-subtitle animate-fade-in-delay">Parcele em até 60 meses com as melhores taxas do mercado</p>
+          <button mat-raised-button color="accent" class="hero-button animate-fade-in-delay-2" (click)="contatoWhatsApp()">
+            SIMULAR FINANCIAMENTO
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="carousel-slide" [class.active]="currentSlide === 2">
+      <div class="slide-background slide-bg-3"></div>
+      <div class="hero-overlay">
+        <div class="hero-content">
+          <h1 class="hero-title animate-fade-in">Veículos Verificados</h1>
+          <p class="hero-subtitle animate-fade-in-delay">Garantia de procedência e qualidade em todos os nossos veículos</p>
+          <button mat-raised-button color="accent" class="hero-button animate-fade-in-delay-2" (click)="scrollToVehicles()">
+            CONHECER VEÍCULOS
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controles do Carrossel -->
+    <button mat-icon-button class="carousel-control carousel-prev" (click)="previousSlide()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button mat-icon-button class="carousel-control carousel-next" (click)="nextSlide()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    <!-- Indicadores -->
+    <div class="carousel-indicators">
+      <button
+        *ngFor="let slide of [0, 1, 2]; let i = index"
+        class="indicator"
+        [class.active]="currentSlide === i"
+        (click)="goToSlide(i)"
+        [attr.aria-label]="'Ir para slide ' + (i + 1)">
+      </button>
     </div>
   </div>
 </section>

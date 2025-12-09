@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { VeiculoService, Veiculo } from '../veiculo.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -10,7 +10,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
-export class Home implements OnInit {
+export class Home implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   filtroForm: FormGroup;
@@ -33,6 +33,10 @@ export class Home implements OnInit {
   // Ordenação
   ordenacaoSelecionada: string = 'oferta';
 
+  // Carrossel do Banner
+  currentSlide: number = 0;
+  totalSlides: number = 3;
+  autoPlayInterval: any;
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +56,11 @@ export class Home implements OnInit {
     this.carregarMarcas();
     this.carregarModelos(); // Carrega todos os modelos inicialmente
     this.carregarVeiculos();
+    this.startAutoPlay(); // Inicia carrossel automático
+  }
+
+  ngOnDestroy() {
+    this.stopAutoPlay(); // Para o carrossel ao destruir componente
   }
 
   carregarMarcas(): void {
@@ -321,6 +330,44 @@ export class Home implements OnInit {
       this.paginator.pageIndex = 0;
     }
     this.carregarVeiculos();
+  }
+
+  // ==========================================
+  // MÉTODOS DO CARROSSEL DE BANNER
+  // ==========================================
+
+  startAutoPlay(): void {
+    this.autoPlayInterval = setInterval(() => {
+      this.nextSlide();
+    }, 5000); // Muda de slide a cada 5 segundos
+  }
+
+  stopAutoPlay(): void {
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+    }
+  }
+
+  nextSlide(): void {
+    this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+  }
+
+  previousSlide(): void {
+    this.currentSlide = this.currentSlide === 0 ? this.totalSlides - 1 : this.currentSlide - 1;
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlide = index;
+    // Reinicia o auto-play ao clicar em um indicador
+    this.stopAutoPlay();
+    this.startAutoPlay();
+  }
+
+  scrollToVehicles(): void {
+    const vehiclesSection = document.querySelector('.veiculos-container');
+    if (vehiclesSection) {
+      vehiclesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }
 
