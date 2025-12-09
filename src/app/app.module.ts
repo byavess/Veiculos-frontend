@@ -50,7 +50,7 @@ registerLocaleData(localePt, 'pt');
     AdminDashboardComponent,
     VeiculoFormComponent,
     EstoqueComponent
-  
+
   ],
   imports: [
     BrowserModule,
@@ -73,7 +73,7 @@ registerLocaleData(localePt, 'pt');
     MatSelectModule,
     MatDividerModule,
     MatSnackBarModule,
-     
+
   ],
   providers: [
     VeiculoService,

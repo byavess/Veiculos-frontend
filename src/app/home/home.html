@@ -4,19 +4,213 @@
     <div class="hero-content">
       <h1 class="hero-title">Encontre o carro dos seus sonhos</h1>
       <p class="hero-subtitle">+ de 50 veículos seminovos com garantia e procedência</p>
+    </div>
+  </div>
+</section>
 
-      <!-- Barra de Busca -->
-      <div class="search-bar">
-        <mat-form-field appearance="outline" class="search-input">
-          <mat-label>Buscar por marca ou modelo</mat-label>
-          <input matInput [(ngModel)]="marcaFiltro.marca" placeholder="Ex: BMW, Honda, Toyota...">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-        <button mat-raised-button color="accent" class="search-btn" (click)="aplicarFiltros()">
-          Buscar Veículos
+<!-- Vitrine de Veículos -->
+<section class="vehicles-section">
+  <div class="container">
+      <!-- Filtros -->
+      <section class="filtros-estoque">
+        <div class="filtros-container">
+          <form [formGroup]="filtroForm">
+            <!-- Grid de Filtros -->
+            <div class="filtros-grid">
+              <!-- Marca -->
+              <div class="filtro-group">
+                <mat-form-field appearance="outline" class="filtro-mat-field">
+                  <mat-label>Marca</mat-label>
+                  <mat-select
+                    id="marca"
+                    formControlName="marca"
+                    (selectionChange)="onMarcaChange()">
+                    <mat-option [value]="''">Todas as marcas</mat-option>
+                    <mat-option *ngFor="let marca of marcasDisponiveis" [value]="marca">
+                      {{marca}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>directions_car</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <!-- Modelo -->
+              <div class="filtro-group">
+                <mat-form-field appearance="outline" class="filtro-mat-field">
+                  <mat-label>Modelo</mat-label>
+                  <mat-select
+                    id="modelo"
+                    formControlName="modelo"
+                    (selectionChange)="aplicarFiltros()">
+                    <mat-option [value]="''">Todos os modelos</mat-option>
+                    <mat-option *ngFor="let modelo of modelosDisponiveis" [value]="modelo">
+                      {{modelo}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>drive_eta</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <!-- Ano Mínimo -->
+              <div class="filtro-group">
+                <mat-form-field appearance="outline" class="filtro-mat-field">
+                  <mat-label>Ano Mínimo</mat-label>
+                  <mat-select
+                    id="anoMin"
+                    formControlName="anoMin"
+                    (selectionChange)="onAnoChange()">
+                    <mat-option [value]="''">Todos</mat-option>
+                    <mat-option *ngFor="let ano of getAnosDisponiveis()" [value]="ano">
+                      {{ano}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>event</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <!-- Ano Máximo -->
+              <div class="filtro-group">
+                <mat-form-field appearance="outline" class="filtro-mat-field">
+                  <mat-label>Ano Máximo</mat-label>
+                  <mat-select
+                    id="anoMax"
+                    formControlName="anoMax"
+                    (selectionChange)="onAnoChange()">
+                    <mat-option [value]="''">Todos</mat-option>
+                    <mat-option *ngFor="let ano of getAnosDisponiveis()" [value]="ano">
+                      {{ano}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>event</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Botão Limpar Filtros Centralizado -->
+            <div class="filtros-botoes">
+              <button type="button" mat-raised-button color="primary" class="btn-limpar-filtros" (click)="limparFiltros()">
+                <mat-icon>filter_alt_off</mat-icon>
+                LIMPAR FILTROS
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Loading -->
+      <div *ngIf="loading" class="loading-estoque">
+        <div class="spinner"></div>
+        <p>Carregando veículos...</p>
+      </div>
+
+      <!-- Erro -->
+      <div *ngIf="erroCarregamento && !loading" class="erro-estoque">
+        <p>❌ Erro ao carregar estoque. Tente novamente.</p>
+        <button (click)="carregarVeiculos()" class="btn-recarregar">
+          Recarregar
         </button>
       </div>
-    </div>
+
+      <!-- Grid de Veículos -->
+      <section *ngIf="!loading && !erroCarregamento" class="veiculos-container">
+        <div class="veiculos-grid" *ngIf="veiculos.length > 0">
+          <!-- Cards de veículos -->
+          <div *ngFor="let veiculo of veiculos" class="veiculo-card">
+            <div class="card-imagem">
+              <img
+                [src]="veiculo.urlsFotos && veiculo.urlsFotos.length > 0 ? getImagemUrl(veiculo.urlsFotos[0]) : 'https://placehold.co/600x400/1a237e/ffffff?text=Veículo+Sem+Imagem'"
+                [alt]="veiculo.marca + ' ' + veiculo.modelo"
+                class="veiculo-img"
+                (error)="onImageError($event)">
+              <div class="veiculo-badge">{{ veiculo.ano }}</div>
+            </div>
+
+            <div class="card-conteudo">
+              <h3 class="veiculo-nome">{{ veiculo.marca }} {{ veiculo.modelo }}</h3>
+
+              <!-- Grid de Informações -->
+              <div class="veiculo-info-grid">
+                <!-- Quilometragem -->
+                <div class="info-item" *ngIf="veiculo.km">
+                  <mat-icon class="info-icon">speed</mat-icon>
+                  <span class="info-text">{{ veiculo.km.toLocaleString('pt-BR') }} km</span>
+                </div>
+
+                <!-- Cor com Badge Colorido -->
+                <div class="info-item" *ngIf="veiculo.cor">
+                  <mat-icon class="info-icon">palette</mat-icon>
+                  <div class="cor-badge"
+                       [style.background-color]="getCorHex(veiculo.cor)"
+                       [title]="veiculo.cor">
+                  </div>
+                  <span class="info-text">{{ veiculo.cor }}</span>
+                </div>
+
+                <!-- Motor -->
+                <div class="info-item" *ngIf="veiculo.motor">
+                  <mat-icon class="info-icon">power</mat-icon>
+                  <span class="info-text">{{ veiculo.motor }}</span>
+                </div>
+
+                <!-- Câmbio -->
+                <div class="info-item" *ngIf="veiculo.cambio">
+                  <mat-icon class="info-icon">settings</mat-icon>
+                  <span class="info-text">{{ veiculo.cambio === 'AUTOMATICO' ? 'Automático' : 'Manual' }}</span>
+                </div>
+
+                <!-- Combustível -->
+                <div class="info-item" *ngIf="veiculo.combustivel">
+                  <mat-icon class="info-icon">local_gas_station</mat-icon>
+                  <span class="info-text">{{ getCombustivelFormatado(veiculo.combustivel) }}</span>
+                </div>
+              </div>
+
+              <div class="veiculo-preco">
+                R$ {{ veiculo.preco.toLocaleString('pt-BR', {minimumFractionDigits: 2}) }}
+              </div>
+
+              <div class="card-botoes">
+                <button class="btn-detalhes" (click)="verDetalhes(veiculo.id)">
+                  VER DETALHES
+                </button>
+
+                <button class="btn-whatsapp-arredondado" (click)="openWhatsApp(veiculo)"
+                        title="Consultar no WhatsApp">
+                  <svg class="whatsapp-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.7 1.12-.46.02-.47.36-2.96-.73-2.49-1.09-3.99-3.75-4.11-3.92-.12-.17-.96-1.38-.92-2.61.05-1.22.69-1.8.95-2.04.24-.26.51-.29.68-.26h.47c.15 0 .36-.06.55.45l.69 1.87c.06.13.1.28.01.44l-.27.41-.39.42c-.12.12-.26.25-.12.5.12.26.62 1.09 1.32 1.78.91.88 1.71 1.17 1.95 1.3.24.14.39.12.54-.04l.81-.94c.19-.25.35-.19.58-.11l1.67.88M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.97 0-3.8-.57-5.35-1.55L2 22l1.55-4.65A9.96 9.96 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.72.54 3.31 1.46 4.61L4.5 19.5l2.89-.96A7.95 7.95 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mensagem quando não há veículos -->
+        <div *ngIf="!loading && veiculos.length === 0" class="sem-veiculos">
+          <h3>Nenhum veículo encontrado</h3>
+          <p>Tente ajustar os filtros para encontrar o veículo perfeito!</p>
+        </div>
+
+        <!-- Paginação com Material -->
+        <mat-paginator
+          *ngIf="veiculos.length > 0"
+          [length]="totalElements"
+          [pageSize]="pageSize"
+          [pageIndex]="pageIndex"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="onPageChange($event)"
+          showFirstLastButtons
+          aria-label="Selecione a página">
+        </mat-paginator>
+      </section>
+
+      <!-- Botão WhatsApp Flutuante -->
+      <button class="whatsapp-float" (click)="contatoWhatsApp()"
+              aria-label="Fale conosco no WhatsApp">
+        <svg class="whatsapp-icon-float" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.7 1.12-.46.02-.47.36-2.96-.73-2.49-1.09-3.99-3.75-4.11-3.92-.12-.17-.96-1.38-.92-2.61.05-1.22.69-1.8.95-2.04.24-.26.51-.29.68-.26h.47c.15 0 .36-.06.55.45l.69 1.87c.06.13.1.28.01.44l-.27.41-.39.42c-.12.12-.26.25-.12.5.12.26.62 1.09 1.32 1.78.91.88 1.71 1.17 1.95 1.3.24.14.39.12.54-.04l.81-.94c.19-.25.35-.19.58-.11l1.67.88M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.97 0-3.8-.57-5.35-1.55L2 22l1.55-4.65A9.96 9.96 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.72.54 3.31 1.46 4.61L4.5 19.5l2.89-.96A7.95 7.95 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z"/>
+        </svg>
+      </button>
   </div>
 </section>
 
@@ -39,84 +233,6 @@
         <h3>Compra Segura</h3>
         <p>Todo processo acompanhado</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- Vitrine de Veículos -->
-<section class="vehicles-section">
-  <div class="container">
-    <h2 class="section-title">Veículos em Destaque</h2>
-
-    <!-- Loading State -->
-    <div *ngIf="loading" class="loading-state">
-      <mat-spinner diameter="50"></mat-spinner>
-      <p>Carregando veículos...</p>
-    </div>
-
-    <!-- Error State -->
-    <div *ngIf="erroCarregamento && !loading" class="error-state">
-      <mat-icon color="warn">error_outline</mat-icon>
-      <h3>Erro de Conexão</h3>
-      <p>Não foi possível carregar os veículos. Verifique se o backend está rodando.</p>
-      <button mat-raised-button color="primary" (click)="carregarVeiculos()">
-        Tentar Novamente
-      </button>
-    </div>
-
-    <!-- Grid de Veículos -->
-    <div class="vehicles-grid" *ngIf="!loading && !erroCarregamento">
-      <mat-card *ngFor="let veiculo of veiculos | async" class="vehicle-card">
-        <div class="vehicle-image">
-          <img
-            [src]="veiculo.urlsFotos && veiculo.urlsFotos.length > 0 ? getImagemUrl(veiculo.urlsFotos[0]) : 'https://placehold.co/600x400?text=Sem+Foto'"
-            [alt]="veiculo.marca + ' ' + veiculo.modelo"
-            class="vehicle-img"
-            (error)="onImageError($event)">
-          <div class="vehicle-badge">{{ veiculo.ano }}</div>
-        </div>
-
-        <mat-card-content class="vehicle-content">
-          <h3 class="vehicle-name">{{ veiculo.marca }} {{ veiculo.modelo }}</h3>
-          <p class="vehicle-description">{{ veiculo.descricao }}</p>
-
-          <div class="vehicle-details">
-            <span class="vehicle-color">
-              <mat-icon>palette</mat-icon>
-              {{ veiculo.cor || 'Cor não informada' }}
-            </span>
-          </div>
-
-          <div class="vehicle-price">
-            {{ veiculo.preco | currency:'BRL':'symbol':'1.2-2':'pt' }}
-          </div>
-        </mat-card-content>
-
-        <mat-card-actions class="vehicle-actions">
-          <button mat-flat-button color="primary" class="details-btn" [routerLink]="['/details', veiculo.id]">
-            <mat-icon>visibility</mat-icon>
-            Ver Detalhes
-          </button>
-          <!-- WhatsApp -->
-          <button mat-stroked-button color="primary" class="btn-whatsapp-card"
-          (click)="openWhatsApp(veiculo)"
-          aria-label="Contatar sobre este veículo via WhatsApp"
-          >
-           <i class="whatsapp-icon-card"></i>
-  Interesse no veículo
-          
-            <mat-icon>whatsapp</mat-icon>
-            Contato
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-
-    <!-- Empty State -->
-    <div *ngIf="!(veiculos | async)?.length && !loading && !erroCarregamento" class="empty-state">
-      <mat-icon>search_off</mat-icon>
-      <h3>Nenhum veículo encontrado</h3>
-      <p>Tente ajustar os filtros de busca</p>
     </div>
   </div>
 </section>

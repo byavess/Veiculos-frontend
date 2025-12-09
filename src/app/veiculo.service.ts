@@ -8,10 +8,14 @@ export interface Veiculo {
   marca: string;
   modelo: string;
   ano: number;
+  km?: number;
   preco: number;
   descricao: string;
   urlsFotos: string[];
   cor?: string;
+  motor?: string;
+  cambio?: string;
+  combustivel?: string;
   imagem: Blob | null;
 }
 
@@ -38,10 +42,6 @@ export class VeiculoService {
     return this.http.get<Veiculo>(`${this.apiUrl}/${id}`);
   }
 
-  // Método SIMPLES para filtrar por marca
-  getVeiculosByMarca(marca: string): Observable<Veiculo[]> {
-    return this.http.get<Veiculo[]>(`${this.apiUrl}/marca/${marca}`);
-  }
 
   // Adicione no VeiculoService:
   deleteVeiculo(id: number) {
@@ -58,6 +58,44 @@ export class VeiculoService {
   }
   openWhatsApp(veiculo?: Veiculo): void {
     this.veiculoService.openWhatsApp(veiculo);
+  }
+
+  // Busca todas as marcas disponíveis
+  getAllMarcas(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/marcas`);
+  }
+
+  // Busca modelos (todos ou filtrados por marca)
+  getModelos(marca?: string): Observable<string[]> {
+    const url = marca
+      ? `${this.apiUrl}/modelos?marca=${encodeURIComponent(marca)}`
+      : `${this.apiUrl}/modelos`;
+    return this.http.get<string[]>(url);
+  }
+
+  // Busca paginada de veículos
+  getVeiculosPaginados(params: {
+    marca?: string;
+    modelo?: string;
+    anoMin?: number;
+    anoMax?: number;
+    sort?: string;
+    direction?: string;
+    page?: number;
+    size?: number;
+  } = {}): Observable<any> {
+    // Monta os parâmetros da query string
+    const queryParams = new URLSearchParams();
+    if (params.marca) queryParams.append('marca', params.marca);
+    if (params.modelo) queryParams.append('modelo', params.modelo);
+    if (params.anoMin !== undefined) queryParams.append('anoMin', params.anoMin.toString());
+    if (params.anoMax !== undefined) queryParams.append('anoMax', params.anoMax.toString());
+    if (params.sort) queryParams.append('sort', params.sort);
+    if (params.direction) queryParams.append('direction', params.direction);
+    queryParams.append('page', params.page?.toString() ?? '0');
+    queryParams.append('size', params.size?.toString() ?? '12');
+    const url = `${this.apiUrl}?${queryParams.toString()}`;
+    return this.http.get<any>(url);
   }
 
 }
