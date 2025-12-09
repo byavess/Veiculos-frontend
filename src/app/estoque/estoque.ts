@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { VeiculoService, Veiculo } from '../veiculo.service';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -14,8 +14,12 @@ export class EstoqueComponent implements OnInit {
   private veiculoService = inject(VeiculoService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+
   
-  veiculos$!: Observable<Veiculo[]>;
+  
+  // Arrays SIMPLES para template
+  veiculos: Veiculo[] = [];
+  veiculosFiltrados: Veiculo[] = [];
   loading: boolean = false;
   erroCarregamento: boolean = false;
   
@@ -23,23 +27,18 @@ export class EstoqueComponent implements OnInit {
   filtroForm!: FormGroup;
   
   // Opções para filtros
-  marcasDisponiveis: string[] = [
-    'Todas as Marcas', 'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Volkswagen', 
-    'Nissan', 'Hyundai', 'Kia', 'Mazda', 'Subaru', 'Renault', 'Fiat', 
-    'Land Rover', 'BMW', 'Mercedes', 'Jeep', 'Peugeot', 'Citroen'
-  ];
-  
-  anosDisponiveis: number[] = this.gerarAnos(2000, 2024);
-
-  
+  marcasDisponiveis: string[] = [];
+  modelosDisponiveis: string[] = [];
+  anosDisponiveis: number[] = [];
   
   // WhatsApp
   private whatsappNumber = '61984321908';
 
   ngOnInit(): void {
-        this.carregarVeiculos();
     this.inicializarFormulario();
     this.carregarVeiculos();
+
+
   }
 
   inicializarFormulario(): void {
@@ -53,24 +52,27 @@ export class EstoqueComponent implements OnInit {
     });
   }
 
-
-
-  gerarAnos(inicio: number, fim: number): number[] {
-    const anos = [];
-    for (let ano = fim; ano >= inicio; ano--) {
-      anos.push(ano);
-    }
-    return anos;
-  }
-
   carregarVeiculos(): void {
-    this.loading = true;
+  // this.loading = true;
     this.erroCarregamento = false;
 
-    // Conecta ao backend via VeiculoService
-    this.veiculos$ = this.veiculoService.getVeiculos().pipe(
+    this.veiculoService.getVeiculos().pipe(
       tap((veiculos) => {
         console.log('✅ Veículos carregados:', veiculos);
+        this.veiculos = veiculos;
+        this.veiculosFiltrados = [...veiculos]; // Cópia inicial
+        
+        // Extrair marcas únicas e ordenar alfabeticamente
+        const marcasUnicas = [...new Set(veiculos.map(v => v.marca))];
+        this.marcasDisponiveis = ['Todas as Marcas', ...marcasUnicas.sort()];
+        
+        // Extrair anos únicos
+        const anos = [...new Set(veiculos.map(v => v.ano))];
+        this.anosDisponiveis = anos.sort((a, b) => a - b);
+        
+        // Inicializar modelos
+        this.atualizarModelosDisponiveis();
+        
         this.loading = false;
       }),
       catchError((error) => {
@@ -79,25 +81,100 @@ export class EstoqueComponent implements OnInit {
         this.erroCarregamento = true;
         return of([]);
       })
-    );
+    ).subscribe();
+  }
+
+  atualizarModelosDisponiveis(): void {
+    const marcaSelecionada = this.filtroForm.get('marca')?.value;
+    
+    if (!this.veiculos || this.veiculos.length === 0) {
+      this.modelosDisponiveis = [];
+      return;
+    }
+    
+    let modelosFiltrados: string[];
+    
+    if (marcaSelecionada === 'Todas as Marcas') {
+      modelosFiltrados = [...new Set(this.veiculos.map(v => v.modelo))];
+    } else {
+      modelosFiltrados = [...new Set(
+        this.veiculos
+          .filter(v => v.marca === marcaSelecionada)
+          .map(v => v.modelo)
+      )];
+    }
+    
+    this.modelosDisponiveis = modelosFiltrados.sort();
   }
 
   aplicarFiltros(): void {
-    const filtro = this.filtroForm.value;
+    const filtros = this.filtroForm.value;
     
-    if (filtro.marca && filtro.marca !== 'Todas as Marcas') {
-      this.loading = true;
-      this.veiculos$ = this.veiculoService.getVeiculosByMarca(filtro.marca).pipe(
-        tap(() => this.loading = false),
-        catchError((error) => {
-          console.error('Erro ao filtrar:', error);
-          this.loading = false;
-          return of([]);
-        })
-      );
-    } else {
-      this.carregarVeiculos();
+    // Se todos os filtros estão vazios, mostrar todos
+    if (this.isFiltrosVazios(filtros)) {
+      this.veiculosFiltrados = [...this.veiculos];
+      return;
     }
+    
+    this.veiculosFiltrados = this.veiculos.filter(veiculo => {
+      // Filtro por marca
+      if (filtros.marca && filtros.marca !== 'Todas as Marcas') {
+        if (veiculo.marca !== filtros.marca) {
+          return false;
+        }
+      }
+      
+      // Filtro por modelo (busca parcial)
+      if (filtros.modelo && filtros.modelo.trim() !== '') {
+        const modeloVeiculo = veiculo.modelo.toLowerCase();
+        const modeloFiltro = filtros.modelo.toLowerCase().trim();
+        
+        if (!modeloVeiculo.includes(modeloFiltro)) {
+          return false;
+        }
+      }
+      
+      // Filtro por ano mínimo
+      if (filtros.anoMin && filtros.anoMin !== '') {
+        if (veiculo.ano < Number(filtros.anoMin)) {
+          return false;
+        }
+      }
+      
+      // Filtro por ano máximo
+      if (filtros.anoMax && filtros.anoMax !== '') {
+        if (veiculo.ano > Number(filtros.anoMax)) {
+          return false;
+        }
+      }
+      
+      // Filtro por preço mínimo
+      if (filtros.precoMin && filtros.precoMin !== '') {
+        if (veiculo.preco < Number(filtros.precoMin)) {
+          return false;
+        }
+      }
+      
+      // Filtro por preço máximo
+      if (filtros.precoMax && filtros.precoMax !== '') {
+        if (veiculo.preco > Number(filtros.precoMax)) {
+          return false;
+        }
+      }
+      
+      return true;
+    });
+  }
+
+  isFiltrosVazios(filtros: any): boolean {
+    return (
+      (!filtros.marca || filtros.marca === 'Todas as Marcas') &&
+      (!filtros.modelo || filtros.modelo.trim() === '') &&
+      (!filtros.anoMin || filtros.anoMin === '') &&
+      (!filtros.anoMax || filtros.anoMax === '') &&
+      (!filtros.precoMin || filtros.precoMin === '') &&
+      (!filtros.precoMax || filtros.precoMax === '')
+    );
   }
 
   limparFiltros(): void {
@@ -109,7 +186,14 @@ export class EstoqueComponent implements OnInit {
       precoMin: '',
       precoMax: ''
     });
-    this.carregarVeiculos();
+    
+    this.atualizarModelosDisponiveis();
+    this.veiculosFiltrados = [...this.veiculos];
+  }
+
+  onMarcaChange(): void {
+    this.atualizarModelosDisponiveis();
+    this.filtroForm.get('modelo')?.setValue('');
   }
 
   verDetalhes(id: number): void {
@@ -118,13 +202,18 @@ export class EstoqueComponent implements OnInit {
 
   // WhatsApp para veículo específico
   openWhatsApp(veiculo: Veiculo): void {
-    const message = `Olá! Tenho interesse no veículo do estoque:
+    const message = `🏎️ *${veiculo.marca} ${veiculo.modelo} ${veiculo.ano}*
 
-🏎️ *${veiculo.marca} ${veiculo.modelo}*
-📅 Ano: ${veiculo.ano}
-💰 Valor: R$ ${veiculo.preco.toLocaleString('pt-BR')}
+📋 *Detalhes do Veículo:*
+• **Marca:** ${veiculo.marca}
+• **Modelo:** ${veiculo.modelo}
+• **Ano:** ${veiculo.ano}
+• **Cor:** ${veiculo.cor || 'Não informada'}
+• **Preço:** R$ ${veiculo.preco.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
 
-Poderia me enviar mais informações?`;
+${veiculo.descricao ? `📝 *Descrição:* ${veiculo.descricao}` : ''}
+
+Olá! Tenho interesse neste veículo. Poderia me enviar mais informações?`;
     
     this.abrirWhatsApp(message);
   }
@@ -141,18 +230,34 @@ Poderia me enviar mais informações?`;
     window.open(whatsappUrl, '_blank');
   }
 
+  onImageError(event: any): void {
+    event.target.src = 'https://placehold.co/600x400/1a237e/ffffff?text=Veículo+Sem+Imagem';
+  }
+
   getImagemUrl(path: string): string {
     return this.veiculoService.getImagemUrl(path);
   }
 
-  onImageError(event: any): void {
-    event.target.src = 'https://placehold.co/600x400?text=Imagem+Não+Encontrada';
+  // Método para obter anos em ordem crescente para ano mínimo
+  getAnosCrescente(): number[] {
+    return [...this.anosDisponiveis].sort((a, b) => a - b);
   }
 
-  formatarPreco(preco: number): string {
-    return 'R$ ' + preco.toLocaleString('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+  // Método para obter anos em ordem decrescente para ano máximo
+  getAnosDecrescente(): number[] {
+    return [...this.anosDisponiveis].sort((a, b) => b - a);
   }
+
+  // Método auxiliar para obter imagem do veículo
+getImagemDoVeiculo(veiculo: Veiculo): string {
+  if (!veiculo.urlsFotos || veiculo.urlsFotos.length === 0) {
+    return 'https://placehold.co/600x400/1a237e/ffffff?text=Veículo+Sem+Imagem';
+  }
+  
+  try {
+    return this.getImagemUrl(veiculo.urlsFotos[0]);
+  } catch (error) {
+    return 'https://placehold.co/600x400/1a237e/ffffff?text=Erro+na+Imagem';
+  }
+}
 }
