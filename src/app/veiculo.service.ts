@@ -16,6 +16,7 @@ export interface Veiculo {
   motor?: string;
   cambio?: string;
   combustivel?: string;
+  emOferta?: boolean;
   imagem: Blob | null;
 }
 

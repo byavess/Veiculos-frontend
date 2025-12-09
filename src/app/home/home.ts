@@ -27,6 +27,9 @@ export class Home implements OnInit {
   private defaultMessage = 'Olá! Gostaria de mais de mais informações sobre os veiculos disponíveis?';
   anoCorrente: number = new Date().getFullYear();
 
+  // Controle do carrossel de imagens
+  currentImageIndexes: Map<number, number> = new Map();
+
 
   constructor(
     private fb: FormBuilder,
@@ -250,6 +253,45 @@ export class Home implements OnInit {
     };
 
     return combustivelMap[combustivel] || combustivel;
+  }
+
+  // Métodos do Carrossel de Imagens
+  getCurrentImageIndex(veiculoIndex: number): number {
+    return this.currentImageIndexes.get(veiculoIndex) || 0;
+  }
+
+  getCurrentImageUrl(veiculoIndex: number): string {
+    const veiculo = this.veiculos[veiculoIndex];
+    if (!veiculo || !veiculo.urlsFotos || veiculo.urlsFotos.length === 0) {
+      return 'https://placehold.co/600x400/1a237e/ffffff?text=Veículo+Sem+Imagem';
+    }
+    const currentIndex = this.getCurrentImageIndex(veiculoIndex);
+    return this.getImagemUrl(veiculo.urlsFotos[currentIndex]);
+  }
+
+  nextImage(veiculoIndex: number, event: Event): void {
+    event.stopPropagation();
+    const veiculo = this.veiculos[veiculoIndex];
+    if (!veiculo?.urlsFotos || veiculo.urlsFotos.length <= 1) return;
+
+    const currentIndex = this.getCurrentImageIndex(veiculoIndex);
+    const nextIndex = (currentIndex + 1) % veiculo.urlsFotos.length;
+    this.currentImageIndexes.set(veiculoIndex, nextIndex);
+  }
+
+  previousImage(veiculoIndex: number, event: Event): void {
+    event.stopPropagation();
+    const veiculo = this.veiculos[veiculoIndex];
+    if (!veiculo?.urlsFotos || veiculo.urlsFotos.length <= 1) return;
+
+    const currentIndex = this.getCurrentImageIndex(veiculoIndex);
+    const prevIndex = currentIndex === 0 ? veiculo.urlsFotos.length - 1 : currentIndex - 1;
+    this.currentImageIndexes.set(veiculoIndex, prevIndex);
+  }
+
+  goToImage(veiculoIndex: number, imageIndex: number, event: Event): void {
+    event.stopPropagation();
+    this.currentImageIndexes.set(veiculoIndex, imageIndex);
   }
 }
 
