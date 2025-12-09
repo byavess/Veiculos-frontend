@@ -1,105 +1,182 @@
 <div class="container-detalhes">
   <!-- Botão Voltar -->
-  <button mat-flat-button color="accent" routerLink="/home" class="back-button">
-    <mat-icon>arrow_back</mat-icon> Voltar para Vitrine
+  <button mat-fab extended color="primary" class="back-button" routerLink="/home">
+    <mat-icon>arrow_back</mat-icon>
+    Voltar
   </button>
 
   <!-- Loading -->
-  <div *ngIf="carregando" class="loading-section">
-    <mat-spinner diameter="40"></mat-spinner>
-    <p>Carregando detalhes do veículo...</p>
+  <div *ngIf="carregando" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p class="loading-text">Carregando detalhes do veículo...</p>
   </div>
 
-  <!-- Mensagens de Status (Erro/Sucesso) -->
-  <mat-card *ngIf="statusMessage.text" [ngClass]="{'error-card': statusMessage.type === 'error', 'success-card': statusMessage.type === 'success'}" class="status-card">
-    <mat-card-content class="flex items-center">
-      <mat-icon *ngIf="statusMessage.type === 'error'" color="warn">error_outline</mat-icon>
-      <mat-icon *ngIf="statusMessage.type === 'success'" color="primary">check_circle_outline</mat-icon>
+  <!-- Mensagens de Status -->
+  <mat-card *ngIf="statusMessage.text" [ngClass]="statusMessage.type + '-message'" class="status-message">
+    <mat-card-content>
+      <mat-icon>{{ statusMessage.type === 'error' ? 'error_outline' : 'check_circle' }}</mat-icon>
       <span>{{ statusMessage.text }}</span>
-      <button mat-icon-button (click)="statusMessage.text = ''" *ngIf="statusMessage.type !== 'success'">
+      <button mat-icon-button (click)="statusMessage.text = ''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-card-content>
   </mat-card>
 
-  <!-- Detalhes do Veículo (Usando async pipe) -->
-  <mat-card *ngIf="(veiculo$ | async) as veiculo" class="detalhes-card">
-    <div class="card-content-grid">
-      <!-- Coluna Esquerda: Imagem e Galeria -->
-      <div class="image-column">
-        <!-- Imagem Principal -->
-        <div class="main-image-container">
-          <img
-            [src]="selectedImage ? getImagemUrl(selectedImage) : (veiculo.urlsFotos && veiculo.urlsFotos.length ? getImagemUrl(veiculo.urlsFotos[0]) : 'https://placehold.co/800x400?text=Sem+Imagem')"
-            [alt]="veiculo.modelo"
-            (error)="onMainImageError($event)"
-            class="main-image">
-        </div>
+  <!-- Detalhes do Veículo -->
+  <div *ngIf="(veiculo$ | async) as veiculo" class="detalhes-wrapper">
 
-        <!-- Galeria de miniaturas (mock) -->
-        <div class="thumbnail-gallery">
-          <img *ngFor="let url of veiculo.urlsFotos; let i = index"
-               [src]="getImagemUrl(url)"
-               [alt]="veiculo.modelo + ' - Foto ' + (i + 1)"
-               class="thumbnail-image"
-               (click)="selectImage(url)"
-               (error)="onThumbnailError($event)">
-          <div *ngIf="!veiculo.urlsFotos || veiculo.urlsFotos.length === 0" class="no-photos-placeholder">
-            Sem outras fotos
+    <!-- Grid Principal: Imagens + Informações -->
+    <div class="detalhes-grid">
+
+      <!-- Coluna Esquerda: Galeria de Imagens -->
+      <div class="galeria-container">
+        <mat-card class="galeria-card">
+          <!-- Badge de Oferta -->
+          <div class="oferta-badge-detalhes" *ngIf="veiculo.emOferta">
+            <mat-icon class="oferta-icon">local_offer</mat-icon>
+            <span class="oferta-texto">OFERTA ESPECIAL</span>
           </div>
-        </div>
+
+          <!-- Imagem Principal -->
+          <div class="main-image-wrapper">
+            <img
+              [src]="selectedImage ? getImagemUrl(selectedImage) : (veiculo.urlsFotos && veiculo.urlsFotos.length ? getImagemUrl(veiculo.urlsFotos[0]) : 'https://placehold.co/800x500?text=Sem+Imagem')"
+              [alt]="veiculo.marca + ' ' + veiculo.modelo"
+              (error)="onMainImageError($event)"
+              class="main-image">
+          </div>
+
+          <!-- Miniaturas -->
+          <div class="thumbnails-wrapper" *ngIf="veiculo.urlsFotos && veiculo.urlsFotos.length > 1">
+            <button mat-icon-button
+                    *ngFor="let url of veiculo.urlsFotos; let i = index"
+                    class="thumbnail-button"
+                    [class.active]="selectedImage === url || (!selectedImage && i === 0)"
+                    (click)="selectImage(url)">
+              <img
+                [src]="getImagemUrl(url)"
+                [alt]="'Foto ' + (i + 1)"
+                class="thumbnail-image"
+                (error)="onThumbnailError($event)">
+            </button>
+          </div>
+        </mat-card>
       </div>
 
-      <!-- Coluna Direita: Informações e Ações -->
-      <div class="info-column">
-        <!-- Cabeçalho -->
-        <mat-card-header>
-          <mat-card-title class="title-model">{{ veiculo.marca }} {{ veiculo.modelo }}</mat-card-title>
-          <mat-card-subtitle class="subtitle-info">Ano: {{ veiculo.ano }} | Cor: {{ veiculo.cor || 'Não informada' }}</mat-card-subtitle>
-        </mat-card-header>
+      <!-- Coluna Direita: Informações do Veículo -->
+      <div class="info-container">
 
-        <!-- Preço em Destaque -->
-        <div class="price-highlight">
-          <span class="price-label">Preço Sugerido:</span>
-          <span class="price-value">{{ veiculo.preco | currency:'BRL':'symbol':'1.2-2':'pt' }}</span>
-        </div>
+        <!-- Card de Cabeçalho -->
+        <mat-card class="header-card">
+          <mat-card-header>
+            <mat-card-title class="veiculo-title">
+              {{ veiculo.marca }} {{ veiculo.modelo }}
+            </mat-card-title>
+            <mat-card-subtitle class="veiculo-subtitle">
+              <mat-icon class="subtitle-icon">calendar_today</mat-icon>
+              Ano {{ veiculo.ano }}
+            </mat-card-subtitle>
+          </mat-card-header>
 
-        <!-- Descrição -->
-        <div class="description-section">
-          <h3><mat-icon>description</mat-icon> Detalhes do Veículo</h3>
-          <p>{{ veiculo.descricao || 'Descrição detalhada não disponível para este modelo.' }}</p>
-        </div>
+          <!-- Preço em Destaque -->
+          <mat-card-content class="price-section">
+            <div class="price-label">Valor</div>
+            <div class="price-value">
+              R$ {{ veiculo.preco.toLocaleString('pt-BR', {minimumFractionDigits: 2}) }}
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-        <!-- Botões de Ação -->
-        <div class="action-buttons">
-          <button mat-raised-button color="warn" (click)="deletarVeiculo(veiculo.id, veiculo.modelo)">
-            <mat-icon>delete</mat-icon> Deletar
-          </button>
-          <button mat-raised-button color="accent">
-            <mat-icon>edit</mat-icon> Editar
-          </button>
+        <!-- Card de Especificações -->
+        <mat-card class="specs-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>info</mat-icon>
+              Especificações
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="specs-grid">
 
-          <!-- WhatsApp -->
-          <button mat-raised-button color="primary" class="btn-whatsapp-card"
-           (click)="openWhatsApp(veiculo)"
-            aria-label="Contatar sobre este veículo via WhatsApp"
-           >
-           <i class="whatsapp-icon-card"></i>
-           Comprar Agora
-            <mat-icon>whatsapp</mat-icon> 
-         
-          </button>
-        </div>
+              <!-- Quilometragem -->
+              <div class="spec-item" *ngIf="veiculo.km">
+                <mat-icon class="spec-icon">speed</mat-icon>
+                <div class="spec-content">
+                  <div class="spec-label">Quilometragem</div>
+                  <div class="spec-value">{{ veiculo.km.toLocaleString('pt-BR') }} km</div>
+                </div>
+              </div>
+
+              <!-- Cor -->
+              <div class="spec-item" *ngIf="veiculo.cor">
+                <mat-icon class="spec-icon">palette</mat-icon>
+                <div class="spec-content">
+                  <div class="spec-label">Cor</div>
+                  <div class="spec-value">
+                    <span class="cor-badge" [style.background-color]="getCorHex(veiculo.cor)"></span>
+                    {{ veiculo.cor }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Motor -->
+              <div class="spec-item" *ngIf="veiculo.motor">
+                <mat-icon class="spec-icon">power</mat-icon>
+                <div class="spec-content">
+                  <div class="spec-label">Motor</div>
+                  <div class="spec-value">{{ veiculo.motor }}</div>
+                </div>
+              </div>
+
+              <!-- Câmbio -->
+              <div class="spec-item" *ngIf="veiculo.cambio">
+                <mat-icon class="spec-icon">settings</mat-icon>
+                <div class="spec-content">
+                  <div class="spec-label">Câmbio</div>
+                  <div class="spec-value">{{ getCambioFormatado(veiculo.cambio) }}</div>
+                </div>
+              </div>
+
+              <!-- Combustível -->
+              <div class="spec-item" *ngIf="veiculo.combustivel">
+                <mat-icon class="spec-icon">local_gas_station</mat-icon>
+                <div class="spec-content">
+                  <div class="spec-label">Combustível</div>
+                  <div class="spec-value">{{ getCombustivelFormatado(veiculo.combustivel) }}</div>
+                </div>
+              </div>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Card de Descrição -->
+        <mat-card class="description-card" *ngIf="veiculo.descricao">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>description</mat-icon>
+              Descrição
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="description-text">{{ veiculo.descricao }}</p>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Card de Ações -->
+        <mat-card class="actions-card">
+          <mat-card-content>
+            <div class="actions-buttons">
+              <button mat-raised-button color="accent" class="btn-whatsapp" (click)="openWhatsApp(veiculo)">
+                <mat-icon>chat</mat-icon>
+                Consultar opções de financiamento
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
       </div>
     </div>
-  </mat-card>
-
-  <!-- Mensagem de Veículo Não Encontrado (Se veiculo$ emitir null e não estiver carregando) -->
-  <mat-card *ngIf="!carregando && !statusMessage.text && !(veiculo$ | async)">
-    <mat-card-title>Veículo Não Encontrado</mat-card-title>
-    <mat-card-content>O veículo solicitado não existe ou foi removido.</mat-card-content>
-    <mat-card-actions>
-      <button mat-button routerLink="/home">Voltar</button>
-    </mat-card-actions>
-  </mat-card>
+  </div>
 </div>
+

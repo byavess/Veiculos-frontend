@@ -247,7 +247,7 @@ export class Home implements OnInit {
   }
 
   contatoWhatsApp(): void {
-    window.open(`https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(this.defaultMessage)}`, '_blank');
+    this.veiculoService.openWhatsApp(undefined, this.whatsappNumber, this.defaultMessage);
   }
 
   onImageError(event: any): void {
@@ -259,13 +259,7 @@ export class Home implements OnInit {
   }
 
   openWhatsApp(veiculo?: Veiculo): void {
-    let message = this.defaultMessage;
-    if (veiculo) {
-      message = `Olá! Tenho interesse no veículo:\n\n🏎️ ${veiculo.marca} ${veiculo.modelo}\n📅 Ano: ${veiculo.ano}\n💰 Valor: R$ ${(veiculo.preco)}\n${veiculo.km ? `📏 ${veiculo.km.toLocaleString()} km` : ''}\n\nPoderia me enviar mais informações?`;
-    }
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${encodedMessage}`;
-    window.open(whatsappUrl, '_blank');
+    this.veiculoService.openWhatsApp(veiculo, this.whatsappNumber);
   }
 
   getCorHex(cor: string): string {

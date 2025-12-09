@@ -109,27 +109,20 @@ export class DetalhesVeiculos implements OnInit {
   }
 
   openWhatsApp(veiculo?: Veiculo): void {
-    let message = this.defaultMessage;
-    
-    if (veiculo) {
-      message = `Olá! Tenho interesse no veículo:
-      
-🏎️ ${veiculo.marca} ${veiculo.modelo}
-📅 Ano: ${veiculo.ano}
-💰 Valor: R$ ${(veiculo.preco)}
-${veiculo.marca ? `📏 ${veiculo.marca.toLocaleString()} km` : ''}
-
-Poderia me enviar mais informações?`;
-    }
-    
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${encodedMessage}`;
-    
-    // Abre o WhatsApp em nova aba
-    window.open(whatsappUrl, '_blank');
-    
-
-   
+    this.veiculoService.openWhatsApp(veiculo, this.whatsappNumber);
   }
-  
+
+  // Delegar métodos de formatação para o service
+  getCombustivelFormatado(combustivel: string): string {
+    return this.veiculoService.getCombustivelFormatado(combustivel);
+  }
+
+  getCorHex(cor: string): string {
+    return this.veiculoService.getCorHex(cor);
+  }
+
+  getCambioFormatado(cambio: string): string {
+    return this.veiculoService.getCambioFormatado(cambio);
+  }
+
 }
