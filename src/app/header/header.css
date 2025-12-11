@@ -1,76 +1,127 @@
+/* --- Variáveis de Cores --- */
+:root {
+  /* Forçando o preto puro no lugar de #1a1a1a para garantir a cor exata */
+  --primary-color: #ffc107; 
+  --background-color: #000000; /* <<< MUDANÇA: Preto Puro! */
+  --text-light: #ffffff;
+}
+
 .app-toolbar {
   position: sticky;
-  top: 0;
+  top: 0px;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  /* Sombra escura para destacar o header no topo */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6); 
   padding: 0;
+  
+  /* GARANTIA DO FUNDO PRETO PURO */
+  background-color: var(--background-color) !important;
+  color: var(--text-light);
+  height: 64px; 
+  background-color: #000000 !important;
+  background: #000000 !important;
 }
 
 .header-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Distribui logo e ações nas extremidades */
   width: 100%;
+  height: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 16px;
+     
 }
 
-.logo-section {
+
+
+.logo-link {
+  height: 100%; 
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.app-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  margin-left: 4px;
-  white-space: nowrap;
+.main-logo{
+  /* CORREÇÃO: Preenche 100% da altura da Toolbar (64px) */
+  height: 100%; 
+  width: auto; /* Mantém a proporção da imagem */
+  max-width: 250px; /* Limita o tamanho em desktop, se necessário */
+  object-fit: contain;
+  /* Filtros para clarear o logo (indicar.jpg) no fundo preto, se ele for escuro */
+  
+  padding: 8px 0; /* Pequeno padding para não colar nas bordas */
 }
 
+
+/* --- NAVEGAÇÃO: Links Centralizados (Desktop) --- */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 4px;
-  flex: 1;
+  gap: 20px; 
+  flex-grow: 1; /* Permite que o NAV ocupe o espaço central */
   justify-content: center;
 }
 
-.nav-links a {
-  text-decoration: none;
+.nav-links a.mat-button {
+  color: #cccccc; 
   font-weight: 500;
-  transition: all 0.3s ease;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.nav-links a.mat-button:hover,
+.nav-links a.active {
+    color: var(--primary-color) !important;
+    background-color: transparent !important;
 }
 
 .nav-links a.active {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 5px;
 }
 
-.nav-links a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
 
+/* --- AÇÕES DO USUÁRIO: Ícones de Contato/Localização --- */
 .user-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px; /* Espaçamento menor entre os ícones */
 }
 
-.user-actions button {
-  white-space: nowrap;
+.action-icon-button {
+  color: var(--primary-color); /* Ícones em Amarelo/Laranja */
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-
-  .app-title {
-    font-size: 1.2rem;
-  }
+/* --- Botão Menu (Hambúrguer) --- */
+/* Nova classe pequena para o botão de menu */
+.menu-btn-wrap {
+    display: none; /* Inicia oculto em desktop */
+    margin-left: 10px; /* Espaço entre o ícone do telefone e o hambúrguer */
 }
 
+.menu-btn-wrap button {
+    color: var(--primary-color);
+}
+
+/* --- MEDIA QUERY (Mobile/Tablet) --- */
+@media (max-width: 992px) { 
+    /* 1. OCULTAR links de navegação */
+    .nav-links {
+        display: none; 
+    }
+    
+    /* 2. MOSTRAR o botão de menu (hambúrguer) */
+    /* Posicionamento: Ao lado dos ícones de contato, no canto direito */
+    .menu-btn-wrap {
+        display: block; 
+    }
+
+    /* 3. Reorganizar os elementos para mobile */
+    .header-content {
+        /* Garante que o Logo fique na esquerda e as Ações/Menu na direita */
+        justify-content: space-between;
+    }
+
+    
+}

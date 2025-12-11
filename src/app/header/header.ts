@@ -21,9 +21,17 @@ export class Header implements OnInit {
   /*veiculos!: Observable<Veiculo[]>;
     loading: boolean = false;
     erroCarregamento: boolean = false;*/
+
+
+    public sidenavOpen: boolean = false;
   
 
   constructor(private router: Router) { }
+
+  // Se precisar de lógica para fechar o menu
+  closeSidenav() {
+    this.sidenavOpen = false;
+  }
 
   ngOnInit(): void {
     this.checkLoginStatus();
