@@ -53,4 +53,12 @@ verEstoque(): void {
   this.router.navigate(['/estoque']);
 }
 
+openWhatsApp() {
+  // Substitua pelo número real com código do país (ex: 5511999999999 para Brasil)
+  const phoneNumber = '5511999999999';
+  const message = 'Olá! Gostaria de mais informações';
+  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+}
+
 }

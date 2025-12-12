@@ -8,10 +8,10 @@
          </div>
 
     <nav class="nav-links">
-      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">ESTOQUE</a>
-      <a mat-button routerLink="/detalhes-veiculos" routerLinkActive="active" disabled>DETALHES</a>
-      <a mat-button routerLink="/contato" routerLinkActive="active">CONTATO</a>
-    </nav>
+  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">ESTOQUE</a>
+  <a mat-button routerLink="/detalhes-veiculos" routerLinkActive="active">DETALHES</a>
+  <a mat-button routerLink="/contato" routerLinkActive="active">CONTATO</a>
+</nav>
 
     <div class="user-actions">
       <button mat-icon-button class="action-icon-button" aria-label="Localização">
@@ -20,15 +20,22 @@
       
       <button mat-icon-button class="action-icon-button" aria-label="Contato Telefone">
         <mat-icon>call</mat-icon> </button>
+<a href="https://wa.me/5511999999999?text=Olá! Gostaria de mais informações" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     class="whatsapp-link">
+<button mat-icon-button class="whatsapp" aria-label="Contato WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</button>
 
-      <button mat-icon-button class="action-icon-button" aria-label="Contato WhatsApp">
-        <mat-icon>chat</mat-icon> </button>
-      
+  </a>
+           
       <div class="menu-btn-wrap">
           <button mat-icon-button class="menu-button" aria-label="Menu" (click)="sidenavOpen = true">
             <mat-icon>menu</mat-icon>
           </button>
       </div>
+      
 
     </div>
   </div>

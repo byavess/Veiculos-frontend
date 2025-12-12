@@ -13,7 +13,7 @@
   /* Sombra escura para destacar o header no topo */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6); 
   padding: 0;
-  
+  z-index: 100;
   /* GARANTIA DO FUNDO PRETO PURO */
   background-color: var(--background-color) !important;
   color: var(--text-light);
@@ -43,66 +43,161 @@
 }
 
 .main-logo{
-  /* CORREÇÃO: Preenche 100% da altura da Toolbar (64px) */
+ 
   height: 100%; 
-  width: auto; /* Mantém a proporção da imagem */
-  max-width: 250px; /* Limita o tamanho em desktop, se necessário */
+  width: auto;
+  max-width: 250px; 
   object-fit: contain;
-  /* Filtros para clarear o logo (indicar.jpg) no fundo preto, se ele for escuro */
-  
   padding: 8px 0; /* Pequeno padding para não colar nas bordas */
 }
 
 
 /* --- NAVEGAÇÃO: Links Centralizados (Desktop) --- */
-.nav-links {
+
+
+/* Classe active (página atual) */
+.nav-links > a[mat-button],
+.nav-links > .mat-button,
+.nav-links a[routerlink],
+.nav-links a[href] {
+ 
+  gap: 25px;
+  color: #FFED4E !important;
+  border-bottom: 2px solid #FFD700;
+  padding-bottom: 5px;
+  font-weight: 400;   
+  text-transform: uppercase;
+  padding: 10px 20px;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.whatsapp {
+  color: #FFD700 !important;
+ 
+  font-size: 29px;
+  width: 50px;
+  height: 54px;
   display: flex;
   align-items: center;
-  gap: 20px; 
-  flex-grow: 1; /* Permite que o NAV ocupe o espaço central */
   justify-content: center;
+
+  /* Compensa o aumento para não afetar layout */
 }
 
-.nav-links a.mat-button {
-  color: #cccccc; 
-  font-weight: 500;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
+.whatsapp-link {
+  text-decoration: none; /* Remove o sublinhado do link */
 }
 
-.nav-links a.mat-button:hover,
-.nav-links a.active {
-    color: var(--primary-color) !important;
-    background-color: transparent !important;
+/* Opcional: Garante que nada mais esteja sublinhando o ícone */
+.whatsapp {
+  text-decoration: none !important;
 }
 
-.nav-links a.active {
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 5px;
+.whatsapp:hover {
+  color: #25D366 !important; /* Verde brilhante */
+  transform: scale(1.2);
+  transition: all 0.3s ease;
 }
+
+
+
 
 
 /* --- AÇÕES DO USUÁRIO: Ícones de Contato/Localização --- */
 .user-actions {
   display: flex;
   align-items: center;
-  gap: 5px; /* Espaçamento menor entre os ícones */
+  gap: 10px; /* Espaçamento menor entre os ícones */
+  left: 30px;
 }
+
+.user-actions .action-icon-button:hover .mat-icon {
+  color: #FFD700 !important; /* Amarelo brilhante */
+    border-color: rgba(255, 215, 0, 0.7) !important;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05)) !important;
+    border-radius: 
+        0 6px 16px rgba(255, 215, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px) scale(1.05) !important;
+}
+
 
 .action-icon-button {
-  color: var(--primary-color); /* Ícones em Amarelo/Laranja */
+  color: #FFD700 !important;
 }
 
-/* --- Botão Menu (Hambúrguer) --- */
-/* Nova classe pequena para o botão de menu */
-.menu-btn-wrap {
-    display: none; /* Inicia oculto em desktop */
-    margin-left: 10px; /* Espaço entre o ícone do telefone e o hambúrguer */
+
+
+.user-actions .menu-btn-wrap button :hover .mat-icon {
+  color: #dcdcdc !important;
+  transform: scale(1.2);
+  transition: all 0.3s ease;
 }
+
 
 .menu-btn-wrap button {
-    color: var(--primary-color);
+
+    color: #C0C0C0 !important; /* Silver mais definido */
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(192, 192, 192, 0.05)) !important;
+    border: 2px solid rgba(192, 192, 192, 0.5) !important;
+    border-radius: 8px !important;
+    padding: 7px !important;
+    box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    
+       
+    }
+
+    .menu-btn-wrap button mat-icon {
+    font-size: 28px !important;   /* aumenta o tamanho das linhas */
+    font-weight: 00 !important;  /* deixa mais espesso */
+    width: 28px !important;
+    height: 8px !important;
+     top: -3px;
+     left: -2px;
 }
+
+.menu-btn-wrap button:hover {
+    color: #FFD700 !important; /* Amarelo brilhante */
+    border-color: rgba(255, 215, 0, 0.7) !important;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15),
+     rgba(255, 215, 0, 0.05)) !important;
+    box-shadow: 
+        0 6px 16px rgba(255, 215, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px) scale(1.05) !important;
+}
+
+
+
 
 /* --- MEDIA QUERY (Mobile/Tablet) --- */
 @media (max-width: 992px) { 
@@ -111,17 +206,30 @@
         display: none; 
     }
     
-    /* 2. MOSTRAR o botão de menu (hambúrguer) */
-    /* Posicionamento: Ao lado dos ícones de contato, no canto direito */
-    .menu-btn-wrap {
-        display: block; 
-    }
+
 
     /* 3. Reorganizar os elementos para mobile */
     .header-content {
         /* Garante que o Logo fique na esquerda e as Ações/Menu na direita */
         justify-content: space-between;
     }
+
+
+      .mobile-menu-panel {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+.mobile-menu-panel .mat-menu-item {
+  color: #FFD700 !important; /* Amarelo brilhante para os itens do menu */
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.mobile-menu-panel .mat-menu-item:hover {
+  background-color: rgba(255, 209, 0, 0.1) !important;
+}
+
 
     
 }
