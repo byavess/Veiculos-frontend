@@ -54,6 +54,10 @@
 
 /* --- NAVEGAÇÃO: Links Centralizados (Desktop) --- */
 
+.nav-links {
+    display: flex ;
+    transition: all 0.3s ease-in-out;
+}
 
 /* Classe active (página atual) */
 .nav-links > a[mat-button],
@@ -61,6 +65,7 @@
 .nav-links a[routerlink],
 .nav-links a[href] {
  
+display: flex;
   gap: 25px;
   color: #FFED4E !important;
   border-bottom: 2px solid #FFD700;
@@ -71,31 +76,12 @@
   margin-left: 20px !important;
   margin-right: 20px !important;
   
+    box-shadow: 
+        0 6px 16px rgba(255, 215, 0, 0.25),
+        inset 0 3px 0 rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px) scale(1.05) !important;
+  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .whatsapp {
   color: #FFD700 !important;
@@ -142,7 +128,7 @@
     border-color: rgba(255, 215, 0, 0.7) !important;
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05)) !important;
     border-radius: 
-        0 6px 16px rgba(255, 215, 0, 0.25),
+        0 6px 16px rgba(247, 104, 9, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     transform: translateY(-2px) scale(1.05) !important;
 }
@@ -176,6 +162,13 @@
        
     }
 
+    .menu-btn-wrap {
+display: none;
+  margin-left: 10px;
+  position: relative;
+  
+  }
+
     .menu-btn-wrap button mat-icon {
     font-size: 28px !important;   /* aumenta o tamanho das linhas */
     font-weight: 00 !important;  /* deixa mais espesso */
@@ -196,23 +189,24 @@
     transform: translateY(-2px) scale(1.05) !important;
 }
 
-
-
-
-/* --- MEDIA QUERY (Mobile/Tablet) --- */
-@media (max-width: 992px) { 
-    /* 1. OCULTAR links de navegação */
-    .nav-links {
-        display: none; 
+@media (max-width: 992px) {
+  .menu-btn-wrap {
+    display: flex !important; /* ← Aparece em mobile */
+  }
+  .header-content .nav-links {
+        display: none !important; 
     }
-    
+}
 
-
-    /* 3. Reorganizar os elementos para mobile */
-    .header-content {
-        /* Garante que o Logo fique na esquerda e as Ações/Menu na direita */
-        justify-content: space-between;
-    }
+/* TELAS GRANDES: Hamburguer SOME, NAV aparece */
+@media (min-width: 993px) {
+  .menu-btn-wrap {
+    display: none !important; /* ← CORREÇÃO AQUI! Some em desktop */
+  }
+  .nav-links {
+    display: flex !important; /* ← Aparece em desktop */
+  }
+}
 
 
       .mobile-menu-panel {
@@ -231,5 +225,7 @@
 }
 
 
+
+
+
     
-}

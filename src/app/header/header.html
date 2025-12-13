@@ -3,14 +3,14 @@
     
     <div class="logo-section">
       <a routerLink="/" style="cursor: pointer;" class="logo-link">
-        <img src="assets/images/indicar.jpg" alt="Logo IndiCar Veículos" class="main-logo">
+        <img src="assets/images/indicar.jpg" alt="Logo IndiCar Veículos" class="main-logo"(click)="navigateToEstoque()">
       </a>
          </div>
 
     <nav class="nav-links">
   <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">ESTOQUE</a>
-  <a mat-button routerLink="/detalhes-veiculos" routerLinkActive="active">DETALHES</a>
-  <a mat-button routerLink="/contato" routerLinkActive="active">CONTATO</a>
+  <a mat-button routerLink="/detalhes-veiculos" routerLinkActive="active">EMPRESA</a>
+  <a mat-button routerLink="/contato" routerLinkActive="active" >CONTATO</a>
 </nav>
 
     <div class="user-actions">

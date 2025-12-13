@@ -13,7 +13,7 @@ import { Veiculo } from '../veiculo.service';
 
 export class Header implements OnInit {
 
-  
+
 
   // ... (O restante da lógica de isLoggedIn, checkLoginStatus() e logout() permanece o mesmo)
   isLoggedIn: boolean = false;
@@ -23,8 +23,8 @@ export class Header implements OnInit {
     erroCarregamento: boolean = false;*/
 
 
-    public sidenavOpen: boolean = false;
-  
+  public sidenavOpen: boolean = false;
+
 
   constructor(private router: Router) { }
 
@@ -36,7 +36,7 @@ export class Header implements OnInit {
   ngOnInit(): void {
     this.checkLoginStatus();
     this.router.events.subscribe(() => {
-        this.checkLoginStatus();
+      this.checkLoginStatus();
     });
   }
 
@@ -49,16 +49,34 @@ export class Header implements OnInit {
     this.isLoggedIn = false;
     this.router.navigate(['/']);
   }
-verEstoque(): void {
-  this.router.navigate(['/estoque']);
+
+
+  navigateToEstoque() {
+    // Navega para home e força recarregamento
+    this.router.navigate(['/']).then(() => {
+      // Recarrega a página para executar o carregarVeiculos()
+      window.location.reload();
+    });
+  }
+
+  /*estoque(id: number): void {
+      console.log('🔍 Navegando para detalhes do veículo ID:', id);
+      this.router.navigate(['/estoque', id]);
+    }
+     0 
+  */
+
+
+
+
+
+  openWhatsApp() {
+    // Substitua pelo número real com código do país (ex: 5511999999999 para Brasil)
+    const phoneNumber = '61984321908';
+    const message = 'Olá! Gostaria de mais informações';
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+
 }
 
-openWhatsApp() {
-  // Substitua pelo número real com código do país (ex: 5511999999999 para Brasil)
-  const phoneNumber = '5511999999999';
-  const message = 'Olá! Gostaria de mais informações';
-  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-  window.open(url, '_blank');
-}
-
-}
