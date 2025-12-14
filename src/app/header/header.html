@@ -1,3 +1,5 @@
+
+
 <mat-toolbar class="app-toolbar">
   <div class="header-content">
     
@@ -8,38 +10,62 @@
          </div>
 
     <nav class="nav-links">
-  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">ESTOQUE</a>
-  <a mat-button routerLink="/detalhes-veiculos" routerLinkActive="active">EMPRESA</a>
-  <a mat-button routerLink="/contato" routerLinkActive="active" >CONTATO</a>
+  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">EMPRESA</a>
+  <a mat-button routerLink="/detalhes-veiculos" routerLinkActive="active">CONTATO</a>
+
 </nav>
 
+
     <div class="user-actions">
-      <button mat-icon-button class="action-icon-button" aria-label="Localização">
-        <mat-icon>location_on</mat-icon>
-      </button>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=INDICAR+VEICULOS+DF%2C+SCIA+QUADRA+15%2C+CONJUNTO+7+LOTE+12+-+ZONA+INDUSTRIAL%2C+Bras%C3%ADlia+-+DF%2C+71250-035" 
+       target="_blank" 
+       mat-icon-button 
+       class="action-icon-button" 
+       aria-label="Localização">
+      <mat-icon>location_on</mat-icon>
+    </a>
       
-      <button mat-icon-button class="action-icon-button" aria-label="Contato Telefone">
-        <mat-icon>call</mat-icon> </button>
-<a href="https://wa.me/5511999999999?text=Olá! Gostaria de mais informações" 
+      <a href="tel:+5561995729366" 
+       mat-icon-button 
+       class="action-icon-button" 
+       aria-label="Contato Telefone">
+      <mat-icon>call</mat-icon> 
+    </a>
+
+<a href="https://wa.me/5561984321908?text=Olá! Gostaria de mais informações" 
      target="_blank" 
      rel="noopener noreferrer"
-     class="whatsapp-link">
-<button mat-icon-button class="whatsapp" aria-label="Contato WhatsApp">
+     class="whatsapp-header-link">
+<button mat-icon-button class="whatsapp-header" aria-label="Contato whatsapp-header">
   <i class="fab fa-whatsapp"></i>
 </button>
 
   </a>
-           
+         
       <div class="menu-btn-wrap">
-          <button mat-icon-button class="menu-button" aria-label="Menu" (click)="sidenavOpen = true">
+          <button mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Menu">
             <mat-icon>menu</mat-icon>
           </button>
       </div>
+
+      <mat-menu #mobileMenu="matMenu" class="custom-menu">
+        <a href="tel:+5561995729366" 
+       mat-menu-item 
+       aria-label="Ligar para Contato">
+      CONTATO
+    </a>
+    <button mat-menu-item routerLink="/empresa">EMPRESA</button>
+</mat-menu>
       
 
     </div>
   </div>
 </mat-toolbar>
+
+
+
+
 
     <!-- Navigation Menu -->
 <!--    <nav class="nav-links">-->
