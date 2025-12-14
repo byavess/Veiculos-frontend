@@ -11,7 +11,7 @@
 
     <nav class="nav-links">
   <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">EMPRESA</a>
-  <a mat-button routerLink="/detalhes-veiculos" routerLinkActive="active">CONTATO</a>
+  <a mat-button routerLink="callContact()" routerLinkActive="active"(click)="openContact()">CONTATO</a>
 
 </nav>
 
@@ -50,7 +50,7 @@
       </div>
 
       <mat-menu #mobileMenu="matMenu" class="custom-menu">
-        <a href="tel:+5561995729366" 
+        <a href="tel:+5561984321908" 
        mat-menu-item 
        aria-label="Ligar para Contato">
       CONTATO
