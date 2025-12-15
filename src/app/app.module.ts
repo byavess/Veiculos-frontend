@@ -73,7 +73,10 @@ registerLocaleData(localePt, 'pt');
     MatSelectModule,
     MatDividerModule,
     MatSnackBarModule,
-
+ 
+    
+    
+   
   ],
   providers: [
     VeiculoService,

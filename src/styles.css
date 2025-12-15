@@ -51,3 +51,14 @@ body {
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 
 }
+
+
+/* grupo filtro */
+
+
+.cdk-overlay-pane div,
+.mat-select-panel a {
+    background-color: white !important;
+}
+
+

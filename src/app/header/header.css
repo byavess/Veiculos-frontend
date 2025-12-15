@@ -1,9 +1,7 @@
 /* --- Variáveis de Cores --- */
 :root {
-  /* Forçando o preto puro no lugar de #1a1a1a para garantir a cor exata */
-  --primary-color: #ffc107;
+    --primary-color: #ffc107;
   --background-color: #000000;
-  /* <<< MUDANÇA: Preto Puro! */
   --text-light: #ffffff;
 
 }

@@ -33,7 +33,11 @@ export class Header implements OnInit {
     window.open(mapsUrl, '_blank');
   }
 
-  constructor(private router: Router,private platform: Platform) { }
+  constructor(
+    private router: Router,
+    private platform: Platform,
+
+  ) { }
 
  
   closeSidenav() {

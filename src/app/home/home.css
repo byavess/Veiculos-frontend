@@ -1,23 +1,25 @@
 /* Reset e Variáveis */
 :host {
-  --primary-color: #d32f2f;
-  --secondary-color: #1976d2;
-  --accent-color: #ff4081;
-  --text-dark: #333;
+  --primary-color: linear-gradient(135deg, #413e3e 0%, #FFEC40 100%);
+  --secondary-color: #ffc107;
+   --text-dark: #333;
   --text-light: #666;
   --bg-light: #f8f9fa;
   --white: #ffffff;
   --shadow: 0 4px 12px rgba(0,0,0,0.1);
+  
 }
+
 
 
 /* Hero Banner Carrossel */
 .hero-banner-carousel {
   position: relative;
-  height: 70vh;
-  min-height: 500px;
-  margin-bottom: 60px;
+  height: 30vh;
+  min-height: 390px;
+  margin-bottom: 5px;
   overflow: hidden;
+  
 
 }
 
@@ -245,6 +247,7 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  
 }
 
 .features-grid {
@@ -378,38 +381,349 @@
 
 /* Filtros */
 .filtros-estoque {
-  background: white;
+  height: auto !important;
+  min-height: auto !important;
+  overflow: visible;
+
+
   border-radius: 8px;
   padding: 30px;
   margin-bottom: 40px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
 }
 
 .filtros-container {
+height: auto !important;
+
+
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .filtros-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+ grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin-bottom: 25px;
+  margin-bottom: 25px; 
+  width: 100%;
+ 
 }
 
+
+
 .filtro-group {
-  display: flex;
-  flex-direction: column;
+ width: 100%;
+  
 }
+
+
+
 
 .filtros-botoes {
   display: flex;
   justify-content: center;
   margin-top: 10px;
+
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+
+.filtros-grid .filtro-group {
+  width: calc(95% - 7.5px);
+  flex-grow: 155px;
+  flex-shrink: 0;
+  margin-bottom: 0;
+
+}
+
+@media (max-width: 850px) {
+    
+    .filtros-grid {
+        /* Adiciona um padding para evitar que os filtros encostem na borda da tela */
+        padding: 0 10px; 
+    }
+    
+    .filtros-grid .filtro-group {
+        /* 2 colunas: 50% da largura menos metade do gap (5px) */
+        width: calc(50% - 5px); 
+        margin-bottom: 10px;
+    }
+}
+
+/* 2. MUDAR PARA 1 COLUNA (Celulares, e.g., abaixo de 550px) */
+@media (max-width: 550px) {
+    
+    .filtros-grid .filtro-group {
+        /* 1 coluna: 100% da largura, garantindo que o filtro não vaze */
+        width: 100%; 
+        margin-bottom: 10px;
+    }
+    
+    /* Opcional: Ajustar o padding para telas muito pequenas */
+    .filtros-grid {
+        padding: 0 5px !important; 
+    }
+}
+
+
+/*Centraliza o filtro geral e o mais filtro*/
+
+.filtro-titulo {
+    font-size: 30px; /* Aumenta o tamanho da fonte */
+    font-weight: 500; /* Negrito */
+   color: white;
+    margin-bottom: 20px; /* Espaço entre o título e o campo de busca */
+    text-align: center;
+}
+
+/* Ajuste opcional para telas menores */
+@media (max-width: 768px) {
+    .filtro-titulo {
+        font-size: 26px;
+    }
+}
+
+
+.filtros-container {
+    /* Garante que o container de filtros tenha alinhamento centralizado ou vertical */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza a barra de pesquisa e o botão */
+    background-color: #252525;
+    height: 290px;
+  }
+
+.filtro-geral-pesquisa {
+    width: 100%;
+    max-width: 660px; /* Limita a largura da barra de busca geral */
+    margin-bottom: 5px;
+         
+}
+
+.filtro-pesquisa-mat-field {
+    width: 100%;
+    background-color: white;
+    border-radius: 6px;
+    height: 55px;
+}
+
+.toggle-filtros-detalhe{
+  color: #ffc107;
+}
+
+
+.btn-estoque-filtro{
+ 
+  align-items: center;
+   width: 205px;
+   background: none !important;
+   left: -40PX;
+   background-image: linear-gradient(
+  
+        to bottom,
+    #f7f7f7 0%,      /* Prata Brilhante */
+    #c3c3c3 50%,      /* Cinza Médio */
+    #a0a0a0 51%,      /* Cinza Sombra (Dá a linha de cromo) */
+    #e3e3e3 100% 
+    ) !important;
+    border: 1px solid #777777;
+    box-shadow: 0 4px 6px #FFED4E;
+    bottom: -55px;
+   
+}
+
+/*icone mais filtros*/
+.toggle-filtros-detalhe .mat-icon {
+    /* Cor que você deseja (amarelo/laranja) */
+    color: #ffc107 !important; 
+    
+    /* Opcional: Para garantir que o ícone tenha o tamanho desejado */
+    font-size: 25px !important;
+    width: 20px !important;
+    height: 20px !important;
+   
+}
+
+/* Opcional: Se você estiver usando o ícone 'Mais filtros', pode querer mudar a cor do texto também */
+.toggle-filtros-detalhe button {
+    color: #ffc107 !important; 
+    font-size: 15px !important; 
+    width: 150px !important;
+    bottom: -30px;
+    font-weight: normal; 
+  font-style: normal;  
+}
+
+
+.btn-estoque-filtro .mat-icon,
+.btn-estoque-filtro  {
+    color: #252525 !important;
+    font-size: 20px;
+}
+
+.btn-estoque-filtro .mat-icon{
+  left: -15px;
+}
+   
+.btn-estoque-filtro:hover
+ {
+  
+  background-image: linear-gradient(
+        to bottom,
+        #ffffff 0%,   
+        #e0e0e0 50%,   
+        #b8b8b8 51%,   
+        #f0f0f0 100%
+    ) !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btn-queroVender-filtro:hover
+ {
+    
+   background-image: linear-gradient(
+        to bottom,
+    #f7f7f7 0%,      /* Prata Brilhante */
+    #c3c3c3 50%,      /* Cinza Médio */
+    #a0a0a0 51%,      /* Cinza Sombra (Dá a linha de cromo) */
+    #e3e3e3 100% 
+    ) !important;
+   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+    
+  }
+
+
+
+.btn-queroVender-filtro{
+  width: 205px;
+  right: -40px;
+  background: none !important;
+  background-image: linear-gradient(
+  
+        to bottom,
+    #f7f7f7 0%,      /* Prata Brilhante */
+    #c3c3c3 50%,      /* Cinza Médio */
+    #a0a0a0 51%,      /* Cinza Sombra (Dá a linha de cromo) */
+    #e3e3e3 100% 
+    ) !important;
+  border: 1px solid #777777;
+  box-shadow: 0 4px 6px #FFED4E;
+  bottom: -55px;
+
+}
+
+
+   
+.btn-queroVender-filtro .mat-icon,
+.btn-queroVender-filtro  {
+    color: #252525 !important;
+    font-size: 22px;
+    
+}
+   
+.btn-queroVender-filtro .mat-icon{
+ font-weight: 700 !important;
+}
+
+/*parte do fundo dos 4 filtros*/
+.filtros-detalhados-painel {
+margin-top: 15px;
+margin-bottom: 20px;
+  
+    width: 100%;
+    padding: 40px;
+    border-radius: 28px;
+    
+    background-color: #252525; /* Cor da caixa de filtros detalhados */
+     z-index: 1050; 
+  }
+
+  
+
+
+
+
+.btn-queroVender-mais,
+.btn-estoque-mais{
+align-items: center;
+   width: 205px;
+   background: none !important;
+  
+   background-image: linear-gradient(
+  
+        to bottom,
+    #f7f7f7 0%,      /* Prata Brilhante */
+    #c3c3c3 50%,      /* Cinza Médio */
+    #a0a0a0 51%,      /* Cinza Sombra (Dá a linha de cromo) */
+    #e3e3e3 100% 
+    ) !important;
+    border: 1px solid #777777;
+    box-shadow: 0 4px 6px #FFED4E;
+   margin: 0 10px; /* Adiciona espaço horizontal entre eles */
+    display: flex;
+ 
 }
 
 
 
+
+
+.btn-queroVender-mais .mat-icon,
+.btn-queroVender-mais  {
+    color: #252525 !important;
+    font-size: 20px;
+}
+
+.btn-queroVender-mais .mat-icon{
+  left: -5px;
+  
+ 
+}
+
+.btn-estoque-mais .mat-icon,
+.btn-estoque-mais  {
+    color: #252525 !important;
+    font-size: 20px;
+ 
+}
+
+.btn-estoque-mais .mat-icon{
+   left: -15px;
+ 
+   
+}
+
+
+
+
+
+
+
+/*filtro geral*/
+@media (max-width: 768px) {
+    .filtros-grid {
+        grid-template-columns: repeat(2, 1fr); /* Duas colunas em tablets */
+    }
+}
+
+@media (max-width: 500px) {
+    .filtros-grid {
+        grid-template-columns: 1fr; /* Uma coluna em celulares */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* Loading e Erro */
+/* Loading e Erro */
 /* Loading e Erro */
 .loading-estoque {
   display: flex;
@@ -1179,6 +1493,14 @@ mat-paginator {
   font-size: 1rem;
 }
 
+
+.btn-grupo-filtros {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
 ::ng-deep .filtro-mat-field .mat-mdc-text-field-wrapper {
   background-color: white;
 }
@@ -1312,8 +1634,10 @@ mat-paginator {
 
   .filtros-grid {
     grid-template-columns: 1fr;
+    
   }
 
+ 
   .veiculos-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -1457,4 +1781,5 @@ mat-paginator {
   .main-footer {
     padding: 40px 20px 20px;
   }
+
 }
