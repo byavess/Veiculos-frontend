@@ -646,7 +646,7 @@ margin-bottom: 20px;
 
 .btn-queroVender-mais,
 .btn-estoque-mais{
-align-items: center;
+   align-items: center;
    width: 205px;
    background: none !important;
   
@@ -1168,62 +1168,88 @@ align-items: center;
   border-radius: 4px;
 }
 
+
 .veiculo-badge {
   position: absolute;
-  top: 15px;
-  left: 15px;
-  background: rgba(33, 150, 243, 0.9);
-  color: white;
-  padding: 8px 15px;
-  border-radius: 20px;
+  top: 2px;
+  left: -8px;
+  background: none !important;
+   padding: 8px 15px;
+  border-radius: 25px;
   font-weight: bold;
   font-size: 0.9rem;
   z-index: 5;
+  box-shadow: #FFED4E !important;
+  background-image: linear-gradient(
+  
+        to bottom,
+    #f7f7f7 0%,      /* Prata Brilhante */
+    #c3c3c3 50%,      /* Cinza Médio */
+    #a0a0a0 51%,      /* Cinza Sombra (Dá a linha de cromo) */
+    #e3e3e3 100% 
+    ) !important;
+border: 1px solid #777777;
+    box-shadow: 0 4px 6px #c0c0c0c0 !important;
+   margin: 0 10px; /* Adiciona espaço horizontal entre eles */
+    display: flex;
+     z-index: 10;
+ 
 }
 
 /* Badge de Oferta Especial - Destaque no Topo Direito */
 .oferta-badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
-  color: white;
+    position: absolute;
+    top: 2px;
+    right: -4px;
+    width: 135px;
+    border-radius: 25px;
+   width: 127px;
+   background: none !important;
   padding: 10px 16px;
-  border-radius: 25px;
-  font-weight: 800;
-  font-size: 0.75rem;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.5);
-  animation: pulse-oferta 2s ease-in-out infinite;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+   background-image: linear-gradient(
+  
+        to bottom,
+    #f7f7f7 0%,      /* Prata Brilhante */
+    #c3c3c3 50%,      /* Cinza Médio */
+    #a0a0a0 51%,      /* Cinza Sombra (Dá a linha de cromo) */
+    #e3e3e3 100% 
+    ) !important;
+    border: 1px solid #777777;
+    box-shadow: 0 4px 6px #c0c0c0c0;
+   margin: 0 10px; /* Adiciona espaço horizontal entre eles */
+    display: flex;
+     z-index: 10;
+     animation: pulse-oferta 2s ease-in-out infinite;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+ 
+   
 }
 
 .oferta-icon {
   font-size: 18px !important;
   width: 18px !important;
   height: 18px !important;
-  color: white !important;
+  color: #333333 !important;
   animation: rotate-icon 3s linear infinite;
 }
 
 .oferta-texto {
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 900;
+  color: #333333 !important;
 }
+
 
 /* Animação de Pulso para Badge de Oferta */
 @keyframes pulse-oferta {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.5);
+    box-shadow: #ffc107 !important;
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.7);
+    box-shadow: #ffc107 !important;
   }
 }
 
@@ -1245,13 +1271,13 @@ align-items: center;
 
 /* Destaque adicional no card quando está em oferta */
 .veiculo-card:has(.oferta-badge) {
-  border: 2px solid #FF6B35;
-  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.2) !important;
+  border: 2px solid #ffec40c2;
+  box-shadow: 0 6px 25px #c0c0c0c0 !important;
 }
 
 .veiculo-card:has(.oferta-badge):hover {
-  box-shadow: 0 10px 35px rgba(255, 107, 53, 0.3) !important;
-  border-color: #F7931E;
+  box-shadow: 0 10px 35px #ffec40c2 !important;
+  border-color: #c0c0c0c0;
 }
 
 /* Mat-card-content personalizado */
@@ -1319,13 +1345,13 @@ mat-card-title.veiculo-nome {
   font-size: 18px !important;
   width: 18px !important;
   height: 18px !important;
-  color: #2196F3;
+  color: #333333;
   flex-shrink: 0;
 }
 
 .info-text {
   font-size: 0.85rem;
-  color: #2c3e50;
+  color: #333333;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -1350,16 +1376,41 @@ mat-card-title.veiculo-nome {
   border: 2px solid #999;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .veiculo-preco {
   font-size: 1.4rem;
-  color: #00897B;
+  color: #333333;
   font-weight: 600;
   text-align: center;
   margin: 15px 0;
   padding: 8px 12px;
-  background: linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%);
+  background-image: linear-gradient(
+  
+        to bottom,
+    #f7f7f7 0%,      /* Prata Brilhante */
+    #c3c3c3 50%,      /* Cinza Médio */
+    #a0a0a0 51%,      /* Cinza Sombra (Dá a linha de cromo) */
+    #e3e3e3 100% 
+    ) !important;
   border-radius: 8px;
-  border: 1px solid #80CBC4;
+  border: 1px solid #c0c0c0c0;
 }
 
 /* Mat-card-actions personalizado */
@@ -1379,6 +1430,19 @@ mat-card-actions.card-botoes {
   margin-top: auto;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 .btn-detalhes {
   flex: 1 !important;
   font-weight: 600 !important;
@@ -1387,6 +1451,17 @@ mat-card-actions.card-botoes {
   padding: 10px 20px !important;
   height: 44px !important;
   line-height: 24px !important;
+  color: #333333;
+  border: 1px solid #c0c0c0c0;
+    background-image: linear-gradient(
+  
+        to bottom,
+    #f7f7f7 0%,      /* Prata Brilhante */
+    #c3c3c3 50%,      /* Cinza Médio */
+    #a0a0a0 51%,      /* Cinza Sombra (Dá a linha de cromo) */
+    #e3e3e3 100% 
+    ) !important;
+
 }
 
 .btn-detalhes:hover {
@@ -1453,7 +1528,7 @@ mat-card-actions.card-botoes {
 
 .sem-veiculos h3 {
   font-size: 2rem;
-  color: #2c3e50;
+  color: #502c2c;
   margin-bottom: 15px;
 }
 
@@ -1518,16 +1593,16 @@ mat-paginator {
 ::ng-deep .filtro-mat-field.mat-focused .mdc-notched-outline__leading,
 ::ng-deep .filtro-mat-field.mat-focused .mdc-notched-outline__notch,
 ::ng-deep .filtro-mat-field.mat-focused .mdc-notched-outline__trailing {
-  border-color: #2196F3 !important;
+  border-color: #FFEC40 !important;
   border-width: 2px !important;
 }
 
 ::ng-deep .filtro-mat-field .mat-mdc-select-arrow {
-  color: #2196F3;
+  color: #333333;
 }
 
 ::ng-deep .filtro-mat-field .mat-icon {
-  color: #2196F3;
+  color: #333333;
   margin-right: 8px;
 }
 
@@ -1545,7 +1620,7 @@ mat-paginator {
   color: #2196F3 !important;
 }
 
-/* Botão Limpar Filtros */
+/* Botão Limpar Filtros 
 .btn-limpar-filtros {
   height: 48px;
   min-width: 200px;
@@ -1564,7 +1639,7 @@ mat-paginator {
   font-size: 20px;
   width: 20px;
   height: 20px;
-}
+}*/
 
 /* Responsivo */
 @media (max-width: 1024px) {
