@@ -1,4 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+
+
+
+
+/* Header menu wrap */
+.cdk-overlay-pane div,
+.cdk-overlay-pane a {
+    background-color: #000000 !important;
+    color: #FFD700 !important;
+
+}
+
+
+.cdk-overlay-pane * {
+    z-index: 9999 !important;
+    position: relative !important;
+
+}
+
+
+.cdk-overlay-pane button {
+    color: #FFD700 !important;
+    background-color: #000000 !important;
+    box-shadow:
+        0 6px 16px rgba(255, 215, 0, 0.25),
+        inset 0 3px 0 rgba(255, 245, 150, 0.5) !important;
+
+}
+
+.cdk-overlay-pane button:hover {
+    color: #FFD700 !important;
+    /* Amarelo brilhante */
+    border-color: rgba(255, 215, 0, 0.7) !important;
+    background: linear-gradient(135deg, #000000,
+            #C0C0C0) !important;
+    box-shadow:
+        0 6px 16px rgba(255, 215, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+
+}
