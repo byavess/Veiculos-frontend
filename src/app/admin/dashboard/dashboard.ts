@@ -1,8 +1,6 @@
-import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { Router } from '@angular/router';
-import { VeiculoService, Veiculo } from '../../veiculo.service';
+import {Component, OnInit} from '@angular/core';
+import {DashboardService} from './dashboard.service';
+import {IDashboardData} from '../../interfaces/IDashboardData';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,74 +8,23 @@ import { VeiculoService, Veiculo } from '../../veiculo.service';
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
-export class AdminDashboardComponent implements OnInit, AfterViewInit {
+export class AdminDashboardComponent implements OnInit {
+  dashboardData: IDashboardData | null = null;
+  loading = true;
+  error = '';
 
-   // 🛑 CORRIGIDO: Injeção de dependências via inject()
- private veiculoService = inject(VeiculoService);
- private router = inject(Router);
-
-  // Colunas a serem exibidas na tabela (deve corresponder ao seu HTML)
-  displayedColumns: string[] = ['id', 'marca', 'modelo', 'ano', 'preco', 'acoes'];
-
-  // Fonte de dados para a tabela
-  dataSource = new MatTableDataSource<Veiculo>();
-
-  // Referência ao MatPaginator no HTML
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    this.carregarVeiculos();
-  }
-
-  ngAfterViewInit() {
-    // 🛑 Conecta o paginator à fonte de dados APÓS a inicialização da view
-    this.dataSource.paginator = this.paginator;
-  }
-
-  /**
-   * 1. Carrega os veículos do backend e preenche a tabela.
-   */
-  carregarVeiculos(): void {
-    // ATENÇÃO: Se for usar autenticação, este método deve usar o token JWT
-    this.veiculoService.getVeiculos().subscribe({
+    this.dashboardService.getDashboardData().subscribe({
       next: (data) => {
-        this.dataSource.data = data;
-        // O paginator é conectado automaticamente no ngAfterViewInit
+        this.dashboardData = data;
+        this.loading = false;
       },
       error: (err) => {
-        console.error('Erro ao carregar veículos:', err);
-        // Implementar MatSnackBar para mostrar erro ao usuário
+        this.error = 'Erro ao carregar dados do dashboard';
+        this.loading = false;
       }
     });
-  }
-
-  /**
-   * 2. Implementa a lógica de filtro
-   */
-  aplicarFiltro(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  /**
-   * 3. Navega para a tela de edição
-   */
-  editarVeiculo(id: number): void {
-    this.router.navigate(['/admin/veiculo-form', id]);
-  }
-
-  /**
-   * 4. Deleta um veículo
-   */
-  deletarVeiculo(id: number): void {
-    if (confirm(`Tem certeza que deseja deletar o veículo ID ${id}?`)) {
-
-    }
   }
 }

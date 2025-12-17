@@ -1,0 +1,80 @@
+<div class="admin-veiculo-container">
+  <div class="admin-veiculo-view-toggle-filter">
+    <div class="admin-veiculo-view-toggle">
+      <button mat-stroked-button color="primary" (click)="setViewMode('table')" [disabled]="viewMode === 'table'">
+        <mat-icon>table_chart</mat-icon> Tabela
+      </button>
+      <button mat-stroked-button color="primary" (click)="setViewMode('card')" [disabled]="viewMode === 'card'">
+        <mat-icon>view_module</mat-icon> Cards
+      </button>
+    </div>
+  </div>
+  <div class="admin-veiculo-table-wrapper" *ngIf="viewMode === 'table'">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" *ngIf="dataSource">
+      <!-- Info Veículo -->
+      <ng-container matColumnDef="info">
+        <th mat-header-cell *matHeaderCellDef>Veículo</th>
+        <td mat-cell *matCellDef="let v" data-label="Veículo">
+          <ng-container *ngIf="v.emOferta">
+            <mat-icon color="accent" style="vertical-align: middle;">local_offer</mat-icon>
+          </ng-container>
+          {{ v.marca }} {{ v.modelo }} {{ v.ano }} - R$ {{ v.preco | number:'1.2-2' }}
+        </td>
+      </ng-container>
+      <!-- Placa -->
+      <ng-container matColumnDef="placa">
+        <th mat-header-cell *matHeaderCellDef>Placa</th>
+        <td mat-cell *matCellDef="let v" data-label="Placa">{{ v.placa }}</td>
+      </ng-container>
+      <!-- Vendido -->
+      <ng-container matColumnDef="vendido">
+        <th mat-header-cell *matHeaderCellDef>Vendido</th>
+        <td mat-cell *matCellDef="let v" data-label="Vendido">{{ v.vendido ? 'Sim' : 'Não' }}</td>
+      </ng-container>
+      <!-- Ações -->
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let v" data-label="Ações">
+          <button mat-icon-button color="primary" (click)="editarVeiculo(v)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deletarVeiculo(v)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [length]="totalElements" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event)"></mat-paginator>
+  </div>
+  <div class="admin-veiculo-card-list" *ngIf="viewMode === 'card'" (scroll)="onScroll($event)">
+    <mat-card class="admin-veiculo-card" *ngFor="let v of pagedData">
+      <div class="admin-veiculo-card-header">
+        <span class="admin-veiculo-card-title">
+          <ng-container *ngIf="v.emOferta">
+            <mat-icon color="accent" style="vertical-align: middle;">local_offer</mat-icon>
+          </ng-container>
+          {{ v.marca }} {{ v.modelo }} {{ v.ano }}
+        </span>
+        <span class="admin-veiculo-card-preco">R$ {{ v.preco | number:'1.2-2' }}</span>
+      </div>
+      <div class="admin-veiculo-card-body">
+        <div><strong>Placa:</strong> {{ v.placa }}</div>
+        <div><strong>Oferta:</strong> <mat-icon *ngIf="v.emOferta" color="accent">local_offer</mat-icon><span *ngIf="!v.emOferta">-</span></div>
+        <div><strong>Vendido:</strong> {{ v.vendido ? 'Sim' : 'Não' }}</div>
+      </div>
+      <div class="admin-veiculo-card-actions">
+        <button mat-icon-button color="primary" (click)="editarVeiculo(v)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deletarVeiculo(v)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+    <div *ngIf="loadingCardData" style="width:100%;text-align:center;padding:16px;">
+      <mat-progress-spinner mode="indeterminate" diameter="32" color="primary"></mat-progress-spinner>
+    </div>
+  </div>
+</div>

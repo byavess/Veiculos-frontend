@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Veiculo } from '../veiculo.service';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {LoginService} from '../auth/login/loginService';
+import {filter, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -9,40 +9,65 @@ import { Veiculo } from '../veiculo.service';
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
-
-
-export class Header implements OnInit {
-
-  
-
-  // ... (O restante da lógica de isLoggedIn, checkLoginStatus() e logout() permanece o mesmo)
+export class Header implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
+  private subscriptions: Subscription = new Subscription();
 
-  /*veiculos!: Observable<Veiculo[]>;
-    loading: boolean = false;
-    erroCarregamento: boolean = false;*/
-  
-
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.checkLoginStatus();
-    this.router.events.subscribe(() => {
-        this.checkLoginStatus();
-    });
+    this.subscriptions.add(this.loginService.loggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+      this.cdr.detectChanges();
+      this.logStatus();
+    }));
+    this.subscriptions.add(this.loginService.isAdmin$.subscribe(status => {
+      this.isAdmin = status;
+      this.cdr.detectChanges();
+      this.logStatus();
+    }));
+    // Força atualização dos status em cada navegação
+    this.subscriptions.add(
+      this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
+        this.loginService.forceStatusUpdate();
+      })
+    );
   }
 
-  checkLoginStatus(): void {
-    this.isLoggedIn = !!localStorage.getItem('auth_token');
+  logStatus(): void {
+    const token = localStorage.getItem('auth_token');
+    let payload = null;
+    if (token) {
+      try {
+        payload = JSON.parse(atob(token.split('.')[1]));
+      } catch {}
+    }
+    console.log('[HEADER] isLoggedIn:', this.isLoggedIn, '| isAdmin:', this.isAdmin, '| token payload:', payload);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   logout(): void {
-    localStorage.removeItem('auth_token');
-    this.isLoggedIn = false;
-    this.router.navigate(['/']);
+    this.loginService.logout();
   }
-verEstoque(): void {
-  this.router.navigate(['/estoque']);
-}
 
+  getUserName(): string {
+    const nomeCompleto = localStorage.getItem('nomeCompleto');
+    if (nomeCompleto) return nomeCompleto;
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.name || payload.sub || 'Usuário';
+      } catch {}
+    }
+    return '';
+  }
 }

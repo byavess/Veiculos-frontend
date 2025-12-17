@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
-import { VeiculoService, Veiculo } from '../veiculo.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { VeiculoService } from '../veiculo.service';
 import { catchError, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import {IVeiculo} from '../interfaces/IVeiculo';
 
 @Component({
   selector: 'app-estoque',
@@ -11,35 +12,30 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   standalone: false,
 })
 export class EstoqueComponent implements OnInit {
-  private veiculoService = inject(VeiculoService);
-  private router = inject(Router);
-  private fb = inject(FormBuilder);
-  private cdRef = inject(ChangeDetectorRef);
+  constructor(
+    private veiculoService: VeiculoService,
+    private router: Router,
+    private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef
+  ) {}
 
-  
-  
   // Arrays SIMPLES para template
-  veiculos: Veiculo[] = [];
-  veiculosFiltrados: Veiculo[] = [];
+  veiculos: IVeiculo[] = [];
+  veiculosFiltrados: IVeiculo[] = [];
   loading: boolean = false;
   erroCarregamento: boolean = false;
-  
   // Filtro Form
   filtroForm!: FormGroup;
-  
   // Opções para filtros
   marcasDisponiveis: string[] = [];
   modelosDisponiveis: string[] = [];
   anosDisponiveis: number[] = [];
-  
   // WhatsApp
   private whatsappNumber = '61984321908';
 
   ngOnInit(): void {
     this.inicializarFormulario();
     this.carregarVeiculos();
-
-
   }
 
   inicializarFormulario(): void {
@@ -53,34 +49,34 @@ export class EstoqueComponent implements OnInit {
     });
   }
 
- carregarVeiculos(): void {
+  carregarVeiculos(): void {
     console.log('🔍 Iniciando carregamento...');
     this.loading = true;
     this.erroCarregamento = false;
-    
+
     // Força o Angular a detectar a mudança no loading
     this.cdRef.detectChanges();
-    
+
     this.veiculoService.getVeiculos().pipe(
       tap((veiculos) => {
         console.log('✅ Veículos carregados:', veiculos.length, 'itens');
         this.veiculos = veiculos;
         this.veiculosFiltrados = [...veiculos];
-        
+
         // Extrair marcas únicas
         const marcasUnicas = [...new Set(veiculos.map(v => v.marca))];
         this.marcasDisponiveis = ['Todas as Marcas', ...marcasUnicas.sort()];
-        
+
         // Extrair anos únicos
         const anos = [...new Set(veiculos.map(v => v.ano))];
         this.anosDisponiveis = anos.sort((a, b) => a - b);
-        
+
         // Inicializar modelos
         this.atualizarModelosDisponiveis();
-        
+
         this.loading = false;
         console.log('✅ Loading definido como false');
-        
+
         // Força detecção de mudanças APÓS carregar
         this.cdRef.detectChanges();
       }),
@@ -94,18 +90,16 @@ export class EstoqueComponent implements OnInit {
     ).subscribe();
   }
 
- 
-
   atualizarModelosDisponiveis(): void {
     const marcaSelecionada = this.filtroForm.get('marca')?.value;
-    
+
     if (!this.veiculos || this.veiculos.length === 0) {
       this.modelosDisponiveis = [];
       return;
     }
-    
+
     let modelosFiltrados: string[];
-    
+
     if (marcaSelecionada === 'Todas as Marcas') {
       modelosFiltrados = [...new Set(this.veiculos.map(v => v.modelo))];
     } else {
@@ -115,19 +109,19 @@ export class EstoqueComponent implements OnInit {
           .map(v => v.modelo)
       )];
     }
-    
+
     this.modelosDisponiveis = modelosFiltrados.sort();
   }
 
   aplicarFiltros(): void {
     const filtros = this.filtroForm.value;
-    
+
     // Se todos os filtros estão vazios, mostrar todos
     if (this.isFiltrosVazios(filtros)) {
       this.veiculosFiltrados = [...this.veiculos];
       return;
     }
-    
+
     this.veiculosFiltrados = this.veiculos.filter(veiculo => {
       // Filtro por marca
       if (filtros.marca && filtros.marca !== 'Todas as Marcas') {
@@ -135,45 +129,45 @@ export class EstoqueComponent implements OnInit {
           return false;
         }
       }
-      
+
       // Filtro por modelo (busca parcial)
       if (filtros.modelo && filtros.modelo.trim() !== '') {
         const modeloVeiculo = veiculo.modelo.toLowerCase();
         const modeloFiltro = filtros.modelo.toLowerCase().trim();
-        
+
         if (!modeloVeiculo.includes(modeloFiltro)) {
           return false;
         }
       }
-      
+
       // Filtro por ano mínimo
       if (filtros.anoMin && filtros.anoMin !== '') {
         if (veiculo.ano < Number(filtros.anoMin)) {
           return false;
         }
       }
-      
+
       // Filtro por ano máximo
       if (filtros.anoMax && filtros.anoMax !== '') {
         if (veiculo.ano > Number(filtros.anoMax)) {
           return false;
         }
       }
-      
+
       // Filtro por preço mínimo
       if (filtros.precoMin && filtros.precoMin !== '') {
         if (veiculo.preco < Number(filtros.precoMin)) {
           return false;
         }
       }
-      
+
       // Filtro por preço máximo
       if (filtros.precoMax && filtros.precoMax !== '') {
         if (veiculo.preco > Number(filtros.precoMax)) {
           return false;
         }
       }
-      
+
       return true;
     });
   }
@@ -198,7 +192,7 @@ export class EstoqueComponent implements OnInit {
       precoMin: '',
       precoMax: ''
     });
-    
+
     this.atualizarModelosDisponiveis();
     this.veiculosFiltrados = [...this.veiculos];
   }
@@ -213,7 +207,7 @@ export class EstoqueComponent implements OnInit {
   }
 
   // WhatsApp para veículo específico
-  openWhatsApp(veiculo: Veiculo): void {
+  openWhatsApp(veiculo: IVeiculo): void {
     const message = `🏎️ *${veiculo.marca} ${veiculo.modelo} ${veiculo.ano}*
 
 📋 *Detalhes do Veículo:*
@@ -226,7 +220,7 @@ export class EstoqueComponent implements OnInit {
 ${veiculo.descricao ? `📝 *Descrição:* ${veiculo.descricao}` : ''}
 
 Olá! Tenho interesse neste veículo. Poderia me enviar mais informações?`;
-    
+
     this.abrirWhatsApp(message);
   }
 
@@ -261,15 +255,15 @@ Olá! Tenho interesse neste veículo. Poderia me enviar mais informações?`;
   }
 
   // Método auxiliar para obter imagem do veículo
-getImagemDoVeiculo(veiculo: Veiculo): string {
-  if (!veiculo.urlsFotos || veiculo.urlsFotos.length === 0) {
-    return 'https://placehold.co/600x400/1a237e/ffffff?text=Veículo+Sem+Imagem';
+  getImagemDoVeiculo(veiculo: IVeiculo): string {
+    if (!veiculo.urlsFotos || veiculo.urlsFotos.length === 0) {
+      return 'https://placehold.co/600x400/1a237e/ffffff?text=Veículo+Sem+Imagem';
+    }
+
+    try {
+      return this.getImagemUrl(veiculo.urlsFotos[0]);
+    } catch (error) {
+      return 'https://placehold.co/600x400/1a237e/ffffff?text=Erro+na+Imagem';
+    }
   }
-  
-  try {
-    return this.getImagemUrl(veiculo.urlsFotos[0]);
-  } catch (error) {
-    return 'https://placehold.co/600x400/1a237e/ffffff?text=Erro+na+Imagem';
-  }
-}
 }

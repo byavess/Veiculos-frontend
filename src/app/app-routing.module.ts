@@ -7,6 +7,8 @@ import { DetalhesVeiculos } from './detalhes-veiculos/detalhes-veiculos';
 import { Login } from './auth/login/login';
 import { AdminDashboardComponent } from './admin/dashboard/dashboard';
 import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
+import { AdminHomeComponent } from './admin/home/admin-home';
+import { AdminVeiculoComponent } from './admin/veiculo/admin-veiculo';
 
 
 // Guards
@@ -44,6 +46,10 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
+        path: 'home',
+        component: AdminHomeComponent
+      },
+      {
         path: 'dashboard',
         component: AdminDashboardComponent
       },
@@ -56,8 +62,12 @@ const routes: Routes = [
         component: VeiculoFormComponent
       },
       {
+        path: 'veiculo',
+        component: AdminVeiculoComponent
+      },
+      {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'home',
         pathMatch: 'full'
       }
     ]
@@ -77,4 +87,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-

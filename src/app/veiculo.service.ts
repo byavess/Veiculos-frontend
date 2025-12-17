@@ -1,45 +1,29 @@
-import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {IVeiculo} from './interfaces/IVeiculo';
+import {environment} from '../environments/environment';
 
-export interface Veiculo {
-
-  id: number;
-  marca: string;
-  modelo: string;
-  ano: number;
-  km?: number;
-  preco: number;
-  descricao: string;
-  urlsFotos: string[];
-  cor?: string;
-  motor?: string;
-  cambio?: string;
-  combustivel?: string;
-  emOferta?: boolean;
-  imagem: Blob | null;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class VeiculoService {
 
-  private http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/api/veiculos';
-
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
+  private readonly apiUrl = `${environment.apiBaseUrl}/veiculos`;
+
   // Método SIMPLES para buscar veículos
-  getVeiculos(): Observable<Veiculo[]> {
+  getVeiculos(): Observable<IVeiculo[]> {
     console.log('🔍 Testando conexão com backend...', this.apiUrl);
-    return this.http.get<Veiculo[]>(this.apiUrl);
+    return this.http.get<IVeiculo[]>(this.apiUrl);
   }
 
   // Método SIMPLES para buscar veículo por ID
-  getVeiculoById(id: number): Observable<Veiculo> {
-    return this.http.get<Veiculo>(`${this.apiUrl}/${id}`);
+  getVeiculoById(id: number): Observable<IVeiculo> {
+    return this.http.get<IVeiculo>(`${this.apiUrl}/${id}`);
   }
 
 
@@ -72,6 +56,7 @@ export class VeiculoService {
 
   // Busca paginada de veículos
   getVeiculosPaginados(params: {
+    q?: string;
     marca?: string;
     modelo?: string;
     anoMin?: number;
@@ -80,19 +65,22 @@ export class VeiculoService {
     direction?: string;
     page?: number;
     size?: number;
-  } = {}): Observable<any> {
+    vendido?: boolean;
+  } = {}, headers?: any): Observable<any> {
     // Monta os parâmetros da query string
     const queryParams = new URLSearchParams();
+    if (params.q) queryParams.append('q', params.q);
     if (params.marca) queryParams.append('marca', params.marca);
     if (params.modelo) queryParams.append('modelo', params.modelo);
     if (params.anoMin !== undefined) queryParams.append('anoMin', params.anoMin.toString());
     if (params.anoMax !== undefined) queryParams.append('anoMax', params.anoMax.toString());
     if (params.sort) queryParams.append('sort', params.sort);
     if (params.direction) queryParams.append('direction', params.direction);
+    if (params.vendido !== undefined) queryParams.append('vendido', params.vendido.toString());
     queryParams.append('page', params.page?.toString() ?? '0');
     queryParams.append('size', params.size?.toString() ?? '12');
     const url = `${this.apiUrl}?${queryParams.toString()}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url, headers ? { headers } : {});
   }
 
   // ==========================================
@@ -159,7 +147,7 @@ export class VeiculoService {
    * @param whatsappNumber Número do WhatsApp (com DDI)
    * @param customMessage Mensagem personalizada (opcional)
    */
-  openWhatsApp(veiculo?: Veiculo, whatsappNumber: string = '61984321908', customMessage?: string): void {
+  openWhatsApp(veiculo?: IVeiculo, whatsappNumber: string = '61984321908', customMessage?: string): void {
     let message: string;
 
     if (customMessage) {
@@ -184,6 +172,13 @@ Poderia me enviar mais informações?`;
 
     // Abre o WhatsApp em nova aba
     window.open(whatsappUrl, '_blank');
+  }
+
+  /**
+   * Busca veículos vendidos (vendido=true)
+   */
+  getVeiculosVendidos(): Observable<IVeiculo[]> {
+    return this.http.get<IVeiculo[]>(`${this.apiUrl}?vendido=true`);
   }
 
 }

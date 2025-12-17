@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { VeiculoService, Veiculo } from '../veiculo.service';
+import { VeiculoService } from '../veiculo.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import {IVeiculo} from '../interfaces/IVeiculo';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ export class Home implements OnInit, OnDestroy {
   filtroForm: FormGroup;
   marcasDisponiveis: string[] = [];
   modelosDisponiveis: string[] = [];
-  veiculos: Veiculo[] = [];
+  veiculos: IVeiculo[] = [];
   totalElements: number = 0;
   pageSize: number = 12;
   pageIndex: number = 0;
@@ -267,7 +268,7 @@ export class Home implements OnInit, OnDestroy {
     return this.veiculoService.getImagemUrl(path);
   }
 
-  openWhatsApp(veiculo?: Veiculo): void {
+  openWhatsApp(veiculo?: IVeiculo): void {
     this.veiculoService.openWhatsApp(veiculo, this.whatsappNumber);
   }
 

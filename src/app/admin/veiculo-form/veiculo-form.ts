@@ -1,7 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Veiculo, VeiculoService} from '../../veiculo.service';
+import {VeiculoService} from '../../veiculo.service';
+import {IVeiculo} from '../../interfaces/IVeiculo';
 
 @Component({
   selector: 'app-veiculo-form',
@@ -14,10 +15,12 @@ export class VeiculoFormComponent implements OnInit {
   isEdicao: boolean = false;
   veiculoId: number | null = null;
 
-  // ✅ Usando inject() para injeção de dependências
-  private fb = inject(FormBuilder);
-  private veiculoService = inject(VeiculoService);
-  private router = inject(Router);
+  constructor(
+    private fb: FormBuilder,
+    private veiculoService: VeiculoService,
+    private router: Router
+  ) {}
+
   urlsFotos: string[] = [];
   marcasDisponiveis: string[] = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'Volkswagen', 'Nissan', 'Hyundai', 'Kia', 'Mazda', 'Subaru'];
 
@@ -39,7 +42,7 @@ export class VeiculoFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.veiculoForm.valid) {
-      const veiculo: Veiculo = this.veiculoForm.value;
+      const veiculo: IVeiculo = this.veiculoForm.value;
 
       if (this.isEdicao && this.veiculoId) {
         // Edição

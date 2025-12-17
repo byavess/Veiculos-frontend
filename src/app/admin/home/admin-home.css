@@ -1,0 +1,171 @@
+/* Modern, clean, and visually appealing admin home page */
+.admin-home-container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(120deg, #f5f6fa 60%, #e3e9f7 100%);
+  padding: 0;
+  margin: 0;
+}
+
+.admin-title {
+  margin-top: 32px;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #1a237e;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 0 2px 8px #e3e9f7;
+}
+
+.admin-veiculo-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  gap: 24px;
+  margin: 24px auto;
+  width: 100%;
+  max-width: 960px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 16px 24px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.admin-veiculo-filter-field {
+  flex: 1;
+  width: 100%; /* Expande para preencher toda a largura da div */
+  height: 40px; /* Reduz a altura */
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0 6px;
+  transition: all 0.3s ease;
+}
+
+.admin-veiculo-filter-field .mat-mdc-form-field-flex {
+  display: flex;
+  align-items: center;
+  height: 100%; /* Garante que o conteúdo preencha a altura reduzida */
+  padding: 0;
+}
+
+.admin-veiculo-filter-field .mat-mdc-form-field-infix {
+  padding: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.admin-veiculo-filter-field input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  color: #333;
+  padding: 8px 0;
+}
+
+.admin-veiculo-filter-field input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.admin-veiculo-filter-field:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-veiculo-filter-field .mdc-notched-outline {
+  display: none; /* Remove o outline padrão */
+}
+
+.admin-veiculo-filter-field .mat-mdc-form-field-wrapper {
+  padding: 0;
+}
+
+.admin-veiculo-actions {
+  display: flex;
+  gap: 12px;
+}
+
+app-admin-dashboard {
+  width: 100vw;
+  max-width: 100vw;
+  margin-top: 24px;
+  margin-bottom: 0;
+  display: block;
+}
+
+.admin-shortcuts-area {
+  width: 100vw;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.admin-shortcuts {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .admin-title {
+    font-size: 1.5rem;
+    margin-top: 16px;
+  }
+  .admin-shortcuts-area {
+    margin-top: 16px;
+  }
+  app-admin-dashboard {
+    margin-top: 12px;
+  }
+  .admin-veiculo-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    max-width: 98vw;
+    padding: 16px 6vw 8px 6vw;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(26,35,126,0.1);
+  }
+  .admin-veiculo-filter-field {
+    min-width: 0;
+    width: 100%;
+    height: 40px;
+  }
+  .admin-veiculo-filter-field .mat-form-field-flex {
+    height: 40px;
+  }
+  .admin-veiculo-filter-field .mat-input-element {
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-veiculo-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 12px 16px;
+  }
+
+  .admin-veiculo-filter-field {
+    max-width: 100%;
+    height: 40px;
+  }
+
+  .admin-veiculo-actions {
+    justify-content: center;
+  }
+}
