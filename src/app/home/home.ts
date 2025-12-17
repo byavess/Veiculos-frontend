@@ -38,6 +38,7 @@ export class Home implements OnInit, OnDestroy {
   currentSlide: number = 0;
   totalSlides: number = 3;
   autoPlayInterval: any;
+  
 
   constructor(
     private fb: FormBuilder,
@@ -49,9 +50,15 @@ export class Home implements OnInit, OnDestroy {
       marca: [''],
       modelo: [''],
       anoMin: [''],
-      anoMax: ['']
+      anoMax: [''],
+
+
+      buscaGeral: [''],
+      
     });
   }
+
+  public showDetailedFilters: boolean = false; // Começa escondido, conforme Imagem 2
 
   ngOnInit() {
     this.carregarMarcas();
@@ -223,6 +230,8 @@ export class Home implements OnInit, OnDestroy {
     this.aplicarFiltros();
   }
 
+  
+
   onMarcaChange(): void {
     const marcaSelecionada = this.filtroForm.get('marca')?.value;
 
@@ -370,5 +379,20 @@ export class Home implements OnInit, OnDestroy {
       vehiclesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+
+
+
+
+  public toggleFiltros(): void {
+    this.showDetailedFilters = !this.showDetailedFilters;
+}
+
+public aplicarFiltrosGeral(): void {
+    // Você pode adicionar uma lógica de debounce aqui, mas por enquanto:
+    this.aplicarFiltros(); 
+}
+
+
+
 }
 

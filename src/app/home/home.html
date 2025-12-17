@@ -1,4 +1,9 @@
 <!-- Hero Banner Carrossel -->
+
+<body style="background-color: #252525;">
+
+
+
 <section class="hero-banner-carousel">
   <div class="carousel-wrapper">
     <!-- Slide 1 -->
@@ -67,91 +72,160 @@
 <!-- Vitrine de Veículos -->
 <section class="vehicles-section">
   <div class="container">
+
+
+
+
+
+
+
+
+
       <!-- Filtros -->
+
+
       <section class="filtros-estoque">
-        <div class="filtros-container">
-          <form [formGroup]="filtroForm">
-            <!-- Grid de Filtros -->
-            <div class="filtros-grid">
-              <!-- Marca -->
-              <div class="filtro-group">
-                <mat-form-field appearance="outline" class="filtro-mat-field">
-                  <mat-label>Marca</mat-label>
-                  <mat-select
-                    id="marca"
-                    formControlName="marca"
-                    (selectionChange)="onMarcaChange()">
-                    <mat-option [value]="''">Todas as marcas</mat-option>
-                    <mat-option *ngFor="let marca of marcasDisponiveis" [value]="marca">
-                      {{marca}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-icon matPrefix>directions_car</mat-icon>
-                </mat-form-field>
-              </div>
+    <div class="filtros-container">
 
-              <!-- Modelo -->
-              <div class="filtro-group">
-                <mat-form-field appearance="outline" class="filtro-mat-field">
-                  <mat-label>Modelo</mat-label>
-                  <mat-select
-                    id="modelo"
-                    formControlName="modelo"
-                    (selectionChange)="aplicarFiltros()">
-                    <mat-option [value]="''">Todos os modelos</mat-option>
-                    <mat-option *ngFor="let modelo of modelosDisponiveis" [value]="modelo">
-                      {{modelo}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-icon matPrefix>drive_eta</mat-icon>
-                </mat-form-field>
-              </div>
+     
+        <h2 class="filtro-titulo">Encontre seu novo veículo!</h2>
 
-              <!-- Ano Mínimo -->
-              <div class="filtro-group">
-                <mat-form-field appearance="outline" class="filtro-mat-field">
-                  <mat-label>Ano Mínimo</mat-label>
-                  <mat-select
-                    id="anoMin"
-                    formControlName="anoMin"
-                    (selectionChange)="onAnoChange()">
-                    <mat-option [value]="''">Todos</mat-option>
-                    <mat-option *ngFor="let ano of getAnosDisponiveis()" [value]="ano">
-                      {{ano}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-icon matPrefix>event</mat-icon>
-                </mat-form-field>
-              </div>
+        
+        <div class="filtro-geral-pesquisa">
+            <mat-form-field appearance="outline" class="filtro-pesquisa-mat-field">
+                <input matInput 
+                       placeholder="Digite marca, modelo, ano" 
+                       formControlName="buscaGeral"
+                       (input)="aplicarFiltrosGeral()">
+                <mat-icon matPrefix>search</mat-icon>
+            </mat-form-field>
+        </div>
 
-              <!-- Ano Máximo -->
-              <div class="filtro-group">
-                <mat-form-field appearance="outline" class="filtro-mat-field">
-                  <mat-label>Ano Máximo</mat-label>
-                  <mat-select
-                    id="anoMax"
-                    formControlName="anoMax"
-                    (selectionChange)="onAnoChange()">
-                    <mat-option [value]="''">Todos</mat-option>
-                    <mat-option *ngFor="let ano of getAnosDisponiveis()" [value]="ano">
-                      {{ano}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-icon matPrefix>event</mat-icon>
-                </mat-form-field>
-              </div>
-            </div>
 
-            <!-- Botão Limpar Filtros Centralizado -->
-            <div class="filtros-botoes">
-              <button type="button" mat-raised-button color="primary" class="btn-limpar-filtros" (click)="limparFiltros()">
+        <div class="toggle-filtros-detalhe">
+            <button mat-button 
+                    (click)="toggleFiltros()">
+                <mat-icon *ngIf="!showDetailedFilters">arrow_downward</mat-icon>
+                <mat-icon *ngIf="showDetailedFilters">arrow_upward</mat-icon>
+                Mais filtros
+            </button>
+        </div>
+
+
+
+<div *ngIf="!showDetailedFilters" class="botoes-iniciais">
+        
+              <button type="button" mat-raised-button  class="btn-indique-ganhe" (click)="limparFiltros()">
+                <mat-icon>directions_car</mat-icon>
+                Indique e Ganhe
+              </button>
+              
+            
+              <button type="button" mat-raised-button color="secondary-color"  class="btn-queroVender-filtro" (click)="limparFiltros()">
+                <mat-icon>attach_money</mat-icon>
+                Quero vender
+              </button>
+        
+       
+
+            
+              <button type="button" mat-raised-button  class="btn-limpar-filtros1" (click)="limparFiltros()">
                 <mat-icon>filter_alt_off</mat-icon>
                 LIMPAR FILTROS
               </button>
             </div>
-          </form>
         </div>
-      </section>
+        
+        <form [formGroup]="filtroForm" *ngIf="showDetailedFilters" class="filtros-detalhados-painel">
+            
+            <div class="filtros-grid">
+                                          
+                <div class="filtro-group">
+                    <mat-form-field appearance="outline" class="filtro-mat-field">
+                          <mat-select
+                            id="marca"
+                            formControlName="marca"
+                            (selectionChange)="onMarcaChange()">
+                            <mat-option [value]="''">Marcas</mat-option>
+                            <mat-option *ngFor="let marca of marcasDisponiveis" [value]="marca">
+                                {{marca}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matPrefix>directions_car</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="filtro-group">
+                    <mat-form-field appearance="outline" class="filtro-mat-field">
+                       
+                        <mat-select
+                            id="modelo"
+                            formControlName="modelo"
+                            (selectionChange)="aplicarFiltros()">
+                            <mat-option [value]="''">Modelo</mat-option>
+                            <mat-option *ngFor="let modelo of modelosDisponiveis" [value]="modelo">
+                                {{modelo}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matPrefix>drive_eta</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="filtro-group">
+                    <mat-form-field appearance="outline" class="filtro-mat-field">
+                       
+                        <mat-select
+                            id="anoMin"
+                            formControlName="anoMin"
+                            (selectionChange)="onAnoChange()">
+                            <mat-option [value]="''">Ano Mínimo</mat-option>
+                            <mat-option *ngFor="let ano of getAnosDisponiveis()" [value]="ano">
+                                {{ano}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matPrefix>event</mat-icon>
+                    </mat-form-field>
+                </div>
+                
+
+                <div class="filtro-group">
+                    <mat-form-field appearance="outline" class="filtro-mat-field">
+                        
+                        <mat-select
+                            id="anoMax"
+                            formControlName="anoMax"
+                            (selectionChange)="onAnoChange()">
+                            <mat-option [value]="''">Ano Máximo</mat-option>
+                            <mat-option *ngFor="let ano of getAnosDisponiveis()" [value]="ano">
+                                {{ano}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matPrefix>event</mat-icon>
+                    </mat-form-field>
+                </div>
+                
+            </div>
+
+            
+            <!-- Botão Limpar Filtros Centralizado -->
+            <div class="btn-grupo-filtros">
+              <button type="button" mat-raised-button  class="btn-indique-mais" (click)="limparFiltros()">
+                <mat-icon>directions_car</mat-icon>
+                Limpar filtros
+              </button>  
+            
+              <button type="button" mat-raised-button color="secondary-color"  class="btn-queroVender-mais" (click)="limparFiltros()">
+                <mat-icon>attach_money</mat-icon>
+                Quero vender
+              </button>
+            </div>
+            
+        
+            
+            </form>
+        
+ 
+</section>
 
       <!-- Loading -->
       <div *ngIf="loading" class="loading-estoque">
@@ -364,14 +438,17 @@
   </div>
 </section>
 
+
 <!-- Footer -->
 <footer class="main-footer">
   <div class="container">
     <div class="footer-content">
-      <div class="footer-section">
-        <h4>Seminovos</h4>
-        <p>Há mais de 10 anos no mercado de veículos seminovos com qualidade e confiança.</p>
-      </div>
+      <div class="logo-section">
+
+        <img src="assets/images/indicar.jpg" alt="Logo IndiCar Veículos" class="main-logo">
+    
+         </div>
+       
       <div class="footer-section">
         <h4>Contato</h4>
         <p><mat-icon>phone</mat-icon> (11) 9999-9999</p>
@@ -385,3 +462,4 @@
     </div>
   </div>
 </footer>
+</body>
