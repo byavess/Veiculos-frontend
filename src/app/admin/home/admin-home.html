@@ -1,0 +1,14 @@
+<div class="admin-home-container">
+  <h1 class="admin-title">Bem-vindo(a) à Área Administrativa</h1>
+  <app-admin-dashboard></app-admin-dashboard>
+  <div class="admin-veiculo-filter-bar">
+    <mat-form-field appearance="outline" class="admin-veiculo-filter-field">
+      <input matInput placeholder="Marca, modelo, placa, cor, motor, câmbio..." autocomplete="off" maxlength="50" class="mat-mdc-input-element" [(ngModel)]="filtroLivre" />
+      <button mat-icon-button matSuffix *ngIf="filtroLivre" (click)="limparFiltroLivre()" aria-label="Limpar busca">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-hint *ngIf="filtroLivre.length > 0">Pressione ESC para limpar</mat-hint>
+    </mat-form-field>
+  </div>
+  <app-admin-veiculo [filtroLivre]="filtroLivre"></app-admin-veiculo>
+</div>

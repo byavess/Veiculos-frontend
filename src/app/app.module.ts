@@ -31,6 +31,8 @@ import { DetalhesVeiculos } from './detalhes-veiculos/detalhes-veiculos';
 import { Login } from './auth/login/login';
 import { AdminDashboardComponent } from './admin/dashboard/dashboard';
 import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
+import { AdminHomeComponent } from './admin/home/admin-home';
+import { AdminVeiculoComponent } from './admin/veiculo/admin-veiculo';
 
 
 // Services
@@ -49,7 +51,9 @@ registerLocaleData(localePt, 'pt');
     Login,
     AdminDashboardComponent,
     VeiculoFormComponent,
-    EstoqueComponent
+    EstoqueComponent,
+    AdminHomeComponent,
+    AdminVeiculoComponent
 
   ],
   imports: [
@@ -72,11 +76,8 @@ registerLocaleData(localePt, 'pt');
     MatPaginatorModule,
     MatSelectModule,
     MatDividerModule,
-    MatSnackBarModule,
- 
-    
-    
-   
+    MatSnackBarModule
+
   ],
   providers: [
     VeiculoService,

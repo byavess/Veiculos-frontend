@@ -14,18 +14,17 @@
       <mat-card-content>
         <form (ngSubmit)="logar()" #loginForm="ngForm" class="login-form">
 
-          <!-- Campo Email -->
+          <!-- Campo Usuário -->
           <mat-form-field appearance="outline" class="full-width-input">
-            <mat-label>Email</mat-label>
+            <mat-label>Usuário</mat-label>
             <input
               matInput
-              type="email"
-              name="email"
-              placeholder="exemplo@admin.com"
-              [(ngModel)]="credenciais.email"
-              required
-              email>
-            <mat-icon matPrefix>email</mat-icon>
+              type="text"
+              name="username"
+              placeholder="Digite seu usuário"
+              [(ngModel)]="credenciais.username"
+              required>
+            <mat-icon matPrefix>person</mat-icon>
           </mat-form-field>
 
           <!-- Campo Senha -->
@@ -36,7 +35,7 @@
               type="password"
               name="senha"
               placeholder="Digite sua senha"
-              [(ngModel)]="credenciais.senha"
+              [(ngModel)]="credenciais.password"
               required
               minlength="4">
             <mat-icon matPrefix>lock</mat-icon>

@@ -1,117 +1,76 @@
-
- 
 <mat-toolbar class="app-toolbar">
-
   <div class="header-content">
-    
+
     <div class="logo-section">
       <a routerLink="/" style="cursor: pointer;" class="logo-link">
-        <img src="assets/images/indicar.jpg" alt="Logo IndiCar Veículos" class="main-logo"(click)="navigateToEstoque()">
+        <img src="assets/images/indicar.jpg" alt="Logo IndiCar Veículos" class="main-logo"
+             (click)="navigateToEstoque()">
       </a>
-         </div>
+    </div>
 
     <nav class="nav-links">
-  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">EMPRESA</a>
-  <a mat-button routerLink="callContact()" routerLinkActive="active"(click)="openContact()">CONTATO</a>
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">EMPRESA</a>
+      <a mat-button routerLink="/detalhes-veiculos" routerLinkActive="active">CONTATO</a>
 
-</nav>
+    </nav>
 
 
     <div class="user-actions">
 
-        <a href="https://www.google.com/maps/search/?api=1&query=INDICAR+VEICULOS+DF%2C+SCIA+QUADRA+15%2C+CONJUNTO+7+LOTE+12+-+ZONA+INDUSTRIAL%2C+Bras%C3%ADlia+-+DF%2C+71250-035" 
-       target="_blank" 
-       mat-icon-button 
-       class="action-icon-button" 
-       aria-label="Localização">
-      <mat-icon>location_on</mat-icon>
-    </a>
-      
-      <a href="tel:+5561995729366" 
-       mat-icon-button 
-       class="action-icon-button" 
-       aria-label="Contato Telefone">
-      <mat-icon>call</mat-icon> 
-    </a>
+      <a
+        href="https://www.google.com/maps/search/?api=1&query=INDICAR+VEICULOS+DF%2C+SCIA+QUADRA+15%2C+CONJUNTO+7+LOTE+12+-+ZONA+INDUSTRIAL%2C+Bras%C3%ADlia+-+DF%2C+71250-035"
+        target="_blank"
+        mat-icon-button
+        class="action-icon-button"
+        aria-label="Localização">
+        <mat-icon>location_on</mat-icon>
+      </a>
 
-<a href="https://wa.me/5561984321908?text=Olá! Gostaria de mais informações" 
-     target="_blank" 
-     rel="noopener noreferrer"
-     class="whatsapp-header-link">
-<button mat-icon-button class="whatsapp-header" aria-label="Contato whatsapp-header">
-  <i class="fab fa-whatsapp"></i>
-</button>
+      <a href="tel:+5561995729366"
+         mat-icon-button
+         class="action-icon-button"
+         aria-label="Contato Telefone">
+        <mat-icon>call</mat-icon>
+      </a>
 
-  </a>
-         
+      <a href="https://wa.me/5561984321908?text=Olá! Gostaria de mais informações"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="whatsapp-header-link">
+        <button mat-icon-button class="whatsapp-header" aria-label="Contato whatsapp-header">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+
+      </a>
+
       <div class="menu-btn-wrap">
-          <button mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Menu">
-            <mat-icon>menu</mat-icon>
-          </button>
+        <button mat-icon-button [matMenuTriggerFor]="mobileMenu" aria-label="Menu">
+          <mat-icon>menu</mat-icon>
+        </button>
       </div>
 
       <mat-menu #mobileMenu="matMenu" class="custom-menu">
-        <a href="tel:+5561984321908" 
-       mat-menu-item 
-       aria-label="Ligar para Contato">
-      CONTATO
-    </a>
-    <button mat-menu-item routerLink="/empresa">EMPRESA</button>
-</mat-menu>
-      
+        <a href="tel:+5561995729366"
+           mat-menu-item
+           aria-label="Ligar para Contato">
+          CONTATO
+        </a>
+        <button mat-menu-item routerLink="/empresa">EMPRESA</button>
+      </mat-menu>
 
+
+    </div>
+    <!-- User Actions -->
+    <div class="user-actions">
+      <!-- Apenas para admin logado -->
+      <ng-container *ngIf="isLoggedIn && isAdmin">
+        <span class="user-name">{{ getUserName() }}</span>
+        <button mat-button color="warn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Sair
+        </button>
+      </ng-container>
     </div>
   </div>
 </mat-toolbar>
-
-
-
-
-
-    <!-- Navigation Menu -->
-<!--    <nav class="nav-links">-->
-<!--      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">-->
-<!--        Home-->
-<!--      </a>-->
-<!--      <a mat-button routerLink="/" fragment="estoque"(click)="verEstoque()" class="btn-estoque">-->
-<!--        Estoque-->
-<!--      </a>-->
-<!--      <a mat-button routerLink="/" fragment="contato">-->
-<!--        Contato-->
-<!--      </a>-->
-<!--      <a mat-button *ngIf="isLoggedIn" routerLink="/admin/dashboard" routerLinkActive="active">-->
-<!--        Dashboard-->
-<!--      </a>-->
-<!--    </nav>-->
-
-<!--    &lt;!&ndash; User Actions &ndash;&gt;-->
-<!--    <div class="user-actions">-->
-<!--      <button mat-flat-button color="accent" *ngIf="!isLoggedIn" routerLink="/login">-->
-<!--        <mat-icon>person</mat-icon>-->
-<!--        Área do Cliente-->
-<!--      </button>-->
-
-<!--      <button mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">-->
-<!--        <mat-icon>account_circle</mat-icon>-->
-<!--        Minha Conta-->
-<!--      </button>-->
-
-<!--      <mat-menu #menu="matMenu">-->
-<!--        <button mat-menu-item routerLink="/admin/dashboard">-->
-<!--          <mat-icon>dashboard</mat-icon>-->
-<!--          Dashboard-->
-<!--        </button>-->
-<!--        <button mat-menu-item routerLink="/admin/veiculo/novo">-->
-<!--          <mat-icon>add</mat-icon>-->
-<!--          Novo Veículo-->
-<!--        </button>-->
-<!--        <mat-divider></mat-divider>-->
-<!--        <button mat-menu-item (click)="logout()">-->
-<!--          <mat-icon>logout</mat-icon>-->
-<!--          Sair-->
-<!--        </button>-->
-<!--      </mat-menu>-->
-<!--    </div>
-  </div>
-</mat-toolbar>-->
 

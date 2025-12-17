@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, EMPTY, switchMap, tap } from 'rxjs';
-import { VeiculoService, Veiculo } from '../veiculo.service';
+import { VeiculoService } from '../veiculo.service';
+import {IVeiculo} from '../interfaces/IVeiculo';
 
 @Component({
   selector: 'app-detalhes-veiculos',
@@ -10,15 +11,17 @@ import { VeiculoService, Veiculo } from '../veiculo.service';
   styleUrls: ['./detalhes-veiculos.css']
 })
 export class DetalhesVeiculos implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private veiculoService = inject(VeiculoService);
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private veiculoService: VeiculoService
+  ) {}
 
-  veiculo$!: Observable<Veiculo | null>;
+  veiculo$!: Observable<IVeiculo | null>;
   carregando: boolean = true;
   statusMessage: { text: string; type: 'success' | 'error' | '' } = { text: '', type: '' };
- private whatsappNumber = '61984321908';
-  private defaultMessage = 'Olá! Gostaria de mais de mais informações sobre os veiculos disponíveis?'
+  private whatsappNumber = '61984321908';
+  private defaultMessage = 'Olá! Gostaria de mais de mais informações sobre os veiculos disponíveis?';
 
   // Imagem selecionada na galeria
   selectedImage: string | null = null;
@@ -108,7 +111,7 @@ export class DetalhesVeiculos implements OnInit {
     event.target.src = 'https://placehold.co/80x60?text=Sem+Foto';
   }
 
-  openWhatsApp(veiculo?: Veiculo): void {
+  openWhatsApp(veiculo?: IVeiculo): void {
     this.veiculoService.openWhatsApp(veiculo, this.whatsappNumber);
   }
 

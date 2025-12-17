@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Veiculo } from '../veiculo.service';
+import {Component, OnDestroy, OnInit, ChangeDetectorRef} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {LoginService} from '../auth/login/loginService';
+import {filter, Subscription} from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
 
 @Component({
@@ -12,10 +12,13 @@ import { Platform } from '@angular/cdk/platform';
 })
 
 
-export class Header implements OnInit {
+export class Header implements OnInit, OnDestroy {
 
 
   isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
+  private subscriptions: Subscription = new Subscription();
+
 
   /*veiculos!: Observable<Veiculo[]>;
     loading: boolean = false;
@@ -25,9 +28,12 @@ export class Header implements OnInit {
     private phoneNumber: string = '5561984321908';
 
     private address: string = 'INDICAR VEICULOS DF, SCIA QUADRA 15, CONJUNTO 7 LOTE 12 - ZONA INDUSTRIAL, Brasília - DF, 71250-035';
-   
-  
-    public openLocation(): void {
+
+    public callContact(): void {
+    // Usa window.location.href para direcionar o navegador para o protocolo tel:
+    window.location.href = `tel:+${this.phoneNumber}`;
+  }
+  public openLocation(): void {
     // Codifica a URL e abre em uma nova aba
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(this.address)}`;
     window.open(mapsUrl, '_blank');
@@ -35,30 +41,52 @@ export class Header implements OnInit {
 
   constructor(
     private router: Router,
-    private platform: Platform,
+    private loginService: LoginService,
+    private cdr: ChangeDetectorRef,
+    private platform: Platform
+  ) {}
 
-  ) { }
 
- 
   closeSidenav() {
     this.sidenavOpen = false;
   }
 
   ngOnInit(): void {
-    this.checkLoginStatus();
-    this.router.events.subscribe(() => {
-        this.checkLoginStatus();
-    });
+    this.subscriptions.add(this.loginService.loggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+      this.cdr.detectChanges();
+      this.logStatus();
+    }));
+    this.subscriptions.add(this.loginService.isAdmin$.subscribe(status => {
+      this.isAdmin = status;
+      this.cdr.detectChanges();
+      this.logStatus();
+    }));
+    // Força atualização dos status em cada navegação
+    this.subscriptions.add(
+      this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
+        this.loginService.forceStatusUpdate();
+      })
+    );
   }
 
-  checkLoginStatus(): void {
-    this.isLoggedIn = !!localStorage.getItem('auth_token');
+  logStatus(): void {
+    const token = localStorage.getItem('auth_token');
+    let payload = null;
+    if (token) {
+      try {
+        payload = JSON.parse(atob(token.split('.')[1]));
+      } catch {}
+    }
+    console.log('[HEADER] isLoggedIn:', this.isLoggedIn, '| isAdmin:', this.isAdmin, '| token payload:', payload);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   logout(): void {
-    localStorage.removeItem('auth_token');
-    this.isLoggedIn = false;
-    this.router.navigate(['/']);
+    this.loginService.logout();
   }
 
 
@@ -68,8 +96,18 @@ navigateToEstoque() {
     // Recarrega a página para executar o carregarVeiculos()
     window.location.reload();
   });
-  
 }
+
+/*estoque(id: number): void {
+    console.log('🔍 Navegando para detalhes do veículo ID:', id);
+    this.router.navigate(['/estoque', id]);
+  }
+   0
+*/
+
+
+
+
 
 openWhatsApp() {
   // Substitua pelo número real com código do país (ex: 5511999999999 para Brasil)
@@ -78,6 +116,20 @@ openWhatsApp() {
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank');
 }
+
+
+  getUserName(): string {
+    const nomeCompleto = localStorage.getItem('nomeCompleto');
+    if (nomeCompleto) return nomeCompleto;
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.name || payload.sub || 'Usuário';
+      } catch {}
+    }
+    return '';
+  }
 
 openContact(): void {
     const phoneNumber = '+5561984321908';
@@ -98,7 +150,7 @@ openContact(): void {
     console.log('🔍 Navegando para detalhes do veículo ID:', id);
     this.router.navigate(['/estoque', id]);
   }
-   0 
+   0
 */
 
 
