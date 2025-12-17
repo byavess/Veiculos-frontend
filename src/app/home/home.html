@@ -86,7 +86,11 @@
 
       <section class="filtros-estoque">
     <div class="filtros-container">
+
+     
         <h2 class="filtro-titulo">Encontre seu novo veículo!</h2>
+
+        
         <div class="filtro-geral-pesquisa">
             <mat-form-field appearance="outline" class="filtro-pesquisa-mat-field">
                 <input matInput 
@@ -97,6 +101,7 @@
             </mat-form-field>
         </div>
 
+
         <div class="toggle-filtros-detalhe">
             <button mat-button 
                     (click)="toggleFiltros()">
@@ -105,10 +110,14 @@
                 Mais filtros
             </button>
         </div>
-        <div >
-              <button type="button" mat-raised-button  class="btn-estoque-filtro" (click)="limparFiltros()">
+
+
+
+<div *ngIf="!showDetailedFilters" class="botoes-iniciais">
+        
+              <button type="button" mat-raised-button  class="btn-indique-ganhe" (click)="limparFiltros()">
                 <mat-icon>directions_car</mat-icon>
-                Estoque
+                Indique e Ganhe
               </button>
               
             
@@ -116,26 +125,24 @@
                 <mat-icon>attach_money</mat-icon>
                 Quero vender
               </button>
+        
+       
+
+            
+              <button type="button" mat-raised-button  class="btn-limpar-filtros1" (click)="limparFiltros()">
+                <mat-icon>filter_alt_off</mat-icon>
+                LIMPAR FILTROS
+              </button>
             </div>
+        </div>
         
         <form [formGroup]="filtroForm" *ngIf="showDetailedFilters" class="filtros-detalhados-painel">
             
             <div class="filtros-grid">
-                
-              
-              
-
-                
-
-
-
-
-
-
+                                          
                 <div class="filtro-group">
                     <mat-form-field appearance="outline" class="filtro-mat-field">
-                       
-                        <mat-select
+                          <mat-select
                             id="marca"
                             formControlName="marca"
                             (selectionChange)="onMarcaChange()">
@@ -179,6 +186,7 @@
                         <mat-icon matPrefix>event</mat-icon>
                     </mat-form-field>
                 </div>
+                
 
                 <div class="filtro-group">
                     <mat-form-field appearance="outline" class="filtro-mat-field">
@@ -201,22 +209,22 @@
             
             <!-- Botão Limpar Filtros Centralizado -->
             <div class="btn-grupo-filtros">
-              <button type="button" mat-raised-button  class="btn-estoque-mais" (click)="limparFiltros()">
+              <button type="button" mat-raised-button  class="btn-indique-mais" (click)="limparFiltros()">
                 <mat-icon>directions_car</mat-icon>
-              Estoque
-              </button>
-              
+                Limpar filtros
+              </button>  
             
               <button type="button" mat-raised-button color="secondary-color"  class="btn-queroVender-mais" (click)="limparFiltros()">
                 <mat-icon>attach_money</mat-icon>
                 Quero vender
               </button>
             </div>
+            
         
             
             </form>
         
-    </div>
+ 
 </section>
 
       <!-- Loading -->
@@ -430,14 +438,17 @@
   </div>
 </section>
 
+
 <!-- Footer -->
 <footer class="main-footer">
   <div class="container">
     <div class="footer-content">
-      <div class="footer-section">
-        <h4>Seminovos</h4>
-        <p>Há mais de 10 anos no mercado de veículos seminovos com qualidade e confiança.</p>
-      </div>
+      <div class="logo-section">
+
+        <img src="assets/images/indicar.jpg" alt="Logo IndiCar Veículos" class="main-logo">
+    
+         </div>
+       
       <div class="footer-section">
         <h4>Contato</h4>
         <p><mat-icon>phone</mat-icon> (11) 9999-9999</p>
