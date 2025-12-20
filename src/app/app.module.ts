@@ -38,6 +38,7 @@ import { AdminVeiculoComponent } from './admin/veiculo/admin-veiculo';
 // Services
 import { VeiculoService } from './veiculo.service';
 import { EstoqueComponent } from './estoque/estoque';
+import { PlatformModule } from '@angular/cdk/platform';
 
 // Registrar locale pt-BR
 registerLocaleData(localePt, 'pt');
@@ -76,7 +77,8 @@ registerLocaleData(localePt, 'pt');
     MatPaginatorModule,
     MatSelectModule,
     MatDividerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    PlatformModule
 
   ],
   providers: [
