@@ -429,7 +429,7 @@
     ) !important;
   color: #333333;
   font-size: 20px;
-  padding: 15px;
+  padding: 12px;
 }
 
 
@@ -638,13 +638,15 @@ margin-right: 350px;
     color: #252525 !important;
     font-size: 22px;
     height: 45px;
+    overflow: visible !important;
  
 }
 
 .btn-indique-ganhe .mat-icon{
-  left: 15px;
-  top: 15px;
-  font-size: 20px;
+  left: 5px;
+  top: 10px;
+  font-size: 30px;
+  z-index: 0;
 }
    
 .btn-indique-ganhe:hover
@@ -700,11 +702,16 @@ margin-right: 350px;
 .btn-queroVender-filtro  {
     color: #252525 !important;
     font-size: 22px;
+    overflow: visible !important;
+    height: 48px;
     
 }
    
 .btn-queroVender-filtro .mat-icon{
  font-weight: 700 !important;
+ font-size: 30px;
+ bottom: -9px;
+
 }
 
 
@@ -915,7 +922,7 @@ margin-right: 350px;
 }
 
 ::ng-deep .ordenacao-select .mat-mdc-select-value {
-  color: #2c3e50;
+  color: #502c2c;
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 36px !important;
@@ -1665,7 +1672,8 @@ mat-card-actions.card-botoes {
 
 
 ::ng-deep .filtro-mat-field .mat-mdc-text-field-wrapper {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
+  
 }
 
 ::ng-deep .filtro-mat-field .mat-mdc-form-field-focus-overlay {
