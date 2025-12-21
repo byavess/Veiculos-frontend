@@ -1906,6 +1906,29 @@ color: #333333 !important;
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Footer */
 .main-footer {
   background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
@@ -1915,13 +1938,13 @@ color: #333333 !important;
 }
 
 .footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
-  padding-bottom: 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  align-items: start; /* Alinha o topo da logo com o topo dos textos */
+  padding-top: 20px;  /*   /* Garante que comece colado no topo */
 }
 
 .footer-section h4 {
@@ -1956,7 +1979,7 @@ color: #333333 !important;
 
 @media (max-width: 768px) {
   .footer-content {
-    grid-template-columns: 1fr;
+    grid-template-columns: 3fr;
     gap: 30px;
   }
 
@@ -1966,20 +1989,111 @@ color: #333333 !important;
 
 }
 
-.logo-link {
-  height: 100%;
-  display: flex;
-  align-items: left;
- 
-}
+
 
 .main-logo {
 
-  height: 100%;
-  width: auto;
-  max-width: 250px;
+ height: auto;        /* Mantém a proporção original */
+  width: auto;         /* Mantém a largura original */
+  max-width: 350px;    /* Limite máximo para não quebrar o layout */
   object-fit: contain;
-  padding: 8px 0;
-  margin-bottom: 150px;
+  padding: 0;          /* Remove padding para encostar no topo/canto */
+  margin: 0;           /* Remove margens que afastam a logo do canto */
+  display: block;
 
+}
+
+
+
+
+
+/* ... (Seu CSS anterior permanece igual) ... */
+
+/* 3. Faixa Branca de Canto a Canto */
+.copyright-bar {
+  background-color: white; /* Fundo branco */
+  width: 100%;            /* Largura total */
+  padding: 15px 0;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center; /* Centraliza o conteúdo */
+  align-items: center;
+}
+
+.copyright-content {
+  display: flex;
+  flex-direction: column;  /* Empilha a logo e o texto */
+  align-items: center;     /* Centraliza horizontalmente */
+  gap: 8px;
+}
+
+/* 4. Logo SF centralizada e básica */
+.sf-logo-box {
+  background-color: #1a237e; /* Fundo azul da logo */
+  color: white;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.copyright-text {
+  color: #1a237e; /* Texto azul para contrastar no branco */
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Ajuste do Instagram no Footer */
+/* Estilização do link do Instagram dentro da coluna de Contatos */
+.insta-contact-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Mesmo gap dos outros <p> */
+  transition: color 0.3s;
+}
+
+.insta-contact-link i {
+  font-size: 20px; /* Mesmo tamanho dos mat-icon */
+  width: 20px;
+  text-align: center;
+  /* Cor degradê clássica do Instagram */
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.insta-contact-link:hover {
+  color: white;
+}
+
+
+.footer-section p, .insta-contact-link {
+    justify-content: left;
+  }
+  
+  .logo-section {
+margin: 100px;
+  padding: 0px;
+  display: flex;
+ height: auto;
+  }
+
+  /* Responsividade: Vira 1 coluna no celular */
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .logo-column, .contact-info p, .hours-info p {
+    display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 0;
+  }
 }
