@@ -117,6 +117,8 @@
   left: 30px;
 }
 
+
+/* administrador*/
 .user-actions .action-icon-button:hover .mat-icon {
   color: #FFD700 !important;
   border-color: rgba(255, 215, 0, 0.7) !important;
@@ -127,10 +129,40 @@
     inset 0 1px 0 rgba(255, 215, 0, 0.2) !important;
 }
 
-
+/*localização icon*/
 .action-icon-button {
   color: #FFD700 !important;
 }
+
+
+.phone-mobile-only{
+
+  color: #FFD700 !important;
+}
+
+
+.phone-mobile-only:hover .mat-icon{
+   color: #FFD700 !important;
+  border-color: rgba(255, 215, 0, 0.7) !important;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15),
+      rgba(255, 215, 0, 0.2)) !important;
+  box-shadow:
+    0 6px 16px rgba(255, 235, 100, 0.4),
+    inset 0 1px 0 rgba(255, 215, 0, 0.2) !important;
+}
+
+/* 1. Esconde o ícone de telefone por padrão (Desktop) */
+.phone-mobile-only {
+  display: none !important;
+}
+
+/* 2. Mostra o ícone apenas em telas menores (Mobile) */
+@media (max-width: 992px) {
+  .phone-mobile-only {
+    display: flex !important; /* Ou inline-flex para botões mat-icon */
+  }
+}
+
 
 
 
@@ -212,15 +244,7 @@
   }
 
 
-
-  /*ESSE PARTE E SOBRE MOSTRAR OS ICONES WATHAPP E LOCALIZAÃO E CONTATO*/
-  /*.action-icon-button {
-        display: none !important; 
-  }
-  .whatsapp-hedear{
-        display: none !important; 
-  }*/
-}
+ }
 
 /* TELAS GRANDES: Hamburguer SOME, NAV aparece */
 @media (min-width: 993px) {
@@ -235,10 +259,4 @@
     /* ← Aparece em desktop */
   }
 
-  /* .action-icon-button {
-        display: flex !important; 
-  }
-  .whatsapp-hedear{
-        display: flex !important; 
-  }*/
 }
