@@ -15,6 +15,9 @@ import { Platform } from '@angular/cdk/platform';
 export class Header implements OnInit, OnDestroy {
 
 
+isPublicPage: boolean = true;
+
+
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
   private subscriptions: Subscription = new Subscription();
@@ -66,6 +69,17 @@ export class Header implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
         this.loginService.forceStatusUpdate();
+      })
+    );
+    this.subscriptions.add(
+      this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((event: any) => {
+        const url = event.urlAfterRedirects || event.url;
+        
+        // Define como FALSO se estiver no login ou na home do admin
+        this.isPublicPage = !(url.includes('/login') || url.includes('/admin/home'));
+        
+        this.loginService.forceStatusUpdate();
+        this.cdr.detectChanges();
       })
     );
   }

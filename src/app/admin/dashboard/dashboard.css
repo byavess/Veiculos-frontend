@@ -2,6 +2,7 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+   
 }
 
 .admin-card {
@@ -13,6 +14,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  
 }
 
 .search-field {
@@ -38,7 +40,7 @@
   .top-actions {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 15px;
   }
 
   .search-field {
@@ -57,7 +59,7 @@
 
 /* Dashboard Material Layout */
 .dashboard-mat-container {
-  width: 100vw;
+  width: 95vw;
   max-width: 100vw;
   display: flex;
   flex-direction: column;
@@ -65,7 +67,10 @@
   margin: 0 auto;
   padding: 0 0 32px 0;
   box-sizing: border-box;
+    
+  
 }
+
 
 .dashboard-mat-row {
   width: 100%;
@@ -78,7 +83,7 @@
 
 .dashboard-mat-card {
   min-width: 260px;
-  max-width: 340px;
+  max-width: 350px;
   width: 100%;
   flex: 1 1 260px;
   text-align: center;
@@ -94,7 +99,7 @@
   transform: translateY(-2px) scale(1.02);
 }
 .dashboard-mat-card mat-card-header {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #eecc0b;
   border-radius: 24px 24px 0 0;
   background: #fafbfc;
 }
@@ -142,5 +147,69 @@
   .dashboard-mat-card {
     min-width: 90vw;
     max-width: 98vw;
+  }
+}
+
+
+
+
+
+
+
+
+/* 1. O Container Pai (Fundo Branco Harmonizado) */
+.admin-veiculo-filter-bar {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important; /* Alinha o texto verticalmente no centro */
+  width: 95% !important;
+  max-width: 900px !important;
+  height: 55px !important; /* Altura fixa para harmonizar o fundo */
+  margin: 20px auto !important;
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  padding: 0 15px !important;
+  
+}
+
+/* 2. Ajuste Interno do Filtro (Removendo "sujeira" do Material) */
+.admin-veiculo-filter-bar mat-form-field {
+  width: 100% !important;
+}
+
+/* Zera padding e bordas internas para o texto não ficar "voando" ou desalinhado */
+::ng-deep .admin-veiculo-filter-bar .mat-mdc-text-field-wrapper {
+  background: transparent !important;
+  padding: 0 !important; /* Remove o espaço que desloca o texto */
+  height: 100% !important;
+  
+}
+
+::ng-deep .admin-veiculo-filter-bar .mdc-notched-outline {
+  display: none !important; /* Remove a borda padrão do Material para usar o fundo branco */
+  
+}
+
+/* 3. Alinhamento do Texto de Instrução (Placeholder) */
+::ng-deep .admin-veiculo-filter-bar input.mat-mdc-input-element {
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 15px !important;
+  color: #333 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+/* Remove a linha/borda interna que estava sobrando */
+::ng-deep .admin-veiculo-filter-bar .mdc-notched-outline {
+  display: none !important; 
+}
+
+@media (max-width: 768px) {
+  .admin-veiculo-filter-bar {
+    max-width: 95% !important; /* Ocupa quase toda a tela no celular */
+    padding: 5px 15px !important;
+    margin: 20px auto !important;
   }
 }

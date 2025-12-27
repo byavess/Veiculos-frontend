@@ -1,7 +1,19 @@
 .form-container {
-  padding: 20px;
-  max-width: 900px; /* Limita a largura do formulário em telas grandes */
-  margin: 20px auto;
+  width: 95% !important;      /* Ocupa quase toda a largura em telas pequenas */
+  max-width: 1100px !important; /* Limite máximo igual ao do seu filtro para alinhar */
+  
+  /* 2. CENTRALIZAÇÃO E ESPAÇAMENTO */
+  margin: 20px auto !important; /* Centraliza o bloco na página */
+  padding: 24px !important;     /* Espaço interno para o conteúdo não colar nas bordas */
+  
+  /* 3. VISUAL PROFISSIONAL (Igual à imagem e7d04d) */
+  background: #ffffff !important; 
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  
+  /* 4. GARANTE QUE O PADDING NÃO "ESTOURE" A LARGURA */
+  box-sizing: border-box !important;
+  
 }
 
 /* Garante que o Formulário use layout flexível para responsividade */
@@ -9,10 +21,11 @@
   display: flex;
   gap: 20px; /* Espaço entre as colunas */
   margin-bottom: 10px;
+
 }
 
 .full-width-input {
-  width: 100%;
+  width: 100% !important;
 }
 
 /* Colunas em Desktop: 50% de largura */
