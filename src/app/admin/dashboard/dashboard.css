@@ -2,6 +2,7 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+   
 }
 
 .admin-card {
@@ -13,6 +14,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  
 }
 
 .search-field {
@@ -38,7 +40,7 @@
   .top-actions {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 15px;
   }
 
   .search-field {
@@ -57,7 +59,7 @@
 
 /* Dashboard Material Layout */
 .dashboard-mat-container {
-  width: 100vw;
+  width: 95vw;
   max-width: 100vw;
   display: flex;
   flex-direction: column;
@@ -65,7 +67,10 @@
   margin: 0 auto;
   padding: 0 0 32px 0;
   box-sizing: border-box;
+    
+  
 }
+
 
 .dashboard-mat-row {
   width: 100%;
@@ -78,7 +83,7 @@
 
 .dashboard-mat-card {
   min-width: 260px;
-  max-width: 340px;
+  max-width: 350px;
   width: 100%;
   flex: 1 1 260px;
   text-align: center;
