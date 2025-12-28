@@ -64,29 +64,6 @@ export class DetalhesVeiculos implements OnInit {
     );
   }
 
-  deletarVeiculo(id: number, modelo: string): void {
-    // 🛑 Substituído 'confirm()' por uma lógica de status/modal (aqui apenas logando)
-    console.log(`Solicitação de deleção para o veículo ID: ${id}.`);
-
-    // Na aplicação real, você usaria um MatDialog para confirmar antes
-    const confirmacao = true; // Simulação de confirmação positiva
-
-    if (confirmacao) {
-      this.veiculoService.deleteVeiculo(id).subscribe({
-        next: () => {
-          this.statusMessage = { text: `✅ ${modelo} deletado com sucesso! Redirecionando...`, type: 'success' };
-          setTimeout(() => {
-            this.router.navigate(['/home']); // Redireciona
-          }, 2000);
-        },
-        error: (erro) => {
-          this.statusMessage = { text: '❌ Erro ao deletar veículo. Tente novamente.', type: 'error' };
-          console.error('❌ Erro ao deletar:', erro);
-        }
-      });
-    }
-  }
-
   comprarVeiculo(modelo: string, preco: number): void {
     // 🛑 Substituído 'alert()'
     this.statusMessage = { text: `🎉 Parabéns! Você simulou a compra do ${modelo} por R$ ${preco}.`, type: 'success' };

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from '@angular/forms';
+import {Router, ActivatedRoute} from '@angular/router';
 import {VeiculoService} from '../../veiculo.service';
 import {IVeiculo} from '../../interfaces/IVeiculo';
+import {AdminVeiculoService} from '../veiculo/admin-veiculo.service';
 
 @Component({
   selector: 'app-veiculo-form',
@@ -14,18 +15,61 @@ export class VeiculoFormComponent implements OnInit {
   veiculoForm!: FormGroup;
   isEdicao: boolean = false;
   veiculoId: number | null = null;
+  carregando: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private veiculoService: VeiculoService,
-    private router: Router
+    private adminVeiculoService: AdminVeiculoService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  urlsFotos: string[] = [];
   marcasDisponiveis: string[] = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'Volkswagen', 'Nissan', 'Hyundai', 'Kia', 'Mazda', 'Subaru'];
+
+  get veiculoFormUrlsFotos(): FormArray {
+    return this.veiculoForm.get('urlsFotos') as FormArray;
+  }
 
   ngOnInit(): void {
     this.inicializarFormulario();
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.isEdicao = true;
+        this.veiculoId = +id;
+        this.carregando = true;
+        this.veiculoService.getVeiculoById(this.veiculoId).subscribe({
+          next: (veiculo) => {
+            this.veiculoForm.patchValue({
+              marca: veiculo.marca,
+              modelo: veiculo.modelo,
+              ano: veiculo.ano,
+              preco: veiculo.preco,
+              km: veiculo.km,
+              cor: veiculo.cor,
+              cambio: veiculo.cambio,
+              combustivel: veiculo.combustivel,
+              descricao: veiculo.descricao,
+              imagem: veiculo.imagem
+            });
+            this.veiculoForm.setControl('urlsFotos', this.fb.array([]));
+            if (veiculo.urlsFotos && veiculo.urlsFotos.length > 0) {
+              veiculo.urlsFotos.forEach(url => {
+                this.veiculoFormUrlsFotos.push(this.fb.control(url, Validators.required));
+              });
+            } else {
+              this.veiculoFormUrlsFotos.push(this.fb.control('', Validators.required));
+            }
+            this.carregando = false;
+          },
+          error: () => {
+            this.carregando = false;
+            this.router.navigate(['/admin/veiculo']);
+          }
+        });
+      }
+    });
   }
 
   inicializarFormulario(): void {
@@ -34,34 +78,62 @@ export class VeiculoFormComponent implements OnInit {
       modelo: ['', Validators.required],
       ano: [null, [Validators.required, Validators.min(1900)]],
       preco: [null, [Validators.required, Validators.min(1000)]],
+      km: [null],
       cor: [''],
+      cambio: [''],
+      combustivel: [''],
       descricao: [''],
+      urlsFotos: this.fb.array([
+        this.fb.control('', Validators.required)
+      ]),
       imagem: ['', Validators.required]
     });
   }
 
   onSubmit(): void {
     if (this.veiculoForm.valid) {
-      const veiculo: IVeiculo = this.veiculoForm.value;
-
+      const formValue = this.veiculoForm.value;
+      const veiculo: IVeiculo = {
+        ...formValue,
+        urlsFotos: this.veiculoFormUrlsFotos.value,
+        id: this.isEdicao ? this.veiculoId! : undefined
+      };
+      this.carregando = true;
       if (this.isEdicao && this.veiculoId) {
-        // Edição
-
+        this.adminVeiculoService.editarVeiculo(veiculo).subscribe({
+          next: () => {
+            this.carregando = false;
+            this.router.navigate(['/admin/veiculo']);
+          },
+          error: () => {
+            this.carregando = false;
+            alert('Erro ao atualizar veículo!');
+          }
+        });
       } else {
-        // Criação
-
+        this.adminVeiculoService.cadastrarVeiculo(veiculo).subscribe({
+          next: () => {
+            this.carregando = false;
+            this.router.navigate(['/admin/veiculo']);
+          },
+          error: () => {
+            this.carregando = false;
+            alert('Erro ao cadastrar veículo!');
+          }
+        });
       }
     } else {
-      alert('Funcionalidade de cadastrar será implementada depois');
-      this.router.navigate(['/public/home']);
+      this.veiculoForm.markAllAsTouched();
     }
   }
 
   adicionarCampoFoto() {
-    console.log("Adicionar campo foto");
+    this.veiculoFormUrlsFotos.push(new FormControl('', Validators.required));
   }
 
   removerCampoFoto(i: number) {
-    console.log("Remover campo foto", i);
+    if (this.veiculoFormUrlsFotos.length > 1) {
+      this.veiculoFormUrlsFotos.removeAt(i);
+    }
   }
 }

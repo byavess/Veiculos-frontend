@@ -10,7 +10,7 @@ export class LoginService {
   private readonly LOGIN_API = 'http://localhost:8080/api/auth/login';
 
   // Observables para status de login e admin
-  private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+  private loggedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
   loggedIn$ = this.loggedInSubject.asObservable();
   private isAdminSubject = new BehaviorSubject<boolean>(this.checkAdmin());
   isAdmin$ = this.isAdminSubject.asObservable();
@@ -18,42 +18,148 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router) {}
 
   /**
+   * Decodifica um token JWT de forma segura (compatível com base64url)
+   */
+  private decodeToken(token: string): any {
+    try {
+      // Base64Url decode (substitui - por + e _ por /)
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+      // Decodifica
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      console.error('[LoginService] Erro ao decodificar token:', error);
+      console.error('[LoginService] Token:', token.substring(0, 50) + '...');
+      return null;
+    }
+  }
+
+  /**
+   * Verifica se o token é válido (não expirado)
+   */
+  private isTokenValid(token: string): boolean {
+    try {
+      const payload = this.decodeToken(token);
+      if (!payload || !payload.exp) return false;
+
+      // Verifica expiração (exp está em segundos)
+      const agora = Math.floor(Date.now() / 1000);
+      const expirado = payload.exp < agora;
+
+      console.log('[LoginService] Token expira em:', new Date(payload.exp * 1000));
+      console.log('[LoginService] Agora:', new Date());
+      console.log('[LoginService] Token expirado?', expirado);
+
+      return !expirado;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Verifica se está autenticado
+   */
+  private isAuthenticated(): boolean {
+    const token = localStorage.getItem('auth_token');
+    if (!token) return false;
+
+    const isValid = this.isTokenValid(token);
+    if (!isValid) {
+      // Limpa token expirado
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('nomeCompleto');
+    }
+
+    return isValid;
+  }
+
+  /**
+   * Verifica se é admin
+   */
+  private checkAdmin(): boolean {
+    const token = localStorage.getItem('auth_token');
+    if (!token) return false;
+
+    try {
+      const payload = this.decodeToken(token);
+      if (!payload) return false;
+
+      // Verifica diferentes formatos de role
+      const roles = payload.roles || payload.authorities || payload.role;
+      // Verifica se é admin
+      const isAdmin = (
+        (Array.isArray(roles) && (
+          roles.includes('ROLE_ADMIN') ||
+          roles.includes('ADMIN') ||
+          roles.some((r: any) => r.authority === 'ROLE_ADMIN')
+        )) ||
+        roles === 'ROLE_ADMIN' ||
+        roles === 'ADMIN' ||
+        payload.role === 'ROLE_ADMIN' ||
+        payload.role === 'ADMIN'
+      );
+
+      return isAdmin;
+
+    } catch (error) {
+      console.error('[LoginService] Erro ao verificar admin:', error);
+      return false;
+    }
+  }
+
+  /**
    * Realiza o login no backend Java.
-   * @param username Nome de usuário
-   * @param password Senha
-   * @returns Observable da resposta do backend
    */
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(this.LOGIN_API, { username, password });
   }
 
   /**
-   * Lida com o sucesso do login: armazena token, alerta e redireciona.
+   * Lida com o sucesso do login
    */
   handleLoginSuccess(response: any, router: Router): void {
     const token = response.token;
     if (token) {
+      console.log('[LoginService] Login bem-sucedido, token recebido');
+
+      // Salva o token
       localStorage.setItem('auth_token', token);
+
+      // Decodifica para debugging
+      const payload = this.decodeToken(token);
+      console.log('[LoginService] Token decodificado:', payload);
+
       // Salva nomeCompleto se vier no response
       if (response.nomeCompleto) {
         localStorage.setItem('nomeCompleto', response.nomeCompleto);
       } else {
         localStorage.removeItem('nomeCompleto');
       }
+
+      // Atualiza os subjects
       this.loggedInSubject.next(true);
       this.isAdminSubject.next(this.checkAdmin());
+
+      console.log('[LoginService] Navegando para /admin/home');
       router.navigate(['/admin/home']);
     } else {
+      console.error('[LoginService] Token não recebido na resposta');
       alert('Erro no login: Token não recebido.');
     }
   }
 
   /**
-   * Lida com erro de login: exibe mensagem detalhada.
+   * Lida com erro de login
    */
   handleLoginError(error: any): void {
-    console.error('Erro de autenticação:', error);
-    let msg = 'Falha na autenticação. Verifique suas credenciais e se o Back-end Java está rodando.';
+    console.error('[LoginService] Erro de autenticação:', error);
+    let msg = 'Falha na autenticação. Verifique suas credenciais.';
+
     if (error.status === 403 || error.status === 401) {
       if (error.error && error.error.message) {
         msg += '\nMotivo: ' + error.error.message;
@@ -61,48 +167,47 @@ export class LoginService {
         msg += '\nDetalhe: ' + JSON.stringify(error.error);
       }
     }
+
     alert(msg);
   }
 
   /**
-   * Remove o token do localStorage e redireciona para a tela de login.
+   * Logout
    */
   logout(): void {
+    console.log('[LoginService] Logout');
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('nomeCompleto');
     this.loggedInSubject.next(false);
     this.isAdminSubject.next(false);
     this.router.navigate(['/login']);
   }
 
   /**
-   * Força a atualização dos status de login e admin (útil para header em reload/navegação).
+   * Força a atualização dos status
    */
   forceStatusUpdate(): void {
-    this.loggedInSubject.next(this.hasToken());
-    this.isAdminSubject.next(this.checkAdmin());
+    console.log('[LoginService] Forçando atualização de status');
+    const isAuth = this.isAuthenticated();
+    const isAdmin = this.checkAdmin();
+
+    console.log('[LoginService] Status atualizado - auth:', isAuth, 'admin:', isAdmin);
+
+    this.loggedInSubject.next(isAuth);
+    this.isAdminSubject.next(isAdmin);
   }
 
-  private hasToken(): boolean {
-    return !!localStorage.getItem('auth_token');
+  /**
+   * Método público para verificar autenticação
+   */
+  isUserAuthenticated(): boolean {
+    return this.isAuthenticated();
   }
 
-  private checkAdmin(): boolean {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        // Aceita ADMIN, ROLE_ADMIN, roles: ['ADMIN'], roles: ['ROLE_ADMIN']
-        return (
-          payload && (
-            payload.role === 'ADMIN' ||
-            payload.role === 'ROLE_ADMIN' ||
-            (Array.isArray(payload.roles) && (payload.roles.includes('ADMIN') || payload.roles.includes('ROLE_ADMIN')))
-          )
-        );
-      } catch {
-        return false;
-      }
-    }
-    return false;
+  /**
+   * Método público para verificar admin
+   */
+  isUserAdmin(): boolean {
+    return this.checkAdmin();
   }
 }

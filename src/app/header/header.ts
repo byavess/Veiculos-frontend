@@ -50,20 +50,14 @@ isPublicPage: boolean = true;
   ) {}
 
 
-  closeSidenav() {
-    this.sidenavOpen = false;
-  }
-
   ngOnInit(): void {
     this.subscriptions.add(this.loginService.loggedIn$.subscribe(status => {
       this.isLoggedIn = status;
       this.cdr.detectChanges();
-      this.logStatus();
     }));
     this.subscriptions.add(this.loginService.isAdmin$.subscribe(status => {
       this.isAdmin = status;
       this.cdr.detectChanges();
-      this.logStatus();
     }));
     // Força atualização dos status em cada navegação
     this.subscriptions.add(
@@ -74,25 +68,14 @@ isPublicPage: boolean = true;
     this.subscriptions.add(
       this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((event: any) => {
         const url = event.urlAfterRedirects || event.url;
-        
+
         // Define como FALSO se estiver no login ou na home do admin
-        this.isPublicPage = !(url.includes('/login') || url.includes('/admin/home'));
-        
+        this.isPublicPage = !(url.includes('/login') || url.startsWith('/admin/'));
+
         this.loginService.forceStatusUpdate();
         this.cdr.detectChanges();
       })
     );
-  }
-
-  logStatus(): void {
-    const token = localStorage.getItem('auth_token');
-    let payload = null;
-    if (token) {
-      try {
-        payload = JSON.parse(atob(token.split('.')[1]));
-      } catch {}
-    }
-    console.log('[HEADER] isLoggedIn:', this.isLoggedIn, '| isAdmin:', this.isAdmin, '| token payload:', payload);
   }
 
   ngOnDestroy(): void {
@@ -111,26 +94,6 @@ navigateToEstoque() {
     window.location.reload();
   });
 }
-
-/*estoque(id: number): void {
-    console.log('🔍 Navegando para detalhes do veículo ID:', id);
-    this.router.navigate(['/estoque', id]);
-  }
-   0
-*/
-
-
-
-
-
-openWhatsApp() {
-  // Substitua pelo número real com código do país (ex: 5511999999999 para Brasil)
-  const phoneNumber = '5561984321908';
-  const message = 'Olá! Gostaria de mais informações';
-  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-  window.open(url, '_blank');
-}
-
 
   getUserName(): string {
     const nomeCompleto = localStorage.getItem('nomeCompleto');
@@ -160,18 +123,5 @@ openContact(): void {
     }
   }
 
-/*estoque(id: number): void {
-    console.log('🔍 Navegando para detalhes do veículo ID:', id);
-    this.router.navigate(['/estoque', id]);
-  }
-   0
-*/
-
-
-
-
-
-
 
 }
-

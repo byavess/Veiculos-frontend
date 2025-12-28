@@ -38,7 +38,7 @@ export class Home implements OnInit, OnDestroy {
   currentSlide: number = 0;
   totalSlides: number = 3;
   autoPlayInterval: any;
-  
+
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +54,7 @@ export class Home implements OnInit, OnDestroy {
 
 
       buscaGeral: [''],
-      
+
     });
   }
 
@@ -230,7 +230,7 @@ export class Home implements OnInit, OnDestroy {
     this.aplicarFiltros();
   }
 
-  
+
 
   onMarcaChange(): void {
     const marcaSelecionada = this.filtroForm.get('marca')?.value;
@@ -389,7 +389,7 @@ export class Home implements OnInit, OnDestroy {
 
 public aplicarFiltrosGeral(): void {
     // Você pode adicionar uma lógica de debounce aqui, mas por enquanto:
-    this.aplicarFiltros(); 
+    this.aplicarFiltros();
 }
 
 

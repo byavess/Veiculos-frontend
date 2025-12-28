@@ -18,13 +18,13 @@
                 {{ marca }}
               </mat-option>
             </mat-select>
-<!--            <mat-error *ngIf="veiculoForm.get('marca')?.hasError('required')">Marca é obrigatória</mat-error>-->
+            <mat-error *ngIf="veiculoForm.get('marca')?.hasError('required') && veiculoForm.get('marca')?.touched">Marca é obrigatória</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field-half">
             <mat-label>Modelo</mat-label>
             <input matInput formControlName="modelo" required>
-<!--            <mat-error *ngIf="veiculoForm.get('modelo')?.hasError('required')">Modelo é obrigatório</mat-error>-->
+            <mat-error *ngIf="veiculoForm.get('modelo')?.hasError('required') && veiculoForm.get('modelo')?.touched">Modelo é obrigatório</mat-error>
           </mat-form-field>
         </div>
 
@@ -32,19 +32,37 @@
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Ano</mat-label>
             <input matInput type="number" formControlName="ano" required>
-<!--            <mat-error *ngIf="veiculoForm.get('ano')?.hasError('required')">Ano é obrigatório</mat-error>-->
+            <mat-error *ngIf="veiculoForm.get('ano')?.hasError('required') && veiculoForm.get('ano')?.touched">Ano é obrigatório</mat-error>
+            <mat-error *ngIf="veiculoForm.get('ano')?.hasError('min')">Ano inválido</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Preço (R$)</mat-label>
             <input matInput type="number" formControlName="preco" required>
-<!--            <mat-error *ngIf="veiculoForm.get('preco')?.hasError('required')">Preço é obrigatório</mat-error>-->
+            <mat-error *ngIf="veiculoForm.get('preco')?.hasError('required') && veiculoForm.get('preco')?.touched">Preço é obrigatório</mat-error>
+            <mat-error *ngIf="veiculoForm.get('preco')?.hasError('min')">Preço inválido</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Quilometragem</mat-label>
-            <input matInput type="number" formControlName="quilometragem" required>
-<!--            <mat-error *ngIf="veiculoForm.get('quilometragem')?.hasError('required')">Km é obrigatório</mat-error>-->
+            <input matInput type="number" formControlName="km">
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field-third">
+            <mat-label>Cor</mat-label>
+            <input matInput formControlName="cor">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field-third">
+            <mat-label>Câmbio</mat-label>
+            <input matInput formControlName="cambio">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field-third">
+            <mat-label>Combustível</mat-label>
+            <input matInput formControlName="combustivel">
           </mat-form-field>
         </div>
 
@@ -57,26 +75,29 @@
         <h3>URLs das Fotos (Mínimo 1 URL)</h3>
 
         <div formArrayName="urlsFotos">
-          <div *ngFor="let urlControl of urlsFotos; let i = index" class="form-row foto-row">
-
+          <div *ngFor="let urlControl of veiculoFormUrlsFotos.controls; let i = index" class="form-row foto-row">
             <mat-form-field appearance="outline" class="form-field-large">
               <mat-label>URL da Foto {{ i + 1 }}</mat-label>
               <input matInput [formControlName]="i" placeholder="https://..." required>
-              <mat-error *ngIf="!urlsFotos">URL da foto é obrigatória</mat-error>
+              <mat-error *ngIf="urlControl.hasError('required') && urlControl.touched">URL da foto é obrigatória</mat-error>
             </mat-form-field>
-
-            <button mat-icon-button color="warn" type="button" (click)="removerCampoFoto(i)" [disabled]="urlsFotos.length === 1">
+            <button mat-icon-button color="warn" type="button" (click)="removerCampoFoto(i)" [disabled]="veiculoFormUrlsFotos.length === 1">
               <mat-icon>delete</mat-icon>
             </button>
-
           </div>
         </div>
 
-        <button mat-button color="primary" type="button" (click)="adicionarCampoFoto()">
-          <mat-icon>add</mat-icon> Adicionar Outra Foto ({{ urlsFotos.length }}/7 Mínimo)
+        <button mat-button color="primary" type="button" (click)="adicionarCampoFoto()" [disabled]="veiculoFormUrlsFotos.length >= 7">
+          <mat-icon>add</mat-icon> Adicionar Outra Foto ({{ veiculoFormUrlsFotos.length }}/7 Mínimo)
         </button>
 
         <mat-divider style="margin-top: 20px;"></mat-divider>
+
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Imagem principal (URL ou upload)</mat-label>
+          <input matInput formControlName="imagem" required>
+          <mat-error *ngIf="veiculoForm.get('imagem')?.hasError('required') && veiculoForm.get('imagem')?.touched">Imagem é obrigatória</mat-error>
+        </mat-form-field>
 
         <mat-card-actions align="end">
           <button mat-raised-button color="primary" type="submit" [disabled]="veiculoForm.invalid">

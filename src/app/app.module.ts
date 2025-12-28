@@ -1,11 +1,11 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient, withFetch } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -33,12 +33,15 @@ import { AdminDashboardComponent } from './admin/dashboard/dashboard';
 import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
 import { AdminHomeComponent } from './admin/home/admin-home';
 import { AdminVeiculoComponent } from './admin/veiculo/admin-veiculo';
+import { IndexAdminComponent } from './admin/index-admin/index-admin';
 
 
 // Services
 import { VeiculoService } from './veiculo.service';
 import { EstoqueComponent } from './estoque/estoque';
 import { PlatformModule } from '@angular/cdk/platform';
+import {ConfirmDialogComponent} from './shared/confirm-dialog.component';
+import {MatDialogActions, MatDialogClose, MatDialogContent} from '@angular/material/dialog';
 
 // Registrar locale pt-BR
 registerLocaleData(localePt, 'pt');
@@ -54,7 +57,9 @@ registerLocaleData(localePt, 'pt');
     VeiculoFormComponent,
     EstoqueComponent,
     AdminHomeComponent,
-    AdminVeiculoComponent
+    AdminVeiculoComponent,
+    ConfirmDialogComponent,
+    IndexAdminComponent
 
   ],
   imports: [
@@ -64,6 +69,7 @@ registerLocaleData(localePt, 'pt');
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    HttpClientModule, // Adicionado aqui
     // Angular Material
     MatToolbarModule,
     MatButtonModule,
@@ -78,15 +84,16 @@ registerLocaleData(localePt, 'pt');
     MatSelectModule,
     MatDividerModule,
     MatSnackBarModule,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogClose,
     PlatformModule
 
   ],
   providers: [
     VeiculoService,
-    provideHttpClient(withFetch()),
     { provide: LOCALE_ID, useValue: 'pt' }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

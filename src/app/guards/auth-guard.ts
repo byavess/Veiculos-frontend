@@ -1,21 +1,36 @@
-// src/app/guards/auth.guard.ts - CÓDIGO COMPLETO E CORRIGIDO
-import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { CanActivate, Router, UrlTree, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
+@Injectable({ providedIn: 'root' })
+export class AuthGuard implements CanActivate {
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
-// Exportando a função CanActivateFn para uso nas rotas (RESOLVE TS2307)
-export const authGuard: CanActivateFn = (route, state) => {
-  // A injeção é necessária para acessar o Router em uma função Standalone
-  const router = inject(Router); 
-  
-  // Verifica se o token de autenticação existe no localStorage
-  const token = localStorage.getItem('auth_token');
-
-  if (token) {
-    return true; // Token existe, permite acesso à rota /admin
-  } else {
-    // Token não existe, redireciona para a página de login
-    inject(Router).navigate(['/auth/login']);
-    return false; // Bloqueia o acesso
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    const token = localStorage.getItem('auth_token');
+    console.log('[AuthGuard] Token encontrado:', token);
+    if (!token) {
+      console.warn('[AuthGuard] Nenhum token encontrado. Redirecionando para login.');
+      return of(this.router.createUrlTree(['/login']));
+    }
+    const headers = { Authorization: `Bearer ${token}` };
+    console.log('[AuthGuard] Validando token no backend...');
+    return this.http.get(`${environment.apiBaseUrl}/auth/validate`, { headers }).pipe(
+      map(() => {
+        console.log('[AuthGuard] Token válido. Acesso permitido.');
+        return true;
+      }),
+      catchError((err) => {
+        console.error('[AuthGuard] Token inválido ou erro na validação:', err);
+        localStorage.removeItem('auth_token');
+        return of(this.router.createUrlTree(['/login']));
+      })
+    );
   }
-};
+}

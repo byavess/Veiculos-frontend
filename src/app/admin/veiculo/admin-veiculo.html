@@ -1,5 +1,9 @@
 <div class="admin-veiculo-container">
   <div class="admin-veiculo-view-toggle-filter">
+    <button mat-stroked-button color="primary" (click)="cadastrarVeiculo()">
+      <mat-icon>add</mat-icon>
+      <span>Cadastrar Veículo</span>
+    </button>
     <div class="admin-veiculo-view-toggle">
       <button mat-stroked-button color="primary" (click)="setViewMode('table')" [disabled]="viewMode === 'table'">
         <mat-icon>table_chart</mat-icon> Tabela

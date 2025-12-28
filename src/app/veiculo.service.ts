@@ -27,13 +27,6 @@ export class VeiculoService {
   }
 
 
-  // Adicione no VeiculoService:
-  deleteVeiculo(id: number) {
-    console.log('Veículo deletado (mock):', id);
-    // Por enquanto só mostra no console
-    return of(null);
-  }
-
   // Helper para construir a URL da imagem via endpoint de imagens
   getImagemUrl(path: string): string {
     // Normaliza: remove possível prefixo '/images/' e barras iniciais

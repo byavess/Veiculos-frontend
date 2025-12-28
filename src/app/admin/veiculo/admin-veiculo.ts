@@ -4,6 +4,10 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {AdminVeiculoService} from './admin-veiculo.service';
 import {IVeiculo} from '../../interfaces/IVeiculo';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-veiculo',
@@ -30,7 +34,13 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private adminVeiculoService: AdminVeiculoService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private adminVeiculoService: AdminVeiculoService,
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.carregarVeiculos();
@@ -101,12 +111,38 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
     this.carregarVeiculos(this.pageIndex, this.pageSize, this.filtroLivre);
   }
 
+  // Adicione logs mais detalhados temporariamente
+  cadastrarVeiculo(): void {
+    this.router.navigate(['/admin/veiculo/novo']);
+  }
+
   editarVeiculo(veiculo: IVeiculo): void {
-    // Implementar navegação para edição
+    this.router.navigate(['/admin/veiculo/editar', veiculo.id]);
   }
 
   deletarVeiculo(veiculo: IVeiculo): void {
-    // Implementar deleção
+    if (!veiculo || !veiculo.id) return;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirmação',
+        message: 'Tem certeza que deseja deletar este veículo?'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.adminVeiculoService.deleteVeiculo(veiculo.id).subscribe({
+          next: () => {
+            this.snackBar.open('Veículo deletado com sucesso!', 'Fechar', { duration: 3000, panelClass: 'snackbar-success' });
+            this.pageIndex = 0;
+            this.carregarVeiculos(0, this.pageSize, this.filtroLivre);
+          },
+          error: (err) => {
+            this.snackBar.open('Erro ao deletar veículo: ' + (err?.error?.error || err.message || 'Erro desconhecido'), 'Fechar', { duration: 5000, panelClass: 'snackbar-error' });
+          }
+        });
+      }
+    });
   }
 
   get pagedData(): IVeiculo[] {

@@ -274,3 +274,50 @@ button[mat-icon-button] {
     font-size: 0.97rem;
   }
 }
+
+.admin-veiculo-fab-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 0 0;
+  display: flex;
+  justify-content: flex-start;
+  z-index: 10;
+}
+.admin-veiculo-fab {
+  margin-left: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 12px rgba(26,35,126,0.13), 0 1.5px 4px 0 rgba(26,35,126,0.10);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+  color: #fff;
+  border-radius: 32px;
+  min-width: 0;
+  padding: 0 22px 0 14px;
+  height: 48px;
+  border: 2px solid #e3e9f7;
+  font-weight: 600;
+  font-size: 1.08rem;
+  transition: box-shadow 0.2s, background 0.2s, transform 0.15s, border 0.2s;
+}
+.admin-veiculo-fab:hover, .admin-veiculo-fab:focus {
+  background: linear-gradient(90deg, #1565c0 0%, #64b5f6 100%);
+  box-shadow: 0 8px 32px 0 rgba(26,35,126,0.18), 0 2px 8px 0 rgba(26,35,126,0.13);
+  transform: translateY(-2px) scale(1.04);
+  border: 2px solid #bfc7e3;
+}
+.admin-veiculo-fab-label {
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-left: 6px;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+.admin-veiculo-fab mat-icon {
+  font-size: 1.5rem;
+  margin-right: 2px;
+  color: #fff;
+}

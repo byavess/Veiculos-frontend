@@ -16,7 +16,6 @@ export class AdminHomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.loginService.logout();
   }
 
 

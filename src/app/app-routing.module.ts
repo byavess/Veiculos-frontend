@@ -9,10 +9,11 @@ import { AdminDashboardComponent } from './admin/dashboard/dashboard';
 import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
 import { AdminHomeComponent } from './admin/home/admin-home';
 import { AdminVeiculoComponent } from './admin/veiculo/admin-veiculo';
+import { IndexAdminComponent } from './admin/index-admin/index-admin';
 
 
 // Guards
-import { authGuard } from './guards/auth-guard';
+import { AuthGuard } from './guards/auth-guard';
 import { EstoqueComponent } from './estoque/estoque';
 
 
@@ -43,7 +44,8 @@ const routes: Routes = [
   // Rotas administrativas (protegidas por guard)
   {
     path: 'admin',
-    canActivate: [authGuard],
+    component: IndexAdminComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
