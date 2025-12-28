@@ -82,22 +82,18 @@
 
     <section class="filtros-estoque">
       <div class="filtros-container">
-
-
         <h2 class="filtro-titulo">Encontre seu novo veículo!</h2>
-
-
-        <div class="filtro-geral-pesquisa">
-          <mat-form-field appearance="outline" class="filtro-pesquisa-mat-field">
-            <input matInput
-                   placeholder="Digite marca, modelo, ano"
-                   formControlName="buscaGeral"
-                   (input)="aplicarFiltrosGeral()">
-            <mat-icon matPrefix>search</mat-icon>
-          </mat-form-field>
-        </div>
-
-
+        <form [formGroup]="filtroForm">
+          <div class="filtro-geral-pesquisa">
+            <mat-form-field appearance="outline" class="filtro-pesquisa-mat-field">
+              <input matInput
+                     placeholder="Digite marca, modelo, ano"
+                     formControlName="buscaGeral"
+                     (input)="aplicarFiltrosGeral()">
+              <mat-icon matPrefix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </form>
         <div class="toggle-filtros-detalhe">
           <button mat-button
                   (click)="toggleFiltros()">
