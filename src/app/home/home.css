@@ -392,6 +392,7 @@
 
 .filtro-group {
   width: 100%;
+  
 
 
 }
@@ -403,10 +404,11 @@
   margin-top: 10px;
   flex-wrap: wrap;
   width: 100%;
+  
 }
 
 .btn-limpar-filtros1 {
-  display: flex;
+  display: flex !important;
   width: 270px !important;
   left: 15px;
   justify-content: center;
@@ -423,9 +425,8 @@
   font-size: 20px;
   
   padding: 15px;
-  
 
-}
+  }
 
 
 
@@ -470,7 +471,7 @@ overflow: visible !important;
   flex-grow: 1;
   flex-shrink: 0;
   margin-bottom: 0;
-
+  
 }
 
 @media (max-width: 850px) {
@@ -558,9 +559,12 @@ overflow: visible !important;
   border-radius: 28px;
   justify-content: center;
   background-color: #252525 !important; /* Cor da caixa de filtros detalhados */
-  z-index: 1050;
+  z-index: 1050 ;
 
 }
+
+ ::ng-untouched {
+ z-index: 1050 ;}
 
 
 @media (max-width: 768px) {
