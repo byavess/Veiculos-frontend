@@ -3,6 +3,8 @@
 <body style="background-color: #252525;">
 
 
+  
+
 <section class="hero-banner-carousel">
   <div class="carousel-wrapper">
     <!-- Slide 1 -->
@@ -106,19 +108,25 @@
 
         <div *ngIf="!showDetailedFilters" class="botoes-iniciais">
 
-          <button type="button" mat-raised-button class="btn-indique-ganhe" (click)="limparFiltros()">
+          <button type="button" mat-raised-button class="btn-indique-ganhe" (click)="openWhatsApp()"
+                    >
             <mat-icon>directions_car</mat-icon>
             Indique e Ganhe
           </button>
 
 
-          <button type="button" mat-raised-button color="secondary-color" class="btn-queroVender-filtro"
-                  (click)="limparFiltros()">
+          <button type="button" mat-raised-button class="btn-queroVender-filtro"
+                  (click)="openWhatsApp()">
             <mat-icon>attach_money</mat-icon>
             Quero vender
           </button>
-
+              
         </div>
+         <button type="button" mat-raised-button class="btn-limpar-filtros1" (click)="limparFiltros()">
+            <mat-icon>directions_car</mat-icon>
+            Limpar filtros
+          </button>
+        
       </div>
 
       <form [formGroup]="filtroForm" *ngIf="showDetailedFilters" class="filtros-detalhados-painel">
@@ -430,19 +438,11 @@
 <footer class="main-footer">
   <div class="container">
     <div class="footer-content">
-      <<<<<<< HEAD
-      <div class="logo-section">
-
-        <img src="assets/images/indicar.jpg" alt="Logo IndiCar Veículos" class="main-logo">
-
-      </div>
-      =======
-
+      
       <div class="footer-section">
         <img src="assets/images/indicar.jpg" alt="Logo" class="main-logo">
       </div>
-      >>>>>>> prod-veiculos-front
-
+    
       <div class="footer-section">
         <h4>Contato</h4>
         <p>

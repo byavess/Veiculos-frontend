@@ -408,10 +408,11 @@
 .btn-limpar-filtros1 {
   display: flex;
   width: 270px !important;
-  left: 75px;
+  left: 15px;
   justify-content: center;
-  margin-top: 90px;
-  flex-wrap: wrap;
+  
+  margin-top: 25px;
+;
   border: #a0a0a0;
   box-shadow: 0 4px 6px #FFED4E;
   background-image: linear-gradient(
@@ -420,8 +421,14 @@
   ) !important;
   color: #333333;
   font-size: 20px;
+  
   padding: 15px;
+  
+
 }
+
+
+
 
 
 .btn-limpar-filtros1:hover {
@@ -433,6 +440,29 @@
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
 
 }
+
+
+
+.btn-limpar-filtros1 .mat-icon,
+.btn-limpar-filtros1 {
+  color: #252525 !important;
+  font-size: 22px;
+  height: 40px;
+overflow: visible !important;
+  top: 5px;
+    font-size: 25px;
+
+
+}
+
+.btn-limpar-filtros1 .mat-icon{
+   left: -15px;
+  top: 5px;
+  font-size: 30px;
+  z-index: 0;
+}
+
+
 
 
 .filtros-grid .filtro-group {
@@ -549,10 +579,13 @@
 }
 
 .filtro-pesquisa-mat-field {
-  width: 100%;
+  width: 750px !important;
   background-color: white;
   border-radius: 6px;
   height: 55px;
+   margin-left: auto !important;
+  margin-right: auto !important;
+ 
 
 }
 
@@ -561,6 +594,7 @@
 
   align-items: center;
   width: 205px;
+  height: 55px !important ;
   background: none !important;
   left: -40PX;
   background-image: linear-gradient(
@@ -569,7 +603,7 @@
   ) !important;
   border: 1px solid #777777;
   box-shadow: 0 4px 6px #FFED4E;
-  bottom: -55px;
+  bottom: -35px;
 
 }
 
@@ -650,15 +684,16 @@ overflow: visible !important;
   ) !important;
   border: 1px solid #777777;
   box-shadow: 0 4px 6px #FFED4E;
-  bottom: -55px;
+  bottom: -35px;
+  padding: 28px;
 
 }
 
 
 .btn-queroVender-filtro .mat-icon,
 .btn-queroVender-filtro {
-  color: #252525 !important;
-  font-size: 22px;
+  color: black !important;
+  font-size: 24px;
   height: 48px;
 overflow: visible !important;
 
@@ -690,7 +725,7 @@ overflow: visible !important;
 
 .btn-queroVender-mais .mat-icon,
 .btn-queroVender-mais {
-  color: #252525 !important;
+  color: black !important;
   font-size: 20px;
 }
 
@@ -701,7 +736,7 @@ overflow: visible !important;
 
 .btn-indique-mais .mat-icon,
 .btn-indique-mais {
-  color: #252525 !important;
+  color: black !important;
   font-size: 20px;
 }
 

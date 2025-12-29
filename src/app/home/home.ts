@@ -18,6 +18,7 @@ export class Home implements OnInit, OnDestroy {
   marcasDisponiveis: string[] = [];
   modelosDisponiveis: string[] = [];
   veiculos: IVeiculo[] = [];
+  
   totalElements: number = 0;
   pageSize: number = 12;
   pageIndex: number = 0;
@@ -104,7 +105,7 @@ export class Home implements OnInit, OnDestroy {
     console.log('🎯 ORDENAÇÃO ATUAL:', this.ordenacaoSelecionada);
     this.loading = true;
     this.erroCarregamento = false;
-    const { marca, modelo, anoMin, anoMax } = this.filtroForm.value;
+    const { marca, modelo, anoMin, anoMax,buscaGeral } = this.filtroForm.value;
 
     console.log('📋 Valores do formulário:', { marca, modelo, anoMin, anoMax });
     console.log('   marca tipo:', typeof marca, 'vazio?', marca === '');
@@ -152,6 +153,7 @@ export class Home implements OnInit, OnDestroy {
       modelo: modelo || undefined,
       anoMin: anoMin ? Number(anoMin) : undefined,
       anoMax: anoMax ? Number(anoMax) : undefined,
+       busca: buscaGeral || undefined,
       sort: sortBy,
       direction: direction,
       page: this.pageIndex,
@@ -165,47 +167,34 @@ export class Home implements OnInit, OnDestroy {
       next: (response) => {
         console.log('✅ Resposta recebida do backend:', response);
 
-        if (!response) {
-          console.warn('⚠️ Resposta vazia ou undefined');
+         if (response && response.content) {
+          let listaFiltrada = response.content;
+
+          // --- LÓGICA DE FILTRO LOCAL (SEGURANÇA) ---
+          // Se o usuário digitou algo na busca geral (ex: "Jeep"), filtramos aqui no front
+          if (buscaGeral && buscaGeral.trim() !== '') {
+            const termo = buscaGeral.toLowerCase().trim();
+            listaFiltrada = listaFiltrada.filter((v: IVeiculo) => 
+              v.marca.toLowerCase().includes(termo) || 
+              v.modelo.toLowerCase().includes(termo) 
+             
+            );
+          }
+
+          this.veiculos = listaFiltrada;
+          this.totalElements = response.totalElements;
+        } else {
           this.veiculos = [];
           this.totalElements = 0;
-        } else {
-          console.log('📊 Estrutura da resposta:', {
-            hasContent: !!response.content,
-            contentType: Array.isArray(response.content) ? 'Array' : typeof response.content,
-            contentLength: response.content?.length,
-            totalElements: response.totalElements
-          });
-
-          this.veiculos = response.content || [];
-          this.totalElements = response.totalElements || 0;
-
-          // Log dos primeiros veículos para verificar ordenação
-          if (this.veiculos.length > 0) {
-            console.log('🎯 Primeiros 3 veículos (verificar ordenação):');
-            this.veiculos.slice(0, 3).forEach((v: any, idx: number) => {
-              console.log(`  ${idx + 1}. ${v.marca} ${v.modelo} - Oferta: ${v.emOferta ? '✅ SIM' : '❌ NÃO'} - Preço: R$ ${v.preco}`);
-            });
-          }
         }
 
         this.loading = false;
-        console.log('✅ Estado final:', {
-          veiculosCount: this.veiculos.length,
-          totalElements: this.totalElements,
-          loading: this.loading
-        });
-
-        // Força detecção de mudanças
         this.cdr.detectChanges();
-        console.log('🔄 DetectChanges executado');
       },
       error: (error) => {
-        console.error('❌ Erro ao carregar veículos:', error);
+        console.error('❌ Erro:', error);
         this.loading = false;
         this.erroCarregamento = true;
-        this.veiculos = [];
-        this.totalElements = 0;
       }
     });
   }
