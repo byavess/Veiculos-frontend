@@ -18,7 +18,7 @@ export class Home implements OnInit, OnDestroy {
   marcasDisponiveis: string[] = [];
   modelosDisponiveis: string[] = [];
   veiculos: IVeiculo[] = [];
-  
+
   totalElements: number = 0;
   pageSize: number = 12;
   pageIndex: number = 0;
@@ -101,21 +101,13 @@ export class Home implements OnInit, OnDestroy {
   }
 
   carregarVeiculos(): void {
-    console.log('🔄 Iniciando carregamento de veículos...');
-    console.log('🎯 ORDENAÇÃO ATUAL:', this.ordenacaoSelecionada);
     this.loading = true;
     this.erroCarregamento = false;
     const { marca, modelo, anoMin, anoMax,buscaGeral } = this.filtroForm.value;
 
-    console.log('📋 Valores do formulário:', { marca, modelo, anoMin, anoMax });
-    console.log('   marca tipo:', typeof marca, 'vazio?', marca === '');
-    console.log('   modelo tipo:', typeof modelo, 'vazio?', modelo === '');
-
     // Configurar ordenação baseada na seleção
     let sortBy = 'emOferta';
     let direction = 'desc';
-
-    console.log('🔄 Ordenação selecionada:', this.ordenacaoSelecionada);
 
     switch (this.ordenacaoSelecionada) {
       case 'oferta':
@@ -153,6 +145,7 @@ export class Home implements OnInit, OnDestroy {
       modelo: modelo || undefined,
       anoMin: anoMin ? Number(anoMin) : undefined,
       anoMax: anoMax ? Number(anoMax) : undefined,
+      vendido: false,
        busca: buscaGeral || undefined,
       sort: sortBy,
       direction: direction,
@@ -160,24 +153,19 @@ export class Home implements OnInit, OnDestroy {
       size: this.pageSize
     };
 
-    console.log('📤 Parâmetros enviados:', params);
-    console.log('🎯 Ordenação aplicada:', sortBy, direction);
 
     this.veiculoService.getVeiculosPaginados(params).subscribe({
       next: (response) => {
-        console.log('✅ Resposta recebida do backend:', response);
 
          if (response && response.content) {
           let listaFiltrada = response.content;
 
-          // --- LÓGICA DE FILTRO LOCAL (SEGURANÇA) ---
-          // Se o usuário digitou algo na busca geral (ex: "Jeep"), filtramos aqui no front
           if (buscaGeral && buscaGeral.trim() !== '') {
             const termo = buscaGeral.toLowerCase().trim();
-            listaFiltrada = listaFiltrada.filter((v: IVeiculo) => 
-              v.marca.toLowerCase().includes(termo) || 
-              v.modelo.toLowerCase().includes(termo) 
-             
+            listaFiltrada = listaFiltrada.filter((v: IVeiculo) =>
+              v.marca.toLowerCase().includes(termo) ||
+              v.modelo.toLowerCase().includes(termo)
+
             );
           }
 

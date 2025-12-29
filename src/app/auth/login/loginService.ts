@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private readonly LOGIN_API = 'http://localhost:8080/api/auth/login';
+  private readonly apiUrl = `${environment.apiBaseUrl}/auth/login`;
 
   // Observables para status de login e admin
   private loggedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
@@ -116,10 +117,11 @@ export class LoginService {
    * Realiza o login no backend Java.
    */
   login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(this.LOGIN_API, { username, password });
+    return this.http.post<any>(this.apiUrl, { username, password });
   }
 
-  /**
+  /**t
+   *
    * Lida com o sucesso do login
    */
   handleLoginSuccess(response: any, router: Router): void {

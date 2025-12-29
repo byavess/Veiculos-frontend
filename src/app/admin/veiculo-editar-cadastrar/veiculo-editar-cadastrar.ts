@@ -36,6 +36,15 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarFormulario();
+    this.veiculoForm?.get('vendido')?.valueChanges.subscribe((vendido: boolean) => {
+      if (vendido) {
+        this.veiculoForm.get('emOferta')?.setValue(false, { emitEvent: false });
+        this.veiculoForm.get('infoVenda')?.setValidators([Validators.required]);
+      } else {
+        this.veiculoForm.get('infoVenda')?.clearValidators();
+      }
+      this.veiculoForm.get('infoVenda')?.updateValueAndValidity();
+    });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -58,7 +67,8 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
               placa: veiculo.placa,
               motor: veiculo.motor,
               emOferta: veiculo.emOferta,
-              vendido: veiculo.vendido // Adicionado
+              vendido: veiculo.vendido,
+              infoVenda: veiculo.infoVenda // garante exibição no textarea
             });
             this.veiculoForm.setControl('urlsFotos', this.fb.array([]));
             if (veiculo.urlsFotos && veiculo.urlsFotos.length > 0) {
@@ -93,7 +103,8 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
       placa: ['', Validators.required],
       motor: [''],
       emOferta: [false],
-      vendido: [false], // Adicionado
+      vendido: [false],
+      infoVenda: [''],
       urlsFotos: this.fb.array([
         this.fb.control('', Validators.required)
       ]),

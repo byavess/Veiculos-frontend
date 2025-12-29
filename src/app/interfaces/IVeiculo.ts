@@ -16,4 +16,5 @@ export interface IVeiculo {
   imagem: Blob | null;
   vendido?: boolean;
   placa?: string;
+  infoVenda?: string;
 }
