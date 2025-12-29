@@ -5,11 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build --configuration production",
+    "build:prod": "ng build --configuration production && npm run postbuild",
     "serve:prod": "npx serve -s ./dist/veiculos-frontend/browser -l 8080",
     "start:proxy": "ng serve --proxy-config proxy.conf.json",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "postbuild": "echo '/*    /index.html   200' > dist/veiculos-frontend/browser/_redirects"
   },
   "prettier": {
     "printWidth": 100,
