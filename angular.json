@@ -55,7 +55,8 @@
                   "maximumError": "64kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/Veiculos-frontend/"
             },
             "development": {
               "optimization": false,
