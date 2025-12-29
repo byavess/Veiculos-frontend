@@ -30,7 +30,7 @@ import { Home } from './home/home';
 import { DetalhesVeiculos } from './detalhes-veiculos/detalhes-veiculos';
 import { Login } from './auth/login/login';
 import { AdminDashboardComponent } from './admin/dashboard/dashboard';
-import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
+import { VeiculoEditarCadastrarComponent } from './admin/veiculo-editar-cadastrar/veiculo-editar-cadastrar';
 import { AdminHomeComponent } from './admin/home/admin-home';
 import { AdminVeiculoComponent } from './admin/veiculo/admin-veiculo';
 import { IndexAdminComponent } from './admin/index-admin/index-admin';
@@ -42,6 +42,7 @@ import { EstoqueComponent } from './estoque/estoque';
 import { PlatformModule } from '@angular/cdk/platform';
 import {ConfirmDialogComponent} from './shared/confirm-dialog.component';
 import {MatDialogActions, MatDialogClose, MatDialogContent} from '@angular/material/dialog';
+import {MatCheckbox} from '@angular/material/checkbox';
 
 // Registrar locale pt-BR
 registerLocaleData(localePt, 'pt');
@@ -54,7 +55,7 @@ registerLocaleData(localePt, 'pt');
     DetalhesVeiculos,
     Login,
     AdminDashboardComponent,
-    VeiculoFormComponent,
+    VeiculoEditarCadastrarComponent,
     EstoqueComponent,
     AdminHomeComponent,
     AdminVeiculoComponent,
@@ -87,7 +88,8 @@ registerLocaleData(localePt, 'pt');
     MatDialogActions,
     MatDialogContent,
     MatDialogClose,
-    PlatformModule
+    PlatformModule,
+    MatCheckbox
 
   ],
   providers: [

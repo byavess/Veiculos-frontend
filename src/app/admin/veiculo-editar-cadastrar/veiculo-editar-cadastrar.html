@@ -1,4 +1,7 @@
 <div class="form-container">
+  <button mat-stroked-button color="accent" (click)="voltarParaAdmin()" style="margin-bottom: 16px;">
+    <mat-icon>arrow_back</mat-icon> Voltar
+  </button>
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ isEdicao ? 'Editar Veículo' : 'Cadastrar Novo Veículo' }}</mat-card-title>
@@ -30,6 +33,12 @@
 
         <div class="form-row">
           <mat-form-field appearance="outline" class="form-field-third">
+            <mat-label>Placa</mat-label>
+            <input matInput formControlName="placa" required maxlength="10">
+            <mat-error *ngIf="veiculoForm.get('placa')?.hasError('required') && veiculoForm.get('placa')?.touched">Placa é obrigatória</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Ano</mat-label>
             <input matInput type="number" formControlName="ano" required>
             <mat-error *ngIf="veiculoForm.get('ano')?.hasError('required') && veiculoForm.get('ano')?.touched">Ano é obrigatório</mat-error>
@@ -38,14 +47,9 @@
 
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Preço (R$)</mat-label>
-            <input matInput type="number" formControlName="preco" required>
+            <input matInput type="text" formControlName="preco" required (input)="formatarMoeda($event)">
             <mat-error *ngIf="veiculoForm.get('preco')?.hasError('required') && veiculoForm.get('preco')?.touched">Preço é obrigatório</mat-error>
             <mat-error *ngIf="veiculoForm.get('preco')?.hasError('min')">Preço inválido</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="form-field-third">
-            <mat-label>Quilometragem</mat-label>
-            <input matInput type="number" formControlName="km">
           </mat-form-field>
         </div>
 
@@ -57,13 +61,45 @@
 
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Câmbio</mat-label>
-            <input matInput formControlName="cambio">
+            <mat-select formControlName="cambio" required>
+              <mat-option value="AUTOMATICO">Automático</mat-option>
+              <mat-option value="MANUAL">Manual</mat-option>
+            </mat-select>
+            <mat-error *ngIf="veiculoForm.get('cambio')?.hasError('required') && veiculoForm.get('cambio')?.touched">Câmbio é obrigatório</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Combustível</mat-label>
-            <input matInput formControlName="combustivel">
+            <mat-select formControlName="combustivel" required>
+              <mat-option value="FLEX">Flex (Etanol/Gasolina)</mat-option>
+              <mat-option value="GASOLINA">Gasolina</mat-option>
+              <mat-option value="ETANOL">Etanol</mat-option>
+              <mat-option value="DIESEL">Diesel</mat-option>
+              <mat-option value="ELETRICO">Elétrico</mat-option>
+              <mat-option value="HIBRIDO">Híbrido</mat-option>
+              <mat-option value="GNV">GNV (Gás Natural)</mat-option>
+            </mat-select>
+            <mat-error *ngIf="veiculoForm.get('combustivel')?.hasError('required') && veiculoForm.get('combustivel')?.touched">Combustível é obrigatório</mat-error>
           </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field-third">
+            <mat-label>Quilometragem (km)</mat-label>
+            <input matInput type="number" formControlName="km">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field-third">
+            <mat-label>Motor</mat-label>
+            <input matInput formControlName="motor">
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-checkbox formControlName="emOferta" color="primary" style="margin-bottom: 8px;">
+            Veículo em oferta
+          </mat-checkbox>
+          <mat-checkbox formControlName="vendido" color="warn" style="margin-bottom: 16px; margin-left: 24px;">
+            Veículo vendido
+          </mat-checkbox>
         </div>
 
         <mat-form-field appearance="outline" class="full-width-input">
@@ -104,6 +140,9 @@
             <mat-icon>save</mat-icon> {{ isEdicao ? 'Salvar Alterações' : 'Cadastrar Veículo' }}
           </button>
         </mat-card-actions>
+        <button mat-stroked-button color="accent" (click)="voltarParaAdmin()" style="margin-bottom: 16px;">
+          <mat-icon>arrow_back</mat-icon> Voltar
+        </button>
       </form>
     </mat-card-content>
   </mat-card>

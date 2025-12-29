@@ -15,15 +15,19 @@ export class VeiculoService {
 
   private readonly apiUrl = `${environment.apiBaseUrl}/veiculos`;
 
-  // Método SIMPLES para buscar veículos
   getVeiculos(): Observable<IVeiculo[]> {
-    console.log('🔍 Testando conexão com backend...', this.apiUrl);
     return this.http.get<IVeiculo[]>(this.apiUrl);
   }
 
-  // Método SIMPLES para buscar veículo por ID
-  getVeiculoById(id: number): Observable<IVeiculo> {
-    return this.http.get<IVeiculo>(`${this.apiUrl}/${id}`);
+  getVeiculoById(id: number, withAuth: boolean = false): Observable<IVeiculo> {
+    let options = {};
+    if (withAuth) {
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        options = { headers: { Authorization: `Bearer ${token}` } };
+      }
+    }
+    return this.http.get<IVeiculo>(`${this.apiUrl}/${id}`, options);
   }
 
 

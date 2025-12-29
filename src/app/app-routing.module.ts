@@ -6,7 +6,7 @@ import { Home } from './home/home';
 import { DetalhesVeiculos } from './detalhes-veiculos/detalhes-veiculos';
 import { Login } from './auth/login/login';
 import { AdminDashboardComponent } from './admin/dashboard/dashboard';
-import { VeiculoFormComponent } from './admin/veiculo-form/veiculo-form';
+import { VeiculoEditarCadastrarComponent } from './admin/veiculo-editar-cadastrar/veiculo-editar-cadastrar';
 import { AdminHomeComponent } from './admin/home/admin-home';
 import { AdminVeiculoComponent } from './admin/veiculo/admin-veiculo';
 import { IndexAdminComponent } from './admin/index-admin/index-admin';
@@ -57,11 +57,11 @@ const routes: Routes = [
       },
       {
         path: 'veiculo/novo',
-        component: VeiculoFormComponent
+        component: VeiculoEditarCadastrarComponent
       },
       {
         path: 'veiculo/editar/:id',
-        component: VeiculoFormComponent
+        component: VeiculoEditarCadastrarComponent
       },
       {
         path: 'veiculo',

@@ -4,14 +4,16 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {VeiculoService} from '../../veiculo.service';
 import {IVeiculo} from '../../interfaces/IVeiculo';
 import {AdminVeiculoService} from '../veiculo/admin-veiculo.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-veiculo-form',
   standalone: false,
-  templateUrl: './veiculo-form.html',
-  styleUrls: ['./veiculo-form.css']
+  templateUrl: './veiculo-editar-cadastrar.html',
+  styleUrls: ['./veiculo-editar-cadastrar.css'],
+  providers: [CurrencyPipe]
 })
-export class VeiculoFormComponent implements OnInit {
+export class VeiculoEditarCadastrarComponent implements OnInit {
   veiculoForm!: FormGroup;
   isEdicao: boolean = false;
   veiculoId: number | null = null;
@@ -22,7 +24,8 @@ export class VeiculoFormComponent implements OnInit {
     private veiculoService: VeiculoService,
     private adminVeiculoService: AdminVeiculoService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private currencyPipe: CurrencyPipe
   ) {}
 
   marcasDisponiveis: string[] = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'Volkswagen', 'Nissan', 'Hyundai', 'Kia', 'Mazda', 'Subaru'];
@@ -39,7 +42,7 @@ export class VeiculoFormComponent implements OnInit {
         this.isEdicao = true;
         this.veiculoId = +id;
         this.carregando = true;
-        this.veiculoService.getVeiculoById(this.veiculoId).subscribe({
+        this.veiculoService.getVeiculoById(this.veiculoId, true).subscribe({
           next: (veiculo) => {
             this.veiculoForm.patchValue({
               marca: veiculo.marca,
@@ -51,7 +54,11 @@ export class VeiculoFormComponent implements OnInit {
               cambio: veiculo.cambio,
               combustivel: veiculo.combustivel,
               descricao: veiculo.descricao,
-              imagem: veiculo.imagem
+              imagem: veiculo.imagem,
+              placa: veiculo.placa,
+              motor: veiculo.motor,
+              emOferta: veiculo.emOferta,
+              vendido: veiculo.vendido // Adicionado
             });
             this.veiculoForm.setControl('urlsFotos', this.fb.array([]));
             if (veiculo.urlsFotos && veiculo.urlsFotos.length > 0) {
@@ -83,6 +90,10 @@ export class VeiculoFormComponent implements OnInit {
       cambio: [''],
       combustivel: [''],
       descricao: [''],
+      placa: ['', Validators.required],
+      motor: [''],
+      emOferta: [false],
+      vendido: [false], // Adicionado
       urlsFotos: this.fb.array([
         this.fb.control('', Validators.required)
       ]),
@@ -90,20 +101,44 @@ export class VeiculoFormComponent implements OnInit {
     });
   }
 
+  formatarMoeda(event: any): void {
+    let valor = event.target.value;
+    // Remove tudo que não for número
+    valor = valor.replace(/\D/g, '');
+    // Converte para centavos
+    valor = (parseInt(valor, 10) / 100).toFixed(2);
+    // Formata para moeda
+    const valorFormatado = this.currencyPipe.transform(valor, 'BRL', 'symbol', '1.2-2');
+    this.veiculoForm.get('preco')?.setValue(valorFormatado, { emitEvent: false });
+  }
+
   onSubmit(): void {
     if (this.veiculoForm.valid) {
       const formValue = this.veiculoForm.value;
+      // Remove máscara do preço antes de enviar
+      let preco = formValue.preco;
+      if (typeof preco === 'string') {
+        preco = preco.replace(/[^\d,.-]/g, '').replace(',', '.');
+        preco = parseFloat(preco);
+      }
       const veiculo: IVeiculo = {
         ...formValue,
+        preco: preco,
+        cambio: formValue.cambio ? formValue.cambio.toUpperCase() : undefined,
+        combustivel: formValue.combustivel ? formValue.combustivel.toUpperCase() : undefined,
         urlsFotos: this.veiculoFormUrlsFotos.value,
-        id: this.isEdicao ? this.veiculoId! : undefined
+        id: this.isEdicao ? this.veiculoId! : undefined,
+        placa: formValue.placa,
+        motor: formValue.motor,
+        emOferta: formValue.emOferta,
+        vendido: formValue.vendido // Garantir envio
       };
       this.carregando = true;
       if (this.isEdicao && this.veiculoId) {
         this.adminVeiculoService.editarVeiculo(veiculo).subscribe({
           next: () => {
             this.carregando = false;
-            this.router.navigate(['/admin/veiculo']);
+            this.router.navigate(['/admin/home']);
           },
           error: () => {
             this.carregando = false;
@@ -114,7 +149,7 @@ export class VeiculoFormComponent implements OnInit {
         this.adminVeiculoService.cadastrarVeiculo(veiculo).subscribe({
           next: () => {
             this.carregando = false;
-            this.router.navigate(['/admin/veiculo']);
+            this.router.navigate(['/admin/home']);
           },
           error: () => {
             this.carregando = false;
@@ -135,5 +170,9 @@ export class VeiculoFormComponent implements OnInit {
     if (this.veiculoFormUrlsFotos.length > 1) {
       this.veiculoFormUrlsFotos.removeAt(i);
     }
+  }
+
+  voltarParaAdmin(): void {
+    this.router.navigate(['/admin/home']);
   }
 }

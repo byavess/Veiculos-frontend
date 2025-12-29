@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VeiculoForm } from './veiculo-form';
+import { VeiculoEditarCadastrarComponent } from './veiculo-editar-cadastrar';
 
 describe('VeiculoForm', () => {
-  let component: VeiculoForm;
-  let fixture: ComponentFixture<VeiculoForm>;
+  let component: VeiculoEditarCadastrarComponent;
+  let fixture: ComponentFixture<VeiculoEditarCadastrarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VeiculoForm]
+      imports: [VeiculoEditarCadastrarComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(VeiculoForm);
+    fixture = TestBed.createComponent(VeiculoEditarCadastrarComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
