@@ -1,19 +1,19 @@
 .form-container {
   width: 95% !important;      /* Ocupa quase toda a largura em telas pequenas */
   max-width: 1100px !important; /* Limite máximo igual ao do seu filtro para alinhar */
-  
+
   /* 2. CENTRALIZAÇÃO E ESPAÇAMENTO */
   margin: 20px auto !important; /* Centraliza o bloco na página */
   padding: 24px !important;     /* Espaço interno para o conteúdo não colar nas bordas */
-  
+
   /* 3. VISUAL PROFISSIONAL (Igual à imagem e7d04d) */
-  background: #ffffff !important; 
+  background: #ffffff !important;
   border-radius: 12px !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
-  
+
   /* 4. GARANTE QUE O PADDING NÃO "ESTOURE" A LARGURA */
   box-sizing: border-box !important;
-  
+
 }
 
 /* Garante que o Formulário use layout flexível para responsividade */
@@ -58,10 +58,47 @@ mat-divider {
     flex-direction: column;
     gap: 0;
   }
-  
+
   .form-field-half,
   .form-field-third,
   .form-field-large {
     flex: 1 1 100%; /* Ocupa a largura total */
   }
+}
+
+/* Estilo para o bloco de informações da venda */
+.info-venda-row {
+  margin-top: -8px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.info-venda-row label {
+  font-weight: 600;
+  color: #388e3c;
+  margin-bottom: 4px;
+}
+.info-venda-row textarea.form-control {
+  border-radius: 4px;
+  border: 1px solid #c8e6c9;
+  padding: 12px 14px;
+  font-size: 1rem;
+  min-height: 60px;
+  resize: vertical;
+  background: #f1fff3;
+  color: #388e3c;
+  box-shadow: 0 1px 2px rgba(56,142,60,0.04);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.info-venda-row textarea.form-control:focus {
+  border: 1.5px solid #388e3c;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(56,142,60,0.10);
+}
+.erro-info-venda {
+  color: #d32f2f;
+  font-size: 0.97rem;
+  margin-top: 4px;
+  margin-left: 2px;
 }

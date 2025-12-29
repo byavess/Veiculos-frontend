@@ -94,12 +94,19 @@
         </div>
 
         <div class="form-row">
-          <mat-checkbox formControlName="emOferta" color="primary" style="margin-bottom: 8px;">
+          <mat-checkbox formControlName="emOferta" color="primary" style="margin-bottom: 8px;" [disabled]="veiculoForm.get('vendido')?.value">
             Veículo em oferta
           </mat-checkbox>
           <mat-checkbox formControlName="vendido" color="warn" style="margin-bottom: 16px; margin-left: 24px;">
             Veículo vendido
           </mat-checkbox>
+        </div>
+        <div class="info-venda-row" *ngIf="veiculoForm.get('vendido')?.value">
+          <label for="infoVenda">Informações da Venda</label>
+          <textarea id="infoVenda" formControlName="infoVenda" rows="3" class="form-control" placeholder="Ex: Cliente, data, valor, observações..."></textarea>
+          <div class="erro-info-venda" *ngIf="veiculoForm.get('infoVenda')?.hasError('required') && veiculoForm.get('infoVenda')?.touched">
+            Este campo é obrigatório quando o veículo está vendido.
+          </div>
         </div>
 
         <mat-form-field appearance="outline" class="full-width-input">

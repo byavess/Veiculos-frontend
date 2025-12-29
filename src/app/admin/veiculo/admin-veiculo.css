@@ -321,3 +321,16 @@ button[mat-icon-button] {
   margin-right: 2px;
   color: #fff;
 }
+
+/* Destaque para veículos vendidos na tabela */
+.vendido-row td.mat-cell {
+  background: #ffeaea !important;
+  color: #b71c1c !important;
+  font-weight: 600;
+}
+
+/* Destaque para cards de veículos vendidos */
+.vendido-card {
+  border: 2px solid #b71c1c !important;
+  background: #fff0f0 !important;
+}
