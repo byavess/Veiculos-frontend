@@ -35,6 +35,8 @@
 
 }
 
+
+
 .logo-link {
   height: 100%;
   display: flex;
@@ -82,6 +84,29 @@
   transform: translateY(-2px) scale(1.05) !important;
 
 }
+
+.user-name{
+  color:#FFD700 !important;
+}
+
+
+.user-actions button[mat-button] {
+  color: #C0C0C0 !important; /* texto 'Sair' */
+}
+
+.user-actions button[mat-button] mat-icon {
+  color: #C0C0C0 !important; /*  o Ícone */
+}
+
+/* Hover suave para o botão prateado */
+.user-actions button[mat-button]:hover {
+  color: #ffffff !important;
+}
+
+.user-actions button[mat-button]:hover mat-icon {
+  color: #ffffff !important;
+}
+
 
 .whatsapp-header {
   color: #FFD700 !important;

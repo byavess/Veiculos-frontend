@@ -63,10 +63,10 @@
     <!-- User Actions -->
     <div class="user-actions">
       <!-- Apenas para admin logado -->
-      <ng-container *ngIf="isLoggedIn && isAdmin">
+      <ng-container *ngIf="isLoggedIn && isAdmin" >
         <span class="user-name">{{ getUserName() }}</span>
-        <button mat-button color="warn" (click)="logout()">
-          <mat-icon>logout</mat-icon>
+        <button mat-button  (click)="logout()" >
+         <mat-icon >logout</mat-icon>
           Sair
         </button>
       </ng-container>

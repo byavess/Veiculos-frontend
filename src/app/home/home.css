@@ -563,8 +563,7 @@ overflow: visible !important;
 
 }
 
- ::ng-untouched {
- z-index: 1050 ;}
+
 
 
 @media (max-width: 768px) {
