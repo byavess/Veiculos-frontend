@@ -563,14 +563,17 @@ overflow: visible !important;
 
 }
 
-
-
+  
+    
+  
 
 @media (max-width: 768px) {
   .filtros-detalhados-painel > * {
     flex: 1 1 100%; /* Ocupa a largura total (ou quase total) no mobile */
     max-width: 100%;
-  }
+     }
+
+   
 }
 
 
@@ -578,6 +581,8 @@ overflow: visible !important;
   width: 100%;
   max-width: 660px; /* Limita a largura da barra de busca geral */
   margin-bottom: 5px;
+   margin-left: auto !important;
+  margin-right: auto !important;
 
 }
 
@@ -588,9 +593,37 @@ overflow: visible !important;
   height: 55px;
    margin-left: auto !important;
   margin-right: auto !important;
+
+
+  
  
 
 }
+
+@media (max-width: 768px) {
+  .filtro-geral-pesquisa {
+    width: 100% !important;
+    padding: 0 10px !important; /* Pequeno respiro nas bordas da tela */
+    box-sizing: border-box !important;
+  }
+
+  .filtro-pesquisa-mat-field {
+    /* MUDANÇA: No mobile ele ocupa a largura disponível com uma pequena margem */
+    width: 100% !important; 
+    height: 55px !important; /* Ligeiramente menor para telas pequenas */
+    border-radius: 8px !important;
+  }
+
+    .filtro-geral-pesquisa {
+    width: 100% !important;
+    padding: 0 10px !important; /* Pequeno respiro nas bordas da tela */
+    box-sizing: border-box !important;
+    display: block !important;
+    margin: 0 auto !important; /* Força centralização horizontal */
+  }
+}
+
+
 
 
 .btn-indique-ganhe {
@@ -752,12 +785,15 @@ overflow: visible !important;
 @media (max-width: 768px) {
   .filtros-grid {
     grid-template-columns: repeat(2, 1fr); /* Duas colunas em tablets */
+  
+ 
   }
 }
 
 @media (max-width: 500px) {
   .filtros-grid {
     grid-template-columns: 1fr; /* Uma coluna em celulares */
+  
   }
 }
 
@@ -886,6 +922,7 @@ overflow: visible !important;
   border-top: none !important;
   display: flex !important;
   align-items: center !important;
+  background-color: white;
 }
 
 ::ng-deep .ordenacao-select .mat-mdc-form-field-subscript-wrapper {
@@ -901,6 +938,8 @@ overflow: visible !important;
 ::ng-deep .ordenacao-select .mdc-notched-outline__trailing {
   border-color: #ddd !important;
   height: 36px !important;
+
+  
 }
 
 ::ng-deep .ordenacao-select.mat-focused .mdc-notched-outline__leading,
@@ -983,15 +1022,19 @@ overflow: visible !important;
     align-items: stretch;
     padding: 15px;
     gap: 15px;
+    background-color: #252525;
   }
 
   .ordenacao-info {
     flex-direction: column;
     gap: 10px;
+    
+    
   }
 
   .ordenacao-label {
     font-size: 0.9rem;
+    
   }
 
   .ordenacao-select {
@@ -1001,6 +1044,7 @@ overflow: visible !important;
 
   ::ng-deep .ordenacao-select .mat-mdc-text-field-wrapper {
     height: 44px !important;
+    
   }
 
   ::ng-deep .ordenacao-select .mat-mdc-form-field-flex {
@@ -1054,14 +1098,18 @@ overflow: visible !important;
     font-size: 18px !important;
     width: 18px !important;
     height: 18px !important;
+    
   }
 
   .ordenacao-label {
     font-size: 0.85rem;
+    
+
   }
 
   ::ng-deep .ordenacao-select .mat-mdc-select-value {
     font-size: 0.85rem;
+    
   }
 }
 
@@ -1364,6 +1412,7 @@ mat-card-title.veiculo-nome {
   padding: 12px;
   background: #f8f9fa;
   border-radius: 8px;
+  
 }
 
 .info-item {
@@ -2066,7 +2115,7 @@ mat-card-actions.card-botoes {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: stretch;
+    align-items: center ;
     gap: 8px;
   }
   .botoes-iniciais .btn-indique-ganhe,
