@@ -446,8 +446,8 @@
 
 .btn-limpar-filtros1 .mat-icon,
 .btn-limpar-filtros1 {
-  color: #252525 !important;
-  font-size: 22px;
+  color: #333333 !important;
+  font-size: 18px;
   height: 40px;
 overflow: visible !important;
   top: 5px;
@@ -456,11 +456,16 @@ overflow: visible !important;
 
 }
 
+
+
+
+
 .btn-limpar-filtros1 .mat-icon{
-   left: -15px;
-  top: 5px;
-  font-size: 30px;
+   left: 5px;
+  top: 10px;
+  font-size: 20px;
   z-index: 0;
+  
 }
 
 
@@ -495,6 +500,7 @@ overflow: visible !important;
     /* 1 coluna: 100% da largura, garantindo que o filtro não vaze */
     width: 100%;
     margin-bottom: 10px;
+    margin-left: -35px;
   }
 
   /* Opcional: Ajustar o padding para telas muito pequenas */
@@ -626,22 +632,7 @@ overflow: visible !important;
 
 
 
-.btn-indique-ganhe {
 
-  align-items: center;
-  width: 205px;
-  height: 55px !important ;
-  background: none !important;
-  left: -40PX;
-  background-image: linear-gradient(
-    to bottom,
-    #f7f7f7 0%, /* Prata Brilhante */ #c3c3c3 50%, /* Cinza Médio */ #a0a0a0 51%, /* Cinza Sombra (Dá a linha de cromo) */ #e3e3e3 100%
-  ) !important;
-  border: 1px solid #777777;
-  box-shadow: 0 4px 6px #FFED4E;
-  bottom: -35px;
-
-}
 
 .toggle-filtros-detalhe {
   color: #ffc107;
@@ -656,6 +647,7 @@ overflow: visible !important;
   font-size: 25px !important;
   width: 20px !important;
   height: 20px !important;
+  
 
 }
 
@@ -670,6 +662,25 @@ overflow: visible !important;
 }
 
 
+
+.btn-indique-ganhe {
+
+  align-items: center;
+  width: 205px;
+  height: 45px !important ;
+  background: none !important;
+  left: -40PX;
+  background-image: linear-gradient(
+    to bottom,
+    #f7f7f7 0%, /* Prata Brilhante */ #c3c3c3 50%, /* Cinza Médio */ #a0a0a0 51%, /* Cinza Sombra (Dá a linha de cromo) */ #e3e3e3 100%
+  ) !important;
+  border: 1px solid #777777;
+  box-shadow: 0 4px 6px #FFED4E;
+  bottom: -35px;
+
+}
+
+
 .btn-indique-ganhe .mat-icon,
 .btn-indique-ganhe {
   color: #252525 !important;
@@ -681,7 +692,7 @@ overflow: visible !important;
 }
 
 .btn-indique-ganhe .mat-icon {
-  left: 5px;
+  left: 15px;
   top: 10px;
   font-size: 30px;
   z-index: 0;
@@ -699,6 +710,36 @@ overflow: visible !important;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+
+
+.btn-limpar-filtros {
+  height: 48px;
+  min-width: 80px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 32px;
+  margin-left: -45px !important;
+}
+
+.btn-limpar-filtros.mat-icon,
+.btn-limpar-filtros {
+  color: #252525!important;
+  font-size: 20px;
+  height: 40px !important;
+}
+
+.btn-limpar-filtros .mat-icon {
+  left: 5px;
+  font-size: 20px;
+
+
+}
+
 .btn-queroVender-filtro:hover {
 
   background-image: linear-gradient(
@@ -710,20 +751,8 @@ overflow: visible !important;
 }
 
 
-.btn-queroVender-filtro {
-  width: 205px;
-  right: -40px;
-  background: none !important;
-  background-image: linear-gradient(
-    to bottom,
-    #f7f7f7 0%, /* Prata Brilhante */ #c3c3c3 50%, /* Cinza Médio */ #a0a0a0 51%, /* Cinza Sombra (Dá a linha de cromo) */ #e3e3e3 100%
-  ) !important;
-  border: 1px solid #777777;
-  box-shadow: 0 4px 6px #FFED4E;
-  bottom: -35px;
-  padding: 28px;
 
-}
+
 
 
 .btn-queroVender-filtro .mat-icon,
@@ -744,7 +773,7 @@ overflow: visible !important;
 
 
 .btn-queroVender-mais,
-.btn-indique-mais {
+.btn-limpar-filtros {
   align-items: center;
   width: 205px;
   background: none !important;
@@ -763,23 +792,16 @@ overflow: visible !important;
 .btn-queroVender-mais {
   color: black !important;
   font-size: 20px;
+ 
 }
 
 .btn-queroVender-mais .mat-icon {
-  left: -5px;
+
+   left: 5px !important;
 
 }
 
-.btn-indique-mais .mat-icon,
-.btn-indique-mais {
-  color: black !important;
-  font-size: 20px;
-}
 
-.btn-indique-mais .mat-icon {
-  left: -15px;
-
-}
 
 /*filtro geral*/
 @media (max-width: 768px) {
@@ -788,6 +810,8 @@ overflow: visible !important;
   
  
   }
+
+
 }
 
 @media (max-width: 500px) {
@@ -871,7 +895,13 @@ overflow: visible !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   flex-wrap: wrap;
   gap: 20px;
+  
+  
+ 
+
 }
+
+
 
 .ordenacao-info {
   display: flex;
@@ -923,6 +953,7 @@ overflow: visible !important;
   display: flex !important;
   align-items: center !important;
   background-color: white;
+  
 }
 
 ::ng-deep .ordenacao-select .mat-mdc-form-field-subscript-wrapper {
@@ -972,43 +1003,10 @@ overflow: visible !important;
   color: #333333;
 }
 
-/* Opções do select */
-::ng-deep .mat-mdc-option {
-  padding: 10px 16px !important;
-  min-height: 42px !important;
-  font-size: 0.9rem;
-}
-
-::ng-deep .mat-mdc-option:hover {
-  background: rgba(33, 150, 243, 0.08);
-}
-
-::ng-deep .mat-mdc-option.mat-mdc-option-active {
-  background: rgba(33, 150, 243, 0.12);
-}
-
-.resultados-info {
-  display: flex;
-  align-items: center;
-  color: #666;
-  font-size: 0.95rem;
-  margin-left: auto;
-}
-
-.total-veiculos {
-  font-weight: 600;
-  color: #333333;
-  padding: 8px 16px;
-  background: rgb(233, 232, 232);
-  border-radius: 20px;
-}
 
 /* Responsivo para Ordenação */
 @media (max-width: 992px) {
-  .ordenacao-container {
-    padding: 15px 20px;
-    gap: 12px;
-  }
+ 
 
   .ordenacao-select {
     width: 180px;
@@ -1018,12 +1016,32 @@ overflow: visible !important;
 
 @media (max-width: 768px) {
   .ordenacao-container {
+     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 15px;
-    gap: 15px;
-    background-color: #252525;
+    /* Reduzimos o padding exagerado que estava embolando o layout */
+    padding: 15px !important; 
+    gap: 20px !important;
+    background-color: transparent;
+    
+    /* Garante que o container ocupe espaço no fluxo e empurre o que vem abaixo */
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: min-content;
+    
+    /* Transição para quando o filtro interno abrir */
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 90px;
+    border-radius: 8px;
+    box-sizing: border-box;
+        
   }
+
+  
+  
+
+
 
   .ordenacao-info {
     flex-direction: column;
@@ -1091,7 +1109,9 @@ overflow: visible !important;
 
 @media (max-width: 480px) {
   .ordenacao-container {
-    padding: 12px;
+    padding: 12px !important;
+    flex-direction: column;
+    margin-top: 100% !important;
   }
 
   .ordenacao-icon {
@@ -1113,11 +1133,52 @@ overflow: visible !important;
   }
 }
 
+
+
+
+xxxxxxxxxxxxx
+
+
+
+  
+/* Opções do select */
+::ng-deep .mat-mdc-option {
+  padding: 10px 16px !important;
+  min-height: 42px !important;
+  font-size: 0.9rem;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  background: rgba(33, 150, 243, 0.08);
+}
+
+::ng-deep .mat-mdc-option.mat-mdc-option-active {
+  background: rgba(33, 150, 243, 0.12);
+}
+
+.resultados-info {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 0.95rem;
+  margin-left: auto;
+}
+
+.total-veiculos {
+  font-weight: 600;
+  color: #333333;
+  padding: 8px 16px;
+  background: rgb(233, 232, 232);
+  border-radius: 20px;
+}
+
 .veiculos-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
-  padding: 10px;
+  padding: -15px !important;
+  
+
 }
 
 /* Card do veículo - Material Card */
@@ -1130,6 +1191,7 @@ overflow: visible !important;
   display: flex;
   flex-direction: column;
   height: 100%;
+ 
 }
 
 .veiculo-card:hover {
@@ -1731,27 +1793,10 @@ mat-card-actions.card-botoes {
 }
 
 
-.btn-limpar-filtros {
-  height: 48px;
-  min-width: 200px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 0 32px;
-}
 
 
-::ng-deep .btn-limpar-filtros .mat-icon {
-  margin: 0;
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
 
-}
+
 
 /* Responsivo */
 @media (max-width: 1024px) {
@@ -2097,7 +2142,25 @@ mat-card-actions.card-botoes {
   justify-content: center;
   align-items: center;
   margin: 24px 0;
+
+  
 }
+
+.btn-queroVender-filtro {
+  width: 205px !important;
+  right: -40px;
+  background: none !important;
+  background-image: linear-gradient(
+    to bottom,
+    #f7f7f7 0%, /* Prata Brilhante */ #c3c3c3 50%, /* Cinza Médio */ #a0a0a0 51%, /* Cinza Sombra (Dá a linha de cromo) */ #e3e3e3 100%
+  ) !important;
+  border: 1px solid #777777;
+  box-shadow: 0 4px 6px #FFED4E;
+  bottom: -35px;
+  padding: 28px;
+
+}
+
 .botoes-iniciais button {
   min-width: 160px;
   max-width: 100%;
@@ -2131,6 +2194,7 @@ mat-card-actions.card-botoes {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 35% !important;
   }
   .botoes-iniciais .btn-limpar-filtros1 {
     width: 100% !important;

@@ -186,6 +186,13 @@
   .phone-mobile-only {
     display: flex !important; /* Ou inline-flex para botões mat-icon */
   }
+  .user-actions {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+
+  
+}
 }
 
 

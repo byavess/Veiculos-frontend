@@ -123,7 +123,7 @@
 
         </div>
          <button *ngIf="!showDetailedFilters" class="botoes-iniciais" type="button" mat-raised-button class="btn-limpar-filtros1" (click)="limparFiltros()">
-            <mat-icon>directions_car</mat-icon>
+            <mat-icon>filter_alt</mat-icon>
             Limpar filtros
           </button>
 
@@ -202,13 +202,13 @@
 
         <!-- Botão Limpar Filtros Centralizado -->
         <div class="btn-grupo-filtros">
-          <button type="button" mat-raised-button class="btn-indique-mais" (click)="limparFiltros()">
-            <mat-icon>directions_car</mat-icon>
+          <button type="button" mat-raised-button class="btn-limpar-filtros" (click)="limparFiltros()">
+            <mat-icon>filter_alt</mat-icon>
             Limpar filtros
           </button>
 
           <button type="button" mat-raised-button color="secondary-color" class="btn-queroVender-mais"
-                  (click)="limparFiltros()">
+                  (click)="openWhatsApp()">
             <mat-icon>attach_money</mat-icon>
             Quero vender
           </button>
@@ -238,7 +238,7 @@
     <section *ngIf="!loading && !erroCarregamento" class="veiculos-container">
 
       <!-- Barra de Ordenação -->
-      <div class="ordenacao-container" *ngIf="veiculos.length > 0">
+      <div class="ordenacao-container" *ngIf="veiculos.length > 0" >
         <div class="ordenacao-info">
           <mat-icon class="ordenacao-icon">sort</mat-icon>
           <span class="ordenacao-label">Ordenar por:</span>
