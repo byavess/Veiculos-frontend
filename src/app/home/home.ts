@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import {IVeiculo} from '../interfaces/IVeiculo';
+import { LoginService } from '../auth/login/loginService';
 
 @Component({
   selector: 'app-home',
@@ -45,7 +46,8 @@ export class Home implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private veiculoService: VeiculoService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loginService: LoginService
   ) {
     this.filtroForm = this.fb.group({
       marca: [''],
@@ -62,10 +64,33 @@ export class Home implements OnInit, OnDestroy {
   public showDetailedFilters: boolean = false; // Começa escondido, conforme Imagem 2
 
   ngOnInit() {
+    // Não desloga automaticamente - removido para permitir que admin use o sistema
+    this.deslogarAutomaticamente();
+
     this.carregarMarcas();
     this.carregarModelos(); // Carrega todos os modelos inicialmente
     this.carregarVeiculos();
     this.startAutoPlay(); // Inicia carrossel automático
+  }
+
+  /**
+   * Desloga o usuário automaticamente ao acessar a página principal
+   * NOTA: Este método está desabilitado para permitir que admin use o sistema normalmente
+   */
+  private deslogarAutomaticamente(): void {
+    const isAuthenticated = this.loginService.isUserAuthenticated();
+
+    if (isAuthenticated) {
+      console.log('[Home] Usuário autenticado detectado na página principal. Deslogando automaticamente...');
+      // Remove os tokens e dados do localStorage
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('nomeCompleto');
+
+      // Atualiza os observables do LoginService
+      this.loginService.forceStatusUpdate();
+
+      console.log('[Home] Logout automático concluído.');
+    }
   }
 
   ngOnDestroy() {

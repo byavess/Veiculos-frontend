@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {IVeiculo} from './interfaces/IVeiculo';
 import {environment} from '../environments/environment';
@@ -24,7 +24,7 @@ export class VeiculoService {
     if (withAuth) {
       const token = localStorage.getItem('auth_token');
       if (token) {
-        options = { headers: { Authorization: `Bearer ${token}` } };
+        options = {headers: {Authorization: `Bearer ${token}`}};
       }
     }
     return this.http.get<IVeiculo>(`${this.apiUrl}/${id}`, options);
@@ -77,7 +77,7 @@ export class VeiculoService {
     queryParams.append('page', params.page?.toString() ?? '0');
     queryParams.append('size', params.size?.toString() ?? '12');
     const url = `${this.apiUrl}?${queryParams.toString()}`;
-    return this.http.get<any>(url, headers ? { headers } : {});
+    return this.http.get<any>(url, headers ? {headers} : {});
   }
 
   // ==========================================

@@ -21,6 +21,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppComponent } from './app';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -85,6 +86,7 @@ registerLocaleData(localePt, 'pt');
     MatSelectModule,
     MatDividerModule,
     MatSnackBarModule,
+    MatTooltipModule,
     MatDialogActions,
     MatDialogContent,
     MatDialogClose,
