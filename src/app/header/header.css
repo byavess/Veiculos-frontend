@@ -87,11 +87,19 @@
 
 .user-name{
   color:#FFD700 !important;
+
+
 }
 
 
 .user-actions button[mat-button] {
   color: #C0C0C0 !important; /* texto 'Sair' */
+    
+    display: flex;
+
+align-items: center;
+gap: 12px;
+flex-shrink: 0;
 }
 
 .user-actions button[mat-button] mat-icon {
@@ -108,6 +116,17 @@
 }
 
 
+@media (max-width: 600px) {
+.user-actions {
+gap: 4px; /* Reduz espaço entre nome e botão */
+}
+
+.user-name {
+max-width: 100px; /* Diminui o espaço do nome no mobile */
+font-size: 13px;
+}
+
+}
 .whatsapp-header {
   color: #FFD700 !important;
   font-size: 29px;
