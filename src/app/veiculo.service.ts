@@ -2,6 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {IVeiculo} from './interfaces/IVeiculo';
+import {IMarca} from './interfaces/IMarca';
+import {IModelo} from './interfaces/IModelo';
 import {environment} from '../environments/environment';
 
 
@@ -39,23 +41,23 @@ export class VeiculoService {
   }
 
   // Busca todas as marcas disponíveis
-  getAllMarcas(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/marcas`);
+  getAllMarcas(): Observable<IMarca[]> {
+    return this.http.get<IMarca[]>(`${environment.apiBaseUrl}/marcas`);
   }
 
-  // Busca modelos (todos ou filtrados por marca)
-  getModelos(marca?: string): Observable<string[]> {
-    const url = marca
-      ? `${this.apiUrl}/modelos?marca=${encodeURIComponent(marca)}`
-      : `${this.apiUrl}/modelos`;
-    return this.http.get<string[]>(url);
+  // Busca modelos (todos ou filtrados por marca ID)
+  getModelos(marcaId?: number): Observable<IModelo[]> {
+    const url = marcaId
+      ? `${environment.apiBaseUrl}/modelos?marcaId=${marcaId}`
+      : `${environment.apiBaseUrl}/modelos`;
+    return this.http.get<IModelo[]>(url);
   }
 
   // Busca paginada de veículos
   getVeiculosPaginados(params: {
     q?: string;
-    marca?: string;
-    modelo?: string;
+    marcaId?: number;
+    modeloId?: number;
     anoMin?: number;
     anoMax?: number;
     sort?: string;
@@ -67,8 +69,8 @@ export class VeiculoService {
     // Monta os parâmetros da query string
     const queryParams = new URLSearchParams();
     if (params.q) queryParams.append('q', params.q);
-    if (params.marca) queryParams.append('marca', params.marca);
-    if (params.modelo) queryParams.append('modelo', params.modelo);
+    if (params.marcaId) queryParams.append('marcaId', params.marcaId.toString());
+    if (params.modeloId) queryParams.append('modeloId', params.modeloId.toString());
     if (params.anoMin !== undefined) queryParams.append('anoMin', params.anoMin.toString());
     if (params.anoMax !== undefined) queryParams.append('anoMax', params.anoMax.toString());
     if (params.sort) queryParams.append('sort', params.sort);

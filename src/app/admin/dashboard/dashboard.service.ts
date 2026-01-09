@@ -17,6 +17,7 @@ export class DashboardService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
+
     return this.http.get<IDashboardData>(this.apiUrl, {headers});
   }
 }

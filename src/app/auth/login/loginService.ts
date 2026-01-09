@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
-import {environment} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
+import { AuthMonitorService } from '../../services/auth-monitor.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,11 @@ export class LoginService {
   private isAdminSubject = new BehaviorSubject<boolean>(this.checkAdmin());
   isAdmin$ = this.isAdminSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authMonitor: AuthMonitorService
+  ) {}
 
   /**
    * Decodifica um token JWT de forma segura (compatível com base64url)
@@ -52,9 +57,6 @@ export class LoginService {
       const agora = Math.floor(Date.now() / 1000);
       const expirado = payload.exp < agora;
 
-      console.log('[LoginService] Token expira em:', new Date(payload.exp * 1000));
-      console.log('[LoginService] Agora:', new Date());
-      console.log('[LoginService] Token expirado?', expirado);
 
       return !expirado;
     } catch {
@@ -127,14 +129,12 @@ export class LoginService {
   handleLoginSuccess(response: any, router: Router): void {
     const token = response.token;
     if (token) {
-      console.log('[LoginService] Login bem-sucedido, token recebido');
 
       // Salva o token
       localStorage.setItem('auth_token', token);
 
       // Decodifica para debugging
       const payload = this.decodeToken(token);
-      console.log('[LoginService] Token decodificado:', payload);
 
       // Salva nomeCompleto se vier no response
       if (response.nomeCompleto) {
@@ -147,10 +147,11 @@ export class LoginService {
       this.loggedInSubject.next(true);
       this.isAdminSubject.next(this.checkAdmin());
 
-      console.log('[LoginService] Navegando para /admin/home');
+      // Inicia monitoramento de autenticação
+      this.authMonitor.startMonitoring();
+
       router.navigate(['/admin/home']);
     } else {
-      console.error('[LoginService] Token não recebido na resposta');
       alert('Erro no login: Token não recebido.');
     }
   }
@@ -177,7 +178,9 @@ export class LoginService {
    * Logout
    */
   logout(): void {
-    console.log('[LoginService] Logout');
+    // Para o monitoramento
+    this.authMonitor.stopMonitoring();
+
     localStorage.removeItem('auth_token');
     localStorage.removeItem('nomeCompleto');
     this.loggedInSubject.next(false);
@@ -189,11 +192,9 @@ export class LoginService {
    * Força a atualização dos status
    */
   forceStatusUpdate(): void {
-    console.log('[LoginService] Forçando atualização de status');
     const isAuth = this.isAuthenticated();
     const isAdmin = this.checkAdmin();
 
-    console.log('[LoginService] Status atualizado - auth:', isAuth, 'admin:', isAdmin);
 
     this.loggedInSubject.next(isAuth);
     this.isAdminSubject.next(isAdmin);

@@ -1,8 +1,10 @@
-import {Component, OnInit, ViewChild, TemplateRef, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ViewChild, TemplateRef, ChangeDetectorRef, NgZone} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormArray} from '@angular/forms';
 import {Router, ActivatedRoute} from '@angular/router';
 import {VeiculoService} from '../../veiculo.service';
 import {IVeiculo} from '../../interfaces/IVeiculo';
+import {IMarca} from '../../interfaces/IMarca';
+import {IModelo} from '../../interfaces/IModelo';
 import {AdminVeiculoService} from '../veiculo/admin-veiculo.service';
 import { CurrencyPipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,10 +21,12 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
   isEdicao: boolean = false;
   veiculoId: number | null = null;
   carregando: boolean = false;
+  formularioAlterado: boolean = false;
+  valoresOriginais: any = null;
 
-  marcasDisponiveis: string[] = [];
+  marcasDisponiveis: IMarca[] = [];
 
-  modelosDisponiveis: string[] = [];
+  modelosDisponiveis: IModelo[] = [];
 
   imagemPrincipalUrl: string | null = null;
   uploadEmProgresso: boolean = false;
@@ -40,7 +44,8 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
     private route: ActivatedRoute,
     private currencyPipe: CurrencyPipe,
     private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {}
 
 
@@ -55,8 +60,8 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
     this.carregarModelos();
 
     // Atualiza modelos ao trocar a marca
-    this.veiculoForm.get('marca')?.valueChanges.subscribe((novaMarca: string) => {
-      this.carregarModelos(novaMarca);
+    this.veiculoForm.get('marca')?.valueChanges.subscribe((marcaId: number) => {
+      this.carregarModelos(marcaId);
       // Limpa o modelo selecionado ao trocar de marca
       this.veiculoForm.get('modelo')?.setValue('');
     });
@@ -80,11 +85,16 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
         this.carregando = true;
         this.veiculoService.getVeiculoById(this.veiculoId, true).subscribe({
           next: (veiculo) => {
+            // Formata o preço antes de carregar (converte número para string formatada)
+            const precoFormatado = veiculo.preco
+              ? this.currencyPipe.transform(veiculo.preco, 'BRL', 'symbol', '1.2-2')
+              : null;
+
+            // Primeiro seta todos os valores exceto o modelo
             this.veiculoForm.patchValue({
-              marca: veiculo.marca,
-              modelo: veiculo.modelo,
+              marca: veiculo.marca?.id, // Usa o ID da marca
               ano: veiculo.ano,
-              preco: veiculo.preco,
+              preco: precoFormatado, // Usa o preço formatado
               km: veiculo.km,
               cor: veiculo.cor,
               cambio: veiculo.cambio,
@@ -98,6 +108,35 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
               infoVenda: veiculo.infoVenda,
               urlsFotos: veiculo.urlsFotos && veiculo.urlsFotos.length > 0 ? veiculo.urlsFotos : []
             });
+
+            // Carrega os modelos da marca e depois seta o modelo selecionado
+            if (veiculo.marca?.id) {
+              this.veiculoService.getModelos(veiculo.marca.id).subscribe({
+                next: (modelos) => {
+                  this.modelosDisponiveis = modelos;
+                  // Agora que os modelos estão carregados, seta o valor do modelo
+                  this.veiculoForm.patchValue({
+                    modelo: veiculo.modelo?.id
+                  });
+
+                  // IMPORTANTE: Salva valores originais DEPOIS de setar o modelo
+                  setTimeout(() => {
+                    this.salvarValoresOriginais();
+                    this.monitorarMudancasFormulario();
+                  }, 100);
+                },
+                error: () => {
+                  this.modelosDisponiveis = [];
+                }
+              });
+            } else {
+              // Se não tem marca, salva imediatamente
+              setTimeout(() => {
+                this.salvarValoresOriginais();
+                this.monitorarMudancasFormulario();
+              }, 100);
+            }
+
             // Exibe a miniatura principal a partir da primeira imagem de urlsFotos
             if (veiculo.urlsFotos && veiculo.urlsFotos.length > 0 && typeof veiculo.urlsFotos[0] === 'string') {
               this.imagemPrincipalUrl = this.adminVeiculoService.getMiniaturaUrl(veiculo.urlsFotos[0]);
@@ -114,6 +153,8 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
               this.veiculoFormUrlsFotos.push(this.fb.control('', Validators.required));
               this.imagemVisivel = [true];
             }
+
+
             this.carregando = false;
           },
           error: () => {
@@ -121,13 +162,17 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
             this.router.navigate(['/admin/veiculo']);
           }
         });
+      } else {
+        // Modo CADASTRO: salva valores originais (formulário vazio) e monitora mudanças
+        this.salvarValoresOriginais();
+        this.monitorarMudancasFormulario();
       }
     });
   }
   carregarMarcas(): void {
     this.veiculoService.getAllMarcas().subscribe({
       next: (marcas) => {
-        this.marcasDisponiveis = marcas.sort();
+        this.marcasDisponiveis = marcas.sort((a, b) => a.nome.localeCompare(b.nome));
       },
       error: () => {
         this.marcasDisponiveis = [];
@@ -135,14 +180,28 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
     });
   }
 
-  carregarModelos(marca?: string): void {
-    this.veiculoService.getModelos(marca).subscribe({
+  carregarModelos(marcaId?: number): void {
+    this.veiculoService.getModelos(marcaId).subscribe({
       next: (modelos) => {
         this.modelosDisponiveis = modelos;
       },
       error: () => {
         this.modelosDisponiveis = [];
       }
+    });
+  }
+
+  salvarValoresOriginais(): void {
+    this.valoresOriginais = JSON.stringify(this.veiculoForm.value);
+    this.formularioAlterado = false;
+  }
+
+  monitorarMudancasFormulario(): void {
+    this.veiculoForm.valueChanges.subscribe(() => {
+      this.ngZone.run(() => {
+        const valoresAtuais = JSON.stringify(this.veiculoForm.value);
+        this.formularioAlterado = valoresAtuais !== this.valoresOriginais;
+      });
     });
   }
 
@@ -175,7 +234,15 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
     valor = (parseInt(valor, 10) / 100).toFixed(2);
     // Formata para moeda
     const valorFormatado = this.currencyPipe.transform(valor, 'BRL', 'symbol', '1.2-2');
-    this.veiculoForm.get('preco')?.setValue(valorFormatado, { emitEvent: false });
+
+    // Remove emitEvent: false para permitir detecção de mudanças
+    this.veiculoForm.get('preco')?.setValue(valorFormatado);
+
+    // Força verificação de alteração após formatação
+    if (this.isEdicao && this.valoresOriginais) {
+      const valoresAtuais = JSON.stringify(this.veiculoForm.value);
+      this.formularioAlterado = valoresAtuais !== this.valoresOriginais;
+    }
   }
 
   onSubmit(): void {
@@ -184,11 +251,20 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
       // Remove máscara do preço antes de enviar
       let preco = formValue.preco;
       if (typeof preco === 'string') {
-        preco = preco.replace(/[^\d,.-]/g, '').replace(',', '.');
+        // Remove o símbolo R$ e espaços
+        preco = preco.replace(/[R$\s]/g, '');
+        // Remove os pontos de milhar (ex: 20.000 -> 20000)
+        preco = preco.replace(/\./g, '');
+        // Substitui a vírgula decimal por ponto (ex: 20000,00 -> 20000.00)
+        preco = preco.replace(',', '.');
+        // Converte para número
         preco = parseFloat(preco);
+
       }
-      const veiculo: IVeiculo = {
+      const veiculo: any = {
         ...formValue,
+        marca: formValue.marca, // Já é o ID selecionado no formulário
+        modelo: formValue.modelo, // Já é o ID selecionado no formulário
         preco: preco,
         cambio: formValue.cambio ? formValue.cambio.toUpperCase() : undefined,
         combustivel: formValue.combustivel ? formValue.combustivel.toUpperCase() : undefined,
@@ -197,7 +273,8 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
         placa: formValue.placa,
         motor: formValue.motor,
         emOferta: formValue.emOferta,
-        vendido: formValue.vendido // Garantir envio
+        vendido: formValue.vendido,
+        infoVenda: formValue.vendido ? formValue.infoVenda : '' // Envia vazio se não estiver vendido
       };
       this.carregando = true;
       if (this.isEdicao && this.veiculoId) {
@@ -250,30 +327,17 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
     const files: FileList = event.target.files;
     if (!files || files.length === 0) return;
 
-    console.log('📁 Arquivos selecionados:', files.length);
-    console.log('📊 Estado antes do upload:');
-    console.log('  - Imagens atuais:', this.veiculoFormUrlsFotos.length);
-    console.log('  - Uploads pendentes:', this.uploadsPendentes);
 
     this.uploadsPendentes += files.length;
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      console.log(`🔄 Iniciando upload ${i + 1}/${files.length}:`, file.name);
 
       this.adminVeiculoService.uploadImagem(file).subscribe({
         next: (caminhoRelativo: string) => {
-          console.log('✅ Upload concluído:', caminhoRelativo);
-          console.log('📊 Estado antes de adicionar ao FormArray:');
-          console.log('  - Tamanho do FormArray:', this.veiculoFormUrlsFotos.length);
 
           // Adiciona a nova imagem ao FormArray
           this.veiculoFormUrlsFotos.push(this.fb.control(caminhoRelativo, Validators.required));
-
-          console.log('📊 Estado depois de adicionar ao FormArray:');
-          console.log('  - Tamanho do FormArray:', this.veiculoFormUrlsFotos.length);
-          console.log('  - Valor do controle adicionado:', caminhoRelativo);
-          console.log('  - Todos os valores:', this.veiculoFormUrlsFotos.value);
 
           // Atualiza array de visibilidade
           this.imagemVisivel.push(true);
@@ -284,14 +348,11 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
           // Decrementa contador
           this.uploadsPendentes--;
 
-          console.log('📊 Uploads pendentes restantes:', this.uploadsPendentes);
-          console.log('📸 Total de imagens no FormArray:', this.veiculoFormUrlsFotos.length);
 
           // Força detecção de mudanças de forma assíncrona para evitar NG0100
           setTimeout(() => {
             this.veiculoForm.updateValueAndValidity();
             this.cdr.detectChanges();
-            console.log('🔄 Change detection forçada (async)');
           }, 0);
         },
         error: (err) => {
@@ -307,24 +368,16 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
   }
 
   removerFotoAdicional(index: number): void {
-    console.log('🗑️ Removendo imagem no índice:', index);
-    console.log('📊 Estado antes da remoção:');
-    console.log('  - Total de imagens:', this.veiculoFormUrlsFotos.length);
-    console.log('  - Valor a remover:', this.veiculoFormUrlsFotos.at(index)?.value);
 
     this.veiculoFormUrlsFotos.removeAt(index);
     this.imagemVisivel.splice(index, 1);
     this.veiculoForm.get('urlsFotos')?.markAsTouched();
 
-    console.log('📊 Estado após remoção:');
-    console.log('  - Total de imagens:', this.veiculoFormUrlsFotos.length);
-    console.log('  - Todos os valores:', this.veiculoFormUrlsFotos.value);
 
     // Força detecção de mudanças de forma assíncrona para evitar NG0100
     setTimeout(() => {
       this.veiculoForm.updateValueAndValidity();
       this.cdr.detectChanges();
-      console.log('🔄 Change detection forçada após remoção (async)');
     }, 0);
   }
 

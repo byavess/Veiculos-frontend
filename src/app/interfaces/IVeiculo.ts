@@ -1,8 +1,11 @@
+import { IMarca } from './IMarca';
+import { IModelo } from './IModelo';
+
 export interface IVeiculo {
 
   id: number;
-  marca: string;
-  modelo: string;
+  marca: IMarca;
+  modelo: IModelo;
   ano: number;
   km?: number;
   preco: number;

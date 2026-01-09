@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, EMPTY, switchMap, tap } from 'rxjs';
 import { VeiculoService } from '../veiculo.service';
-import {IVeiculo} from '../interfaces/IVeiculo';
+import { IVeiculo } from '../interfaces/IVeiculo';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-detalhes-veiculos',
@@ -11,12 +12,6 @@ import {IVeiculo} from '../interfaces/IVeiculo';
   styleUrls: ['./detalhes-veiculos.css']
 })
 export class DetalhesVeiculos implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private veiculoService: VeiculoService
-  ) {}
-
   veiculo$!: Observable<IVeiculo | null>;
   carregando: boolean = true;
   statusMessage: { text: string; type: 'success' | 'error' | '' } = { text: '', type: '' };
@@ -25,6 +20,16 @@ export class DetalhesVeiculos implements OnInit {
 
   // Imagem selecionada na galeria
   selectedImage: string | null = null;
+
+  @ViewChild('imagemExpandida') imagemExpandidaTemplate!: TemplateRef<any>;
+  imagemExpandidaUrl: string | null = null;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private veiculoService: VeiculoService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.carregarDetalhes();
@@ -65,9 +70,7 @@ export class DetalhesVeiculos implements OnInit {
   }
 
   comprarVeiculo(modelo: string, preco: number): void {
-    // 🛑 Substituído 'alert()'
     this.statusMessage = { text: `🎉 Parabéns! Você simulou a compra do ${modelo} por R$ ${preco}.`, type: 'success' };
-    console.log('Simulação de compra concluída.');
   }
 
   // Galeria: selecionar uma miniatura
@@ -105,4 +108,13 @@ export class DetalhesVeiculos implements OnInit {
     return this.veiculoService.getCambioFormatado(cambio);
   }
 
+  openImagemExpandida(url: string): void {
+    this.imagemExpandidaUrl = url;
+    this.dialog.open(this.imagemExpandidaTemplate, {
+      data: url,
+      panelClass: 'imagem-expandida-dialog-panel',
+      maxWidth: '95vw',
+      maxHeight: '95vh'
+    });
+  }
 }

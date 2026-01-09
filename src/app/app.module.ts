@@ -5,7 +5,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -39,11 +39,11 @@ import { IndexAdminComponent } from './admin/index-admin/index-admin';
 
 // Services
 import { VeiculoService } from './veiculo.service';
-import { EstoqueComponent } from './estoque/estoque';
 import { PlatformModule } from '@angular/cdk/platform';
 import {ConfirmDialogComponent} from './shared/confirm-dialog.component';
 import {MatDialogActions, MatDialogClose, MatDialogContent} from '@angular/material/dialog';
 import {MatCheckbox} from '@angular/material/checkbox';
+import {AuthErrorInterceptor} from './interceptors/auth-error.interceptor';
 
 // Registrar locale pt-BR
 registerLocaleData(localePt, 'pt');
@@ -57,7 +57,6 @@ registerLocaleData(localePt, 'pt');
     Login,
     AdminDashboardComponent,
     VeiculoEditarCadastrarComponent,
-    EstoqueComponent,
     AdminHomeComponent,
     AdminVeiculoComponent,
     ConfirmDialogComponent,
@@ -96,7 +95,8 @@ registerLocaleData(localePt, 'pt');
   ],
   providers: [
     VeiculoService,
-    { provide: LOCALE_ID, useValue: 'pt' }
+    { provide: LOCALE_ID, useValue: 'pt' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

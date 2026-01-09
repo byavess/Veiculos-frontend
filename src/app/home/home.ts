@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import {IVeiculo} from '../interfaces/IVeiculo';
+import {IMarca} from '../interfaces/IMarca';
+import {IModelo} from '../interfaces/IModelo';
 import { LoginService } from '../auth/login/loginService';
 
 @Component({
@@ -16,8 +18,8 @@ export class Home implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   filtroForm: FormGroup;
-  marcasDisponiveis: string[] = [];
-  modelosDisponiveis: string[] = [];
+  marcasDisponiveis: IMarca[] = [];
+  modelosDisponiveis: IModelo[] = [];
   veiculos: IVeiculo[] = [];
 
   totalElements: number = 0;
@@ -50,8 +52,8 @@ export class Home implements OnInit, OnDestroy {
     private loginService: LoginService
   ) {
     this.filtroForm = this.fb.group({
-      marca: [''],
-      modelo: [''],
+      marca: [null],
+      modelo: [null],
       anoMin: [''],
       anoMax: [''],
 
@@ -81,7 +83,6 @@ export class Home implements OnInit, OnDestroy {
     const isAuthenticated = this.loginService.isUserAuthenticated();
 
     if (isAuthenticated) {
-      console.log('[Home] Usuário autenticado detectado na página principal. Deslogando automaticamente...');
       // Remove os tokens e dados do localStorage
       localStorage.removeItem('auth_token');
       localStorage.removeItem('nomeCompleto');
@@ -89,7 +90,6 @@ export class Home implements OnInit, OnDestroy {
       // Atualiza os observables do LoginService
       this.loginService.forceStatusUpdate();
 
-      console.log('[Home] Logout automático concluído.');
     }
   }
 
@@ -98,28 +98,22 @@ export class Home implements OnInit, OnDestroy {
   }
 
   carregarMarcas(): void {
-    console.log('🔄 Carregando marcas do backend...');
     this.veiculoService.getAllMarcas().subscribe({
       next: (marcas) => {
-        console.log('✅ Marcas recebidas:', marcas);
-        this.marcasDisponiveis = marcas.sort();
+        this.marcasDisponiveis = marcas.sort((a, b) => a.nome.localeCompare(b.nome));
       },
       error: (error) => {
-        console.error('❌ Erro ao carregar marcas:', error);
         this.marcasDisponiveis = [];
       }
     });
   }
 
-  carregarModelos(marca?: string): void {
-    console.log('🔄 Carregando modelos...', marca ? `da marca: ${marca}` : 'todos');
-    this.veiculoService.getModelos(marca).subscribe({
+  carregarModelos(marcaId?: number): void {
+    this.veiculoService.getModelos(marcaId).subscribe({
       next: (modelos) => {
-        console.log('✅ Modelos recebidos:', modelos);
         this.modelosDisponiveis = modelos;
       },
       error: (error) => {
-        console.error('❌ Erro ao carregar modelos:', error);
         this.modelosDisponiveis = [];
       }
     });
@@ -166,12 +160,12 @@ export class Home implements OnInit, OnDestroy {
     }
 
     const params = {
-      marca: marca || undefined,
-      modelo: modelo || undefined,
+      marcaId: marca || undefined,
+      modeloId: modelo || undefined,
       anoMin: anoMin ? Number(anoMin) : undefined,
       anoMax: anoMax ? Number(anoMax) : undefined,
       vendido: false,
-       busca: buscaGeral || undefined,
+      q: buscaGeral || undefined,
       sort: sortBy,
       direction: direction,
       page: this.pageIndex,
@@ -188,8 +182,8 @@ export class Home implements OnInit, OnDestroy {
           if (buscaGeral && buscaGeral.trim() !== '') {
             const termo = buscaGeral.toLowerCase().trim();
             listaFiltrada = listaFiltrada.filter((v: IVeiculo) =>
-              v.marca.toLowerCase().includes(termo) ||
-              v.modelo.toLowerCase().includes(termo)
+              v.marca.nome.toLowerCase().includes(termo) ||
+              v.modelo.modelo.toLowerCase().includes(termo)
 
             );
           }
@@ -205,7 +199,6 @@ export class Home implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error('❌ Erro:', error);
         this.loading = false;
         this.erroCarregamento = true;
       }
@@ -227,7 +220,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   limparFiltros(): void {
-    this.filtroForm.reset({ marca: '', modelo: '', anoMin: '', anoMax: '' });
+    this.filtroForm.reset({ marca: null, modelo: null, anoMin: '', anoMax: '' });
     this.carregarModelos(); // Recarrega todos os modelos
     this.aplicarFiltros();
   }
@@ -238,7 +231,7 @@ export class Home implements OnInit, OnDestroy {
     const marcaSelecionada = this.filtroForm.get('marca')?.value;
 
     // Limpar modelo quando marca muda
-    this.filtroForm.patchValue({ modelo: '' });
+    this.filtroForm.patchValue({ modelo: null });
 
     // Carrega modelos: se marca selecionada, filtra; se não, busca todos
     this.carregarModelos(marcaSelecionada || undefined);
@@ -248,7 +241,6 @@ export class Home implements OnInit, OnDestroy {
   }
 
   onAnoChange(): void {
-    console.log('📅 Filtro de ano alterado');
     this.aplicarFiltros();
   }
 
@@ -263,7 +255,6 @@ export class Home implements OnInit, OnDestroy {
 
 
   verDetalhes(id: number): void {
-    console.log('🔍 Navegando para detalhes do veículo ID:', id);
     this.router.navigate(['/details', id]);
   }
 
@@ -336,7 +327,6 @@ export class Home implements OnInit, OnDestroy {
 
   // Método de Ordenação
   aplicarOrdenacao(): void {
-    console.log('🔄 Aplicando ordenação:', this.ordenacaoSelecionada);
     this.pageIndex = 0;
     if (this.paginator) {
       this.paginator.pageIndex = 0;

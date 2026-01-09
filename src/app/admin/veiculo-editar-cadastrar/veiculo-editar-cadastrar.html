@@ -18,8 +18,8 @@
           <mat-form-field appearance="outline" class="form-field-half">
             <mat-label>Marca</mat-label>
             <mat-select formControlName="marca" required>
-              <mat-option *ngFor="let marca of marcasDisponiveis" [value]="marca">
-                {{ marca }}
+              <mat-option *ngFor="let marca of marcasDisponiveis" [value]="marca.id">
+                {{ marca.nome }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="veiculoForm.get('marca')?.hasError('required') && veiculoForm.get('marca')?.touched">Marca
@@ -30,8 +30,8 @@
           <mat-form-field appearance="outline" class="form-field-half">
             <mat-label>Modelo</mat-label>
             <mat-select formControlName="modelo" required>
-              <mat-option *ngFor="let modelo of modelosDisponiveis" [value]="modelo">
-                {{ modelo }}
+              <mat-option *ngFor="let modelo of modelosDisponiveis" [value]="modelo.id">
+                {{ modelo.modelo }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="veiculoForm.get('modelo')?.hasError('required') && veiculoForm.get('modelo')?.touched">
@@ -234,7 +234,13 @@
         </div>
 
         <mat-card-actions align="end">
-          <button mat-raised-button color="primary" type="submit" [disabled]="veiculoForm.invalid">
+          <div *ngIf="isEdicao && formularioAlterado"
+               style="width: 100%; text-align: center; color: #ff9800; font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <mat-icon style="font-size: 18px; width: 18px; height: 18px;">info</mat-icon>
+            <span>Há alterações não salvas</span>
+          </div>
+          <button mat-raised-button color="primary" type="submit"
+                  [disabled]="!isEdicao ? veiculoForm.invalid : (veiculoForm.invalid || !formularioAlterado)">
             <mat-icon>save</mat-icon>
             {{ isEdicao ? 'Salvar Alterações' : 'Cadastrar Veículo' }}
           </button>

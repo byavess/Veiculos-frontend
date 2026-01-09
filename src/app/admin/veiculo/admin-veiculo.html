@@ -25,7 +25,7 @@
           <ng-container *ngIf="v.emOferta && !v.vendido">
             <mat-icon color="accent" style="vertical-align: middle;">local_offer</mat-icon>
           </ng-container>
-          {{ v.marca }} {{ v.modelo }} {{ v.ano }} - R$ {{ v.preco | number:'1.2-2' }}
+          {{ v.marca.nome }} {{ v.modelo.modelo }} {{ v.ano }} - R$ {{ v.preco | number:'1.2-2' }}
         </td>
       </ng-container>
       <!-- Placa -->
@@ -66,7 +66,7 @@
           <ng-container *ngIf="v.emOferta && !v.vendido">
             <mat-icon color="accent" style="vertical-align: middle;">local_offer</mat-icon>
           </ng-container>
-          {{ v.marca }} {{ v.modelo }} {{ v.ano }}
+          {{ v.marca.nome }} {{ v.modelo.modelo }} {{ v.ano }}
         </span>
         <span class="admin-veiculo-card-preco">R$ {{ v.preco | number:'1.2-2' }}</span>
       </div>

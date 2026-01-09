@@ -61,10 +61,8 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
   }
 
   carregarVeiculos(page: number = 0, size: number = 10, filtroLivre: string = this.filtroLivre): void {
-    console.log('[carregarVeiculos] chamada', { page, size, filtroLivre, viewMode: this.viewMode });
     if (this.viewMode === 'card') {
       this.loadingCardData = true;
-      console.log('[carregarVeiculos] set loadingCardData = true');
     }
     this.adminVeiculoService.getVeiculosPaginados({
       page,
@@ -73,7 +71,6 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
       withAuth: true
     }).subscribe({
       next: (result) => {
-        console.log('[carregarVeiculos] resultado recebido', result);
         this.dataSource.data = result.content;
         this.totalElements = result.totalElements;
         this.pageSize = result.size;
@@ -81,13 +78,10 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
         if (this.viewMode === 'card') {
           if (page === 0) {
             this.cardData = result.content || [];
-            console.log('[carregarVeiculos] cardData inicial', this.cardData);
           } else {
             this.cardData = [...this.cardData, ...(result.content || [])];
-            console.log('[carregarVeiculos] cardData append', this.cardData);
           }
           this.loadingCardData = false;
-          console.log('[carregarVeiculos] set loadingCardData = false');
           this.cdr.detectChanges(); // Força atualização do Angular
         }
         setTimeout(() => {
@@ -95,10 +89,8 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
         });
       },
       error: (err) => {
-        console.error('[carregarVeiculos] erro', err);
         if (this.viewMode === 'card') {
           this.loadingCardData = false;
-          console.log('[carregarVeiculos] set loadingCardData = false (erro)');
           this.cdr.detectChanges();
         }
       }
@@ -166,13 +158,11 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
 
   // Detecta troca de modo para resetar cardData
   setViewMode(mode: 'table' | 'card') {
-    console.log('[setViewMode] chamada', { atual: this.viewMode, novo: mode });
     if (this.viewMode !== mode) {
       this.viewMode = mode;
       if (mode === 'card') {
         this.pageIndex = 0;
         this.cardData = [];
-        console.log('[setViewMode] trocando para card, resetando pageIndex e cardData');
         this.carregarVeiculos(0, this.pageSize, this.filtroLivre);
       }
     }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginService';
 
 @Component({
@@ -9,8 +9,11 @@ import { LoginService } from './loginService';
   styleUrls: ['./login.css']
 })
 export class Login implements OnInit {
+  sessionExpired = false;
+
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private loginService: LoginService
   ) {}
 
@@ -21,7 +24,12 @@ export class Login implements OnInit {
   };
 
   ngOnInit(): void {
-    // Removido o redirecionamento automático para o dashboard
+    // Verifica se a sessão expirou
+    this.route.queryParams.subscribe(params => {
+      if (params['sessionExpired'] === 'true') {
+        this.sessionExpired = true;
+      }
+    });
   }
 
   /**

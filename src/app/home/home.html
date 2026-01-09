@@ -138,10 +138,10 @@
               <mat-select
                 id="marca"
                 formControlName="marca"
+                placeholder="Todas as Marcas"
                 (selectionChange)="onMarcaChange()">
-                <mat-option [value]="''">Marcas</mat-option>
-                <mat-option *ngFor="let marca of marcasDisponiveis" [value]="marca">
-                  {{ marca }}
+                <mat-option *ngFor="let marca of marcasDisponiveis" [value]="marca.id">
+                  {{ marca.nome }}
                 </mat-option>
               </mat-select>
               <mat-icon matPrefix>directions_car</mat-icon>
@@ -154,10 +154,10 @@
               <mat-select
                 id="modelo"
                 formControlName="modelo"
+                placeholder="Todos os Modelos"
                 (selectionChange)="aplicarFiltros()">
-                <mat-option [value]="''">Modelo</mat-option>
-                <mat-option *ngFor="let modelo of modelosDisponiveis" [value]="modelo">
-                  {{ modelo }}
+                <mat-option *ngFor="let modelo of modelosDisponiveis" [value]="modelo.id">
+                  {{ modelo.modelo }}
                 </mat-option>
               </mat-select>
               <mat-icon matPrefix>drive_eta</mat-icon>
@@ -318,7 +318,7 @@
           <!-- Conteúdo do Card -->
           <mat-card-content class="card-conteudo">
             <mat-card-title class="veiculo-nome">
-              {{ veiculo.marca }} {{ veiculo.modelo }}
+              {{ veiculo.marca.nome }} {{ veiculo.modelo.modelo }}
             </mat-card-title>
 
             <!-- Grid de Informações -->

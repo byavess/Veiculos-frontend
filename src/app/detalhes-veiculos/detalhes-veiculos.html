@@ -44,7 +44,9 @@
               [src]="selectedImage ? getImagemUrl(selectedImage) : (veiculo.urlsFotos && veiculo.urlsFotos.length ? getImagemUrl(veiculo.urlsFotos[0]) : 'https://placehold.co/800x500?text=Sem+Imagem')"
               [alt]="veiculo.marca + ' ' + veiculo.modelo"
               (error)="onMainImageError($event)"
-              class="main-image">
+              class="main-image"
+              (click)="openImagemExpandida(selectedImage ? selectedImage : veiculo.urlsFotos[0])"
+              style="cursor: zoom-in;" />
           </div>
 
           <!-- Miniaturas -->
@@ -71,7 +73,7 @@
         <mat-card class="header-card">
           <mat-card-header>
             <mat-card-title class="veiculo-title">
-              {{ veiculo.marca }} {{ veiculo.modelo }}
+              {{ veiculo.marca.nome }} {{ veiculo.modelo.modelo }}
             </mat-card-title>
             <mat-card-subtitle class="veiculo-subtitle">
               <mat-icon class="subtitle-icon">calendar_today</mat-icon>
@@ -179,6 +181,15 @@
       </div>
     </div>
   </div>
+
+  <!-- Dialog para imagem expandida -->
+  <ng-template #imagemExpandida>
+    <div class="imagem-expandida-dialog">
+      <img [src]="getImagemUrl(imagemExpandidaUrl || '')" alt="Imagem expandida"
+           style="max-width: 90vw; max-height: 90vh; display: block; margin: auto;"/>
+    </div>
+  </ng-template>
+
 </div>
 
 </body>

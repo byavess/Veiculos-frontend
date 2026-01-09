@@ -12,6 +12,14 @@
     <!-- Card de Login -->
     <mat-card class="login-card mat-elevation-z8">
       <mat-card-content>
+        <!-- Alerta de sessão expirada -->
+        <div *ngIf="sessionExpired" class="session-expired-alert" style="background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; padding: 12px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+          <mat-icon style="color: #ff9800;">info</mat-icon>
+          <span style="color: #856404; font-size: 14px;">
+            <strong>Sessão expirada!</strong> Por favor, faça login novamente para continuar.
+          </span>
+        </div>
+
         <form (ngSubmit)="logar()" #loginForm="ngForm" class="login-form">
 
           <!-- Campo Usuário -->

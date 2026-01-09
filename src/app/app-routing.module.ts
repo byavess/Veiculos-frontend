@@ -14,7 +14,7 @@ import { IndexAdminComponent } from './admin/index-admin/index-admin';
 
 // Guards
 import { AuthGuard } from './guards/auth-guard';
-import { EstoqueComponent } from './estoque/estoque';
+
 
 
 const routes: Routes = [
@@ -36,11 +36,6 @@ const routes: Routes = [
     component: Login
   },
 
-   {
-    path: 'estoque',
-    component: EstoqueComponent
-  },
-
   // Rotas administrativas (protegidas por guard)
   {
     path: 'admin',
@@ -49,23 +44,28 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: AdminHomeComponent
+        component: AdminHomeComponent,
+        canActivate: [AuthGuard] // ✅ Guard em cada rota filha
       },
       {
         path: 'dashboard',
-        component: AdminDashboardComponent
+        component: AdminDashboardComponent,
+        canActivate: [AuthGuard] // ✅ Guard em cada rota filha
       },
       {
         path: 'veiculo/novo',
-        component: VeiculoEditarCadastrarComponent
+        component: VeiculoEditarCadastrarComponent,
+        canActivate: [AuthGuard] // ✅ Guard em cada rota filha
       },
       {
         path: 'veiculo/editar/:id',
-        component: VeiculoEditarCadastrarComponent
+        component: VeiculoEditarCadastrarComponent,
+        canActivate: [AuthGuard] // ✅ Guard em cada rota filha
       },
       {
         path: 'veiculo',
-        component: AdminVeiculoComponent
+        component: AdminVeiculoComponent,
+        canActivate: [AuthGuard] // ✅ Guard em cada rota filha
       },
       {
         path: '',

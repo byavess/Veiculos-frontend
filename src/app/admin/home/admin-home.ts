@@ -1,4 +1,4 @@
-import {Component, OnInit, HostListener, OnDestroy} from '@angular/core';
+import {Component, OnInit, HostListener, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import { LoginService } from '../../auth/login/loginService';
 import { Router } from '@angular/router';
 
@@ -11,9 +11,18 @@ import { Router } from '@angular/router';
 export class AdminHomeComponent implements OnInit, OnDestroy {
   filtroLivre: string = '';
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Força detecção de mudanças após um pequeno delay para garantir que filhos sejam carregados
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 0);
+  }
 
   ngOnDestroy(): void {
   }
