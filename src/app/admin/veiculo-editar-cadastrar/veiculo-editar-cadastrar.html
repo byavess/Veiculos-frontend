@@ -71,7 +71,10 @@
         <div class="form-row">
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Cor</mat-label>
-            <input matInput formControlName="cor">
+            <input matInput formControlName="cor" required>
+            <mat-error *ngIf="veiculoForm.get('cor')?.hasError('required') && veiculoForm.get('cor')?.touched">
+              Cor é obrigatória
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field-third">
@@ -104,12 +107,18 @@
 
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Quilometragem (km)</mat-label>
-            <input matInput type="number" formControlName="km">
+            <input matInput type="number" formControlName="km" required>
+            <mat-error *ngIf="veiculoForm.get('km')?.hasError('required') && veiculoForm.get('km')?.touched">
+              Quilometragem é obrigatória
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field-third">
             <mat-label>Motor</mat-label>
-            <input matInput formControlName="motor">
+            <input matInput formControlName="motor" required>
+            <mat-error *ngIf="veiculoForm.get('motor')?.hasError('required') && veiculoForm.get('motor')?.touched">
+              Motor é obrigatório
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -133,7 +142,10 @@
 
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>Descrição do Veículo</mat-label>
-          <textarea matInput formControlName="descricao" rows="3"></textarea>
+          <textarea matInput formControlName="descricao" rows="3" required></textarea>
+          <mat-error *ngIf="veiculoForm.get('descricao')?.hasError('required') && veiculoForm.get('descricao')?.touched">
+            Descrição é obrigatória
+          </mat-error>
         </mat-form-field>
 
         <mat-divider></mat-divider>
@@ -156,7 +168,7 @@
               color="primary"
               type="button"
               (click)="fileInput.click()"
-              [disabled]="uploadsPendentes > 0"
+              [disabled]="uploadsPendentes > 0 || veiculoFormUrlsFotos.length >= maxImagens"
             >
               <mat-icon>add_photo_alternate</mat-icon>
               Adicionar Imagens
@@ -171,15 +183,18 @@
                 {{ veiculoFormUrlsFotos.length }} imagem(ns) adicionada(s)
               </span>
               <span *ngIf="uploadsPendentes === 0 && veiculoFormUrlsFotos.length === 0" class="info-text">
-                Selecione uma ou mais imagens (primeira será a principal)
+                Selecione uma ou mais imagens (opcional - primeira será a principal)
+              </span>
+              <span *ngIf="erroUploadImagem" class="upload-error" style="color: #f44336; display: block; margin-top: 8px;">
+                <mat-icon>error</mat-icon>
+                {{ erroUploadImagem }}
+              </span>
+              <span *ngIf="veiculoFormUrlsFotos.length >= maxImagens && !erroUploadImagem" class="info-text" style="color: #f44336; display: block; margin-top: 8px;">
+                <mat-icon>error</mat-icon>
+                Limite máximo de {{ maxImagens }} imagens atingido.
               </span>
             </div>
           </div>
-
-          <mat-error *ngIf="veiculoForm.get('urlsFotos')?.invalid && veiculoForm.get('urlsFotos')?.touched" class="upload-error">
-            <mat-icon>error</mat-icon>
-            Pelo menos uma foto é obrigatória
-          </mat-error>
         </div>
 
         <!-- Grid de Preview das Imagens -->

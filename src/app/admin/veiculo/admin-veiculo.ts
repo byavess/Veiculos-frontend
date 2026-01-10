@@ -125,12 +125,23 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
       if (result) {
         this.adminVeiculoService.deleteVeiculo(veiculo.id).subscribe({
           next: () => {
-            this.snackBar.open('Veículo deletado com sucesso!', 'Fechar', { duration: 3000, panelClass: 'snackbar-success' });
+            this.snackBar.open('Veículo deletado com sucesso!', '', {
+              duration: 3000,
+              panelClass: ['snackbar-success'],
+              horizontalPosition: 'center',
+              verticalPosition: 'top'
+            });
             this.pageIndex = 0;
             this.carregarVeiculos(0, this.pageSize, this.filtroLivre);
           },
           error: (err) => {
-            this.snackBar.open('Erro ao deletar veículo: ' + (err?.error?.error || err.message || 'Erro desconhecido'), 'Fechar', { duration: 5000, panelClass: 'snackbar-error' });
+            const mensagemErro = err?.error?.error || err.message || 'Erro desconhecido';
+            this.snackBar.open('Erro ao deletar veículo: ' + mensagemErro, '', {
+              duration: 5000,
+              panelClass: ['snackbar-error'],
+              horizontalPosition: 'center',
+              verticalPosition: 'top'
+            });
           }
         });
       }

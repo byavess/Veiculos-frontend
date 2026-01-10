@@ -8,6 +8,7 @@ import {IModelo} from '../../interfaces/IModelo';
 import {AdminVeiculoService} from '../veiculo/admin-veiculo.service';
 import { CurrencyPipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-veiculo-form',
@@ -36,6 +37,10 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
   imagemVisivel: boolean[] = [];
   uploadsPendentes: number = 0;
 
+  maxImagens: number = 7;
+  maxTamanhoImagemMB: number = 2;
+  erroUploadImagem: string = '';
+
   constructor(
     private fb: FormBuilder,
     private veiculoService: VeiculoService,
@@ -45,7 +50,8 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
     private currencyPipe: CurrencyPipe,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private snackBar: MatSnackBar
   ) {}
 
 
@@ -146,12 +152,9 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
             this.veiculoForm.setControl('urlsFotos', this.fb.array([]));
             if (veiculo.urlsFotos && veiculo.urlsFotos.length > 0) {
               veiculo.urlsFotos.forEach(url => {
-                this.veiculoFormUrlsFotos.push(this.fb.control(url, Validators.required));
+                this.veiculoFormUrlsFotos.push(this.fb.control(url));
               });
               this.imagemVisivel = veiculo.urlsFotos.map(() => true);
-            } else {
-              this.veiculoFormUrlsFotos.push(this.fb.control('', Validators.required));
-              this.imagemVisivel = [true];
             }
 
 
@@ -211,13 +214,13 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
       modelo: ['', Validators.required],
       ano: [null, [Validators.required, Validators.min(1900)]],
       preco: [null, [Validators.required, Validators.min(1000)]],
-      km: [null],
-      cor: [''],
-      cambio: [''],
-      combustivel: [''],
-      descricao: [''],
+      km: [null, Validators.required],
+      cor: ['', Validators.required],
+      cambio: ['', Validators.required],
+      combustivel: ['', Validators.required],
+      descricao: ['', Validators.required],
       placa: ['', Validators.required],
-      motor: [''],
+      motor: ['', Validators.required],
       emOferta: [false],
       vendido: [false],
       infoVenda: [''],
@@ -281,22 +284,53 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
         this.adminVeiculoService.editarVeiculo(veiculo).subscribe({
           next: () => {
             this.carregando = false;
+            this.snackBar.open('Veículo atualizado com sucesso!', '', {
+              duration: 3000,
+              panelClass: ['snackbar-success'],
+              horizontalPosition: 'center',
+              verticalPosition: 'top'
+            });
             this.router.navigate(['/admin/home']);
           },
-          error: () => {
+          error: (err) => {
             this.carregando = false;
-            alert('Erro ao atualizar veículo!');
+            const mensagemErro = this.formatarMensagemErro(err);
+
+            setTimeout(() => {
+              this.snackBar.open(mensagemErro, '', {
+                duration: 7000,
+                panelClass: ['snackbar-error'],
+                horizontalPosition: 'center',
+                verticalPosition: 'top'
+              });
+            }, 100);
           }
         });
       } else {
         this.adminVeiculoService.cadastrarVeiculo(veiculo).subscribe({
           next: () => {
             this.carregando = false;
+            this.snackBar.open('Veículo cadastrado com sucesso!', '', {
+              duration: 3000,
+              panelClass: ['snackbar-success'],
+              horizontalPosition: 'center',
+              verticalPosition: 'top'
+            });
             this.router.navigate(['/admin/home']);
           },
-          error: () => {
+          error: (err) => {
             this.carregando = false;
-            alert('Erro ao cadastrar veículo!');
+            const mensagemErro = this.formatarMensagemErro(err);
+
+            // Garante que o snackbar seja exibido após a detecção de mudanças
+            setTimeout(() => {
+               this.snackBar.open(mensagemErro, '', {
+                duration: 7000,
+                panelClass: ['snackbar-error'],
+                horizontalPosition: 'center',
+                verticalPosition: 'top'
+              });
+            }, 100);
           }
         });
       }
@@ -316,17 +350,46 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
           this.imagemPrincipalUrl = this.adminVeiculoService.getMiniaturaUrl(caminhoRelativo);
           this.uploadEmProgresso = false;
         },
-        error: () => {
-          alert('Erro ao fazer upload da imagem.');
+        error: (err) => {
+          const mensagemErro = this.formatarMensagemErro(err) || 'Erro ao fazer upload da imagem.';
+          this.snackBar.open(mensagemErro, '', {
+            duration: 7000,
+            panelClass: ['snackbar-error'],
+            horizontalPosition: 'center',
+            verticalPosition: 'top'
+          });
           this.uploadEmProgresso = false;
         }
       });
   }
 
   onFotosSelecionadas(event: any): void {
+    this.erroUploadImagem = '';
     const files: FileList = event.target.files;
     if (!files || files.length === 0) return;
 
+    // Verifica limite máximo de imagens
+    const imagensAtuais = this.veiculoFormUrlsFotos.length;
+    if (imagensAtuais >= this.maxImagens) {
+      this.erroUploadImagem = `Limite máximo de ${this.maxImagens} imagens atingido.`;
+      event.target.value = '';
+      return;
+    }
+    if (imagensAtuais + files.length > this.maxImagens) {
+      this.erroUploadImagem = `Você só pode adicionar mais ${this.maxImagens - imagensAtuais} imagem(ns).`;
+      event.target.value = '';
+      return;
+    }
+
+    // Verifica tamanho de cada imagem
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.size > this.maxTamanhoImagemMB * 1024 * 1024) {
+        this.erroUploadImagem = `A imagem "${file.name}" excede o tamanho máximo de ${this.maxTamanhoImagemMB}MB.`;
+        event.target.value = '';
+        return;
+      }
+    }
 
     this.uploadsPendentes += files.length;
 
@@ -337,7 +400,7 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
         next: (caminhoRelativo: string) => {
 
           // Adiciona a nova imagem ao FormArray
-          this.veiculoFormUrlsFotos.push(this.fb.control(caminhoRelativo, Validators.required));
+          this.veiculoFormUrlsFotos.push(this.fb.control(caminhoRelativo));
 
           // Atualiza array de visibilidade
           this.imagemVisivel.push(true);
@@ -358,7 +421,7 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
         error: (err) => {
           console.error('❌ Erro no upload:', err);
           this.uploadsPendentes--;
-          alert('Erro ao fazer upload da imagem. Tente novamente.');
+          this.erroUploadImagem = this.formatarMensagemErro(err) || 'Erro ao fazer upload da imagem. Tente novamente.';
         }
       });
     }
@@ -398,6 +461,31 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
 
   voltarParaAdmin(): void {
     this.router.navigate(['/admin/home']);
+  }
+
+  private formatarMensagemErro(err: any): string {
+    // Verifica se é um erro de validação com múltiplos campos
+    if (err?.error?.errors && Array.isArray(err.error.errors)) {
+      const erros = err.error.errors.map((e: any) => `${e.field}: ${e.message}`).join('; ');
+      return `Erro de validação: ${erros}`;
+    }
+
+    // Verifica se tem uma mensagem de erro simples
+    if (err?.error?.error) {
+      return err.error.error;
+    }
+
+    // Verifica se tem message
+    if (err?.error?.message) {
+      return err.error.message;
+    }
+
+    // Fallback para err.message
+    if (err?.message) {
+      return err.message;
+    }
+
+    return 'Erro desconhecido';
   }
 
   getMiniaturaUrl(path: string): string {
