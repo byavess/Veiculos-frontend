@@ -116,17 +116,7 @@ flex-shrink: 0;
 }
 
 
-@media (max-width: 600px) {
-.user-actions {
-gap: 4px; /* Reduz espaço entre nome e botão */
-}
 
-.user-name {
-max-width: 100px; /* Diminui o espaço do nome no mobile */
-font-size: 13px;
-}
-
-}
 .whatsapp-header {
   color: #FFD700 !important;
   font-size: 29px;
@@ -200,22 +190,6 @@ font-size: 13px;
   display: none !important;
 }
 
-/* 2. Mostra o ícone apenas em telas menores (Mobile) */
-@media (max-width: 992px) {
-  .phone-mobile-only {
-    display: flex !important; /* Ou inline-flex para botões mat-icon */
-  }
-  .user-actions {
-  display: flex;
-  align-items: center;
-  gap: 0px;
-
-  
-}
-}
-
-
-
 
 .user-actions .menu-btn-wrap button :hover .mat-icon {
   color: #dcdcdc !important;
@@ -283,9 +257,36 @@ font-size: 13px;
   transform: translateY(-2px) scale(1.05) !important;
 }
 
-@media (max-width: 992px) {
 
-  .menu-btn-wrap {
+@media (max-width: 600px) {
+.user-actions {
+ /* Reduz espaço entre nome e botão */
+ display: flex;
+  align-items: center;
+  gap: 0px;
+
+}
+.user-name {
+max-width: 100px; /* Diminui o espaço do nome no mobile */
+font-size: 13px;
+}
+}
+
+/* 2. Mostra o ícone apenas em telas menores (Mobile) */
+@media (max-width: 992px) {
+  .phone-mobile-only {
+    display: flex !important; /* Ou inline-flex para botões mat-icon */
+    
+  }
+  .user-actions {
+ 
+  display: flex;
+  align-items: center;
+  gap: 0px;
+
+}
+
+ .menu-btn-wrap {
     display: flex !important;
     /* ← Aparece em mobile */
   }
@@ -294,13 +295,7 @@ font-size: 13px;
     display: none !important;
   }
 
-
- }
-
-/* TELAS GRANDES: Hamburguer SOME, NAV aparece */
-@media (min-width: 993px) {
-
-  .menu-btn-wrap {
+   .menu-btn-wrap {
     display: none !important;
     /* ← CORREÇÃO AQUI! Some em desktop */
   }
@@ -310,4 +305,30 @@ font-size: 13px;
     /* ← Aparece em desktop */
   }
 
+  
 }
+
+@media (max-width: 360px) {
+
+  .user-actions {
+ 
+  display: flex;
+  align-items: center;
+  gap: 1px !important;
+
+
+}
+.main-logo,.logo-link{
+ margin-right: 55 !important;
+ display: flex !important;
+  align-items: center;
+   height: auto; /* Mantém a proporção original */
+  width: auto; /* Mantém a largura original */
+  max-width: 210px; /* Limite máximo para não quebrar o layout */
+  object-fit: contain;
+
+}
+
+}
+
+
