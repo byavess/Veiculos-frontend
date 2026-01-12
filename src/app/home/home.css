@@ -498,7 +498,7 @@ overflow: visible !important;
 
   .filtros-grid .filtro-group {
     /* 1 coluna: 100% da largura, garantindo que o filtro não vaze */
-    width: 100%;
+    width: 100% !important;
     margin-bottom: 10px;
     margin-left: -35px;
   }
@@ -1118,6 +1118,7 @@ overflow: visible !important;
     font-size: 18px !important;
     width: 18px !important;
     height: 18px !important;
+
     
   }
 
@@ -1136,7 +1137,7 @@ overflow: visible !important;
 
 
 
-xxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
@@ -2171,6 +2172,7 @@ mat-card-actions.card-botoes {
 @media (max-width: 900px) {
   .botoes-iniciais {
     gap: 10px;
+    
   }
 }
 @media (max-width: 700px) {
@@ -2184,8 +2186,8 @@ mat-card-actions.card-botoes {
   .botoes-iniciais .btn-indique-ganhe,
   .botoes-iniciais .btn-queroVender-filtro {
     flex: 1 1 48%;
-    min-width: 120px !important;
-    max-width: 48%;
+    min-width: 0 !important;
+ max-width: 100% !important;
     width: 48% !important;
     font-size: 15px !important;
     padding: 8px 0 !important;
@@ -2195,6 +2197,7 @@ mat-card-actions.card-botoes {
     justify-content: center;
     align-items: center;
     margin-top: 35% !important;
+       width: auto !important;
   }
   .botoes-iniciais .btn-limpar-filtros1 {
     width: 100% !important;
@@ -2204,12 +2207,4 @@ mat-card-actions.card-botoes {
     padding: 8px 0 !important;
   }
 }
-@media (max-width: 700px) {
-  .btn-indique-ganhe,
-  .btn-queroVender-filtro,
-  .btn-limpar-filtros1 {
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-  }
-}
+
