@@ -109,7 +109,7 @@ navigateToEstoque() {
   }
 
 openContact(): void {
-    const phoneNumber = '+5561984321908';
+    const phoneNumber = '5561984152810';
     const whatsappUrl = `https://wa.me/5561984321908`;
     const telUrl = `tel:${phoneNumber}`;
 

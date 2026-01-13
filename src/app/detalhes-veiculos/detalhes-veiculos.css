@@ -1261,6 +1261,11 @@ mat-card,
 }
 
 
+
+
+/* Responsivo */
+@media (max-width: 1200px) {
+
 /* Estilos para Dialog de Imagem Expandida - VERSÃO AMPLIADA */
 .imagem-expandida-dialog {
   background: rgba(0, 0, 0, 0.98);
@@ -1273,6 +1278,9 @@ mat-card,
   height: 100%;
   overflow: hidden;
 }
+}
+
+    
 
 .imagem-expandida-dialog img {
   max-width: 95vw;
@@ -1285,6 +1293,7 @@ mat-card,
   transition: transform 0.3s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
+
 
 .imagem-expandida-dialog img:hover {
   transform: scale(1.02);
@@ -1390,9 +1399,34 @@ mat-card,
     max-height: 92vh;
   }
 
+
+
+  .detalhes-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+ 
+  }
+
+  .galeria-container {
+    position: flex !;
+    top: 0;
+    width: 100% !important;
+    display: flex !important;
+      
+
+  
+    
+  }
+
+  .specs-grid {
+    grid-template-columns: 1fr;
+  
+    
+
   .zoom-controls {
     bottom: 16px;
     padding: 10px 16px;
+
   }
 }
 
@@ -1675,4 +1709,4 @@ mat-card,
     max-width: 100% !important;
   }
 }
-
+}
