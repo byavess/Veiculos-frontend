@@ -178,21 +178,24 @@
                 <mat-spinner diameter="20" style="display: inline-block; vertical-align: middle;"></mat-spinner>
                 Enviando {{ uploadsPendentes }} imagem(ns)...
               </span>
-              <span *ngIf="uploadsPendentes === 0 && veiculoFormUrlsFotos.length > 0" class="success-text">
+              <span *ngIf="uploadsPendentes === 0 && veiculoFormUrlsFotos.length > 0 && !erroUploadImagem" class="success-text">
                 <mat-icon style="vertical-align: middle; color: #4caf50;">check_circle</mat-icon>
                 {{ veiculoFormUrlsFotos.length }} imagem(ns) adicionada(s)
               </span>
-              <span *ngIf="uploadsPendentes === 0 && veiculoFormUrlsFotos.length === 0" class="info-text">
+              <span *ngIf="uploadsPendentes === 0 && veiculoFormUrlsFotos.length === 0 && !erroUploadImagem" class="info-text">
                 Selecione uma ou mais imagens (opcional - primeira será a principal)
               </span>
-              <span *ngIf="erroUploadImagem" class="upload-error" style="color: #f44336; display: block; margin-top: 8px;">
-                <mat-icon>error</mat-icon>
-                {{ erroUploadImagem }}
-              </span>
-              <span *ngIf="veiculoFormUrlsFotos.length >= maxImagens && !erroUploadImagem" class="info-text" style="color: #f44336; display: block; margin-top: 8px;">
-                <mat-icon>error</mat-icon>
-                Limite máximo de {{ maxImagens }} imagens atingido.
-              </span>
+            </div>
+
+            <!-- Mensagem de erro separada e destacada -->
+            <div *ngIf="erroUploadImagem" class="upload-error" style="background: #ffebee; padding: 12px; border-radius: 8px; border-left: 4px solid #f44336; margin-top: 12px;">
+              <mat-icon style="color: #f44336;">error</mat-icon>
+              <span style="flex: 1;">{{ erroUploadImagem }}</span>
+            </div>
+
+            <div *ngIf="veiculoFormUrlsFotos.length >= maxImagens && !erroUploadImagem" style="background: #fff3e0; padding: 12px; border-radius: 8px; border-left: 4px solid #ff9800; margin-top: 12px; display: flex; align-items: center; gap: 8px;">
+              <mat-icon style="color: #ff9800;">info</mat-icon>
+              <span style="color: #e65100;">Limite máximo de {{ maxImagens }} imagens atingido.</span>
             </div>
           </div>
         </div>
