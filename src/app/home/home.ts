@@ -28,7 +28,7 @@ export class Home implements OnInit, OnDestroy {
   pageSizeOptions: number[] = [12, 24, 36];
   loading: boolean = false;
   erroCarregamento: boolean = false;
-  private whatsappNumber = '61984321908';
+  private whatsappNumber = '5561984152810';
   private defaultMessage = 'Olá! Gostaria de mais de mais informações sobre os veiculos disponíveis?';
   anoCorrente: number = new Date().getFullYear();
 

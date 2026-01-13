@@ -428,6 +428,8 @@
 
 }
 
+
+
 /* Responsivo */
 @media (max-width: 1200px) {
 
@@ -435,10 +437,13 @@
   .container-detalhes{
     
     width: 100% !important;
- justify-content: center;
- display: flex !important;
- position:center;
-  
+display: flex !important;
+justify-content: center !important;
+align-items: center !important;
+margin: 0 auto !important;
+padding-left: 30px !important;
+padding-right: 30px !important;
+   overflow-x: hidden !important;
 
   }
 
@@ -452,6 +457,11 @@
   .galeria-container {
     position: flex !;
     top: 0;
+    width: 100% !important;
+    display: flex !important;
+      
+
+  
     
   }
 
@@ -541,7 +551,15 @@
 
 @media (max-width: 768px) {
   .container-detalhes {
-    padding: 15px !important;
+      width: 100% !important;
+display: flex !important;
+justify-content: center !important;
+align-items: center !important;
+margin: 0 auto !important;
+padding-left: 30px !important;
+padding-right: 30px !important;
+   overflow-x: hidden !important;
+ 
   }
 
   /* Imagem proporcional ao tamanho da tela do celular */
