@@ -1298,13 +1298,11 @@ mat-card,
 
 }
 
-<<<<<<< HEAD
+
 
 
 /* Responsivo */
 @media (max-width: 1200px) {
-=======
->>>>>>> 7492606682833fbbb436398a1acd350c89ac2f1d
 
 /* Estilos para Dialog de Imagem Expandida - VERSÃO AMPLIADA */
 .imagem-expandida-dialog {
@@ -1318,19 +1316,10 @@ mat-card,
   height: 100%;
   overflow: hidden;
 }
+}
 
-<<<<<<< HEAD
-  .container-detalhes{
     
-    width: 100% !important;
-display: flex !important;
-justify-content: center !important;
-align-items: center !important;
-margin: 0 auto !important;
-padding-left: 30px !important;
-padding-right: 30px !important;
-   overflow-x: hidden !important;
-=======
+
 .imagem-expandida-dialog img {
   max-width: 95vw;
   max-height: 95vh;
@@ -1342,7 +1331,7 @@ padding-right: 30px !important;
   transition: transform 0.3s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
->>>>>>> 7492606682833fbbb436398a1acd350c89ac2f1d
+
 
 .imagem-expandida-dialog img:hover {
   transform: scale(1.02);
@@ -1448,7 +1437,7 @@ padding-right: 30px !important;
     max-height: 92vh;
   }
 
-<<<<<<< HEAD
+
 
   .detalhes-grid {
     grid-template-columns: 1fr;
@@ -1471,11 +1460,11 @@ padding-right: 30px !important;
     grid-template-columns: 1fr;
   
     
-=======
+
   .zoom-controls {
     bottom: 16px;
     padding: 10px 16px;
->>>>>>> 7492606682833fbbb436398a1acd350c89ac2f1d
+
   }
 }
 
@@ -1639,72 +1628,6 @@ padding-right: 30px !important;
 
   /* Forçar largura dos spec-items */
   .spec-item {
-<<<<<<< HEAD
-    padding: 12px;
-    
-    
-  }
-}
-
-
-@media (max-width: 1200px) {
-  .detalhes-grid {
-    grid-template-columns: 1fr !important; /* Força uma coluna */
-  }
-  
-  .galeria-container {
-    position: relative;
-    top: 0;
-    width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .container-detalhes {
-      width: 100% !important;
-display: flex !important;
-justify-content: center !important;
-align-items: center !important;
-margin: 0 auto !important;
-padding-left: 30px !important;
-padding-right: 30px !important;
-   overflow-x: hidden !important;
- 
-  }
-
-  /* Imagem proporcional ao tamanho da tela do celular */
-  .main-image-wrapper {
-    height: 60vw !important; 
-    min-height: 250px;
-  }
-
-  .veiculo-title {
-    font-size: 1.5rem !important;
-    line-height: 1.2;
-  }
-
-  .price-value {
-    font-size: 1.8rem !important;
-  }
-
-  /* Faz as especificações ficarem em 1 coluna no mobile para não esmagar o texto */
-  .specs-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .spec-item {
-    padding: 12px !important;
-  }
-
-  /* Botões de ação empilhados e cheios */
-  .actions-buttons {
-    flex-direction: column !important;
-    width: 100%;
-  }
-
-  .btn-whatsapp, .btn-info {
-=======
->>>>>>> 7492606682833fbbb436398a1acd350c89ac2f1d
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
@@ -1823,9 +1746,5 @@ padding-right: 30px !important;
     width: 100% !important;
     max-width: 100% !important;
   }
-<<<<<<< HEAD
 }
-=======
 }
-
->>>>>>> 7492606682833fbbb436398a1acd350c89ac2f1d
