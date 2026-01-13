@@ -408,8 +408,8 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
           // Marca como touched
           this.veiculoForm.get('urlsFotos')?.markAsTouched();
 
-          // Decrementa contador
-          this.uploadsPendentes--;
+          // Decrementa contador (garantindo que nunca fique negativo)
+          this.uploadsPendentes = Math.max(0, this.uploadsPendentes - 1);
 
 
           // Força detecção de mudanças de forma assíncrona para evitar NG0100
@@ -419,9 +419,32 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
           }, 0);
         },
         error: (err) => {
-          console.error('❌ Erro no upload:', err);
-          this.uploadsPendentes--;
-          this.erroUploadImagem = this.formatarMensagemErro(err) || 'Erro ao fazer upload da imagem. Tente novamente.';
+          // Decrementa contador (garantindo que nunca fique negativo)
+          this.uploadsPendentes = Math.max(0, this.uploadsPendentes - 1);
+          const mensagemErro = this.formatarMensagemErro(err) || 'Erro ao fazer upload da imagem. Tente novamente.';
+          this.erroUploadImagem = mensagemErro;
+
+          // Exibe também um snackbar para garantir que o usuário veja o erro
+          this.snackBar.open(mensagemErro, '', {
+            duration: 7000,
+            panelClass: ['snackbar-error'],
+            horizontalPosition: 'center',
+            verticalPosition: 'top'
+          });
+
+          // Reseta estado do upload
+          this.resetarEstadoUpload();
+
+          // Timeout para esconder mensagem de erro automaticamente
+          setTimeout(() => {
+            this.erroUploadImagem = '';
+            this.cdr.detectChanges();
+          }, 7000);
+
+          // Força detecção de mudanças para atualizar a UI
+          setTimeout(() => {
+            this.cdr.detectChanges();
+          }, 0);
         }
       });
     }
@@ -470,19 +493,42 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
       return `Erro de validação: ${erros}`;
     }
 
-    // Verifica se tem uma mensagem de erro simples
+    // Verifica se tem uma mensagem de erro simples no formato {"error": "mensagem"}
     if (err?.error?.error) {
       return err.error.error;
     }
 
-    // Verifica se tem message
+    // Verifica se tem message no error
     if (err?.error?.message) {
       return err.error.message;
+    }
+
+    // Verifica se error é uma string diretamente
+    if (typeof err?.error === 'string') {
+      return err.error;
     }
 
     // Fallback para err.message
     if (err?.message) {
       return err.message;
+    }
+
+    // Verifica status HTTP
+    if (err?.status) {
+      switch (err.status) {
+        case 400:
+          return 'Requisição inválida. Verifique os dados enviados.';
+        case 401:
+          return 'Não autorizado. Faça login novamente.';
+        case 403:
+          return 'Acesso negado.';
+        case 404:
+          return 'Recurso não encontrado.';
+        case 500:
+          return 'Erro interno do servidor. Tente novamente mais tarde.';
+        default:
+          return `Erro ${err.status}: ${err.statusText || 'Erro desconhecido'}`;
+      }
     }
 
     return 'Erro desconhecido';
@@ -515,6 +561,12 @@ export class VeiculoEditarCadastrarComponent implements OnInit {
         this.imagemPrincipalUrl = null;
       }
     }
+  }
+
+  resetarEstadoUpload(): void {
+    this.erroUploadImagem = '';
+    this.uploadsPendentes = 0;
+    this.cdr.detectChanges();
   }
 
   onImagemErro(index: number): void {
