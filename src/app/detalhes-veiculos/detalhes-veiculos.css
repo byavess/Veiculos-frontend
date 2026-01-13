@@ -506,126 +506,88 @@ mat-card,
   }
 }
 
-/* Container das Thumbnails com Navegação */
+/* Container das Thumbnails */
 .thumbnails-container {
   position: relative;
   width: 100%;
   background: #252525;
+  padding: 15px 0;
 }
 
-/* Botões de Navegação (Setas) - Ocultos no Desktop */
-.thumbnail-nav-btn {
-  display: none;
+/* Wrapper com scroll horizontal */
+.thumbnails-wrapper {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px 5px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #FFEC40 #1a1a1a;
 }
 
-/* Indicador de Scroll - Oculto no Desktop */
-.scroll-hint {
-  display: none;
+.thumbnails-wrapper::-webkit-scrollbar {
+  height: 6px;
 }
 
-/* Estilos Mobile para Navegação */
+.thumbnails-wrapper::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 10px;
+}
+
+.thumbnails-wrapper::-webkit-scrollbar-thumb {
+  background: #FFEC40;
+  border-radius: 10px;
+}
+
+.thumbnails-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #FFD700;
+}
+
+.thumbnail-button {
+  flex-shrink: 0;
+  width: 100px !important;
+  height: 75px !important;
+  min-width: 100px !important;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #1a1a1a;
+  padding: 0;
+  cursor: pointer;
+}
+
+.thumbnail-button:hover {
+  border-color: #FFD700;
+  transform: scale(1.05);
+}
+
+.thumbnail-button.active {
+  border-color: #FFEC40;
+  box-shadow: 0 0 10px rgba(255, 236, 64, 0.5);
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
 @media (max-width: 768px) {
-  .thumbnail-nav-btn {
-    display: flex !important;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100 !important; /* Z-index bem alto para ficar acima de tudo */
-    background: rgba(255, 236, 64, 0.9) !important;
-    color: #252525 !important;
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-    transition: all 0.3s ease;
-  }
-
-  .thumbnail-nav-btn:hover,
-  .thumbnail-nav-btn:active {
-    background: rgba(255, 215, 0, 1) !important;
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5) !important;
-  }
-
-  .thumbnail-nav-btn mat-icon {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-  }
-
-  .thumbnail-nav-left {
-    left: 4px;
-  }
-
-  .thumbnail-nav-right {
-    right: 4px;
-  }
-
-  /* Indicador de Scroll */
-  .scroll-hint {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px 12px;
-    background: rgba(255, 236, 64, 0.15);
-    color: #FFEC40;
-    font-size: 0.75rem;
-    text-align: center;
-    border-top: 1px solid rgba(255, 236, 64, 0.3);
-    animation: pulse-hint 2s ease-in-out infinite;
-  }
-
-  .scroll-hint mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-    animation: swipe-animation 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse-hint {
-    0%, 100% {
-      opacity: 0.7;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes swipe-animation {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(10px);
-    }
+  .thumbnail-button {
+    width: 85px !important;
+    height: 64px !important;
+    min-width: 85px !important;
   }
 }
 
 @media (max-width: 480px) {
-  .thumbnail-nav-btn {
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px !important;
-  }
-
-  .thumbnail-nav-btn mat-icon {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-  }
-
-  .scroll-hint {
-    font-size: 0.7rem;
-    padding: 6px 10px;
-  }
-
-  .scroll-hint mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+  .thumbnail-button {
+    width: 75px !important;
+    height: 56px !important;
+    min-width: 75px !important;
   }
 }
 
