@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, EMPTY, switchMap, tap } from 'rxjs';
 import { VeiculoService } from '../veiculo.service';
@@ -22,7 +22,12 @@ export class DetalhesVeiculos implements OnInit {
   selectedImage: string | null = null;
 
   @ViewChild('imagemExpandida') imagemExpandidaTemplate!: TemplateRef<any>;
+  @ViewChild('expandedImage') expandedImage: any;
+  @ViewChild('thumbnailsWrapper') thumbnailsWrapper!: ElementRef;
   imagemExpandidaUrl: string | null = null;
+
+  // Controle de zoom
+  zoomLevel: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -110,11 +115,58 @@ export class DetalhesVeiculos implements OnInit {
 
   openImagemExpandida(url: string): void {
     this.imagemExpandidaUrl = url;
+    this.zoomLevel = 1; // Reset zoom ao abrir
     this.dialog.open(this.imagemExpandidaTemplate, {
       data: url,
       panelClass: 'imagem-expandida-dialog-panel',
-      maxWidth: '95vw',
-      maxHeight: '95vh'
+      maxWidth: '98vw',
+      maxHeight: '98vh',
+      width: '98vw',
+      height: '98vh',
+      hasBackdrop: true,
+      backdropClass: 'dialog-backdrop-dark',
+      disableClose: false
     });
+  }
+
+  // Métodos de controle de zoom
+  zoomIn(): void {
+    if (this.zoomLevel < 3) {
+      this.zoomLevel++;
+    }
+  }
+
+  zoomOut(): void {
+    if (this.zoomLevel > 1) {
+      this.zoomLevel--;
+    }
+  }
+
+  resetZoom(): void {
+    this.zoomLevel = 1;
+  }
+
+  toggleZoom(): void {
+    if (this.zoomLevel === 1) {
+      this.zoomLevel = 2;
+    } else if (this.zoomLevel === 2) {
+      this.zoomLevel = 3;
+    } else {
+      this.zoomLevel = 1;
+    }
+  }
+
+  // Scroll horizontal das thumbnails
+  scrollThumbnails(direction: 'left' | 'right'): void {
+    if (this.thumbnailsWrapper && this.thumbnailsWrapper.nativeElement) {
+      const container = this.thumbnailsWrapper.nativeElement;
+      const scrollAmount = 200; // Pixels a rolar
+
+      if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    }
   }
 }
