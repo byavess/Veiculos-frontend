@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, EMPTY, switchMap, tap } from 'rxjs';
 import { VeiculoService } from '../veiculo.service';
@@ -23,6 +23,7 @@ export class DetalhesVeiculos implements OnInit {
 
   @ViewChild('imagemExpandida') imagemExpandidaTemplate!: TemplateRef<any>;
   @ViewChild('expandedImage') expandedImage: any;
+  @ViewChild('thumbnailsWrapper') thumbnailsWrapper!: ElementRef;
   imagemExpandidaUrl: string | null = null;
 
   // Controle de zoom
@@ -152,6 +153,20 @@ export class DetalhesVeiculos implements OnInit {
       this.zoomLevel = 3;
     } else {
       this.zoomLevel = 1;
+    }
+  }
+
+  // Scroll horizontal das thumbnails
+  scrollThumbnails(direction: 'left' | 'right'): void {
+    if (this.thumbnailsWrapper && this.thumbnailsWrapper.nativeElement) {
+      const container = this.thumbnailsWrapper.nativeElement;
+      const scrollAmount = 200; // Pixels a rolar
+
+      if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
     }
   }
 }

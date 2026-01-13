@@ -136,7 +136,7 @@ mat-card,
 
 @media (max-width: 768px) {
   .detalhes-grid {
-    gap: 20px;
+    gap: 16px !important;
     width: 100% !important;
     padding: 0 !important;
     box-sizing: border-box !important;
@@ -145,7 +145,7 @@ mat-card,
 
 @media (max-width: 480px) {
   .detalhes-grid {
-    gap: 16px;
+    gap: 12px !important;
     width: 100% !important;
     padding: 0 !important;
   }
@@ -287,7 +287,7 @@ mat-card,
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Mantém a imagem inteira visível sem cortar */
+  object-fit: cover; /* Preenche o espaço sem distorcer */
   object-position: center;
   transition: transform 0.5s ease;
   background: #1a1a1a;
@@ -300,23 +300,57 @@ mat-card,
 /* Suporte para diferentes tamanhos de tela */
 @media (max-width: 1024px) {
   .main-image-wrapper {
-    padding-top: 75%; /* Aspect ratio 4:3 para tablets */
+    padding-top: 60%; /* Proporcional para tablets */
+  }
+
+  .main-image {
+    object-fit: cover; /* Preenche melhor em tablets */
   }
 }
 
 @media (max-width: 768px) {
   .main-image-wrapper {
-    padding-top: 66.67%; /* Volta para 3:2 em mobile */
+    padding-top: 65% !important; /* Mais espaço para visualizar melhor */
+    min-height: 250px;
+    max-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .main-image {
-    object-fit: contain; /* Garante que a imagem não seja cortada em mobile */
+    object-fit: cover !important; /* Preenche o container sem distorcer */
+    object-position: center center !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 
 @media (max-width: 480px) {
   .main-image-wrapper {
-    padding-top: 100%; /* Aspect ratio 1:1 para telas muito pequenas */
+    padding-top: 70% !important; /* Mais alto para melhor visualização */
+    min-height: 220px;
+    max-height: 280px;
+  }
+
+  .main-image {
+    object-fit: cover !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .main-image-wrapper {
+    padding-top: 75% !important; /* Ainda mais alto para telas pequenas */
+    min-height: 200px;
+    max-height: 260px;
+  }
+}
+
+@media (max-width: 320px) {
+  .main-image-wrapper {
+    padding-top: 80% !important;
+    min-height: 180px;
+    max-height: 240px;
   }
 }
 
@@ -326,26 +360,38 @@ mat-card,
   gap: 10px;
   padding: 20px;
   overflow-x: auto;
+  overflow-y: hidden;
   background: #252525;
   scrollbar-width: thin;
   scrollbar-color: #FFEC40 #252525;
+  -webkit-overflow-scrolling: touch; /* Smooth scroll no iOS */
+  scroll-behavior: smooth; /* Scroll suave */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .thumbnails-wrapper::-webkit-scrollbar {
-  height: 6px;
+  height: 8px;
 }
 
 .thumbnails-wrapper::-webkit-scrollbar-track {
-  background: #252525;
+  background: #1a1a1a;
+  border-radius: 4px;
 }
 
 .thumbnails-wrapper::-webkit-scrollbar-thumb {
   background: #FFEC40;
-  border-radius: 3px;
+  border-radius: 4px;
+  border: 2px solid #252525;
+}
+
+.thumbnails-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #ffd700;
 }
 
 .thumbnail-button {
-  flex-shrink: 0;
+  flex-shrink: 0; /* Impede que as miniaturas encolham */
+  min-width: 100px; /* Garante largura mínima */
   width: 100px;
   height: 75px;
   padding: 0 !important;
@@ -354,46 +400,232 @@ mat-card,
   overflow: hidden;
   transition: all 0.3s ease;
   background: #1a1a1a;
+  cursor: pointer;
 }
 
 .thumbnail-button.active {
   border-color: #FFEC40;
   box-shadow: 0 4px 12px rgba(255, 238, 6, 0.5);
+  transform: scale(1.05);
 }
 
 .thumbnail-button:hover {
   border-color: #FFEC40;
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.03);
 }
 
 .thumbnail-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none; /* Evita conflito de eventos */
 }
 
 @media (max-width: 768px) {
   .thumbnails-wrapper {
-    padding: 15px 10px;
+    padding: 12px 8px !important;
     gap: 8px;
+    /* Adiciona indicação visual de que há mais conteúdo para rolar */
+    position: relative;
+    scroll-snap-type: x proximity; /* Snap suave ao rolar */
+  }
+
+  /* Adiciona fade nas bordas para indicar scroll */
+  .thumbnails-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(to right, rgba(37, 37, 37, 0), rgba(37, 37, 37, 0.95));
+    pointer-events: none;
+    z-index: 1;
   }
 
   .thumbnail-button {
-    width: 80px;
-    height: 60px;
+    min-width: 75px !important;
+    width: 75px !important;
+    height: 56px !important;
+    border: 2px solid transparent;
+    scroll-snap-align: start; /* Alinha ao rolar */
+    touch-action: manipulation; /* Melhora resposta ao toque */
+  }
+
+  .thumbnail-button.active {
+    border: 3px solid #FFEC40;
+    box-shadow: 0 0 15px rgba(255, 236, 64, 0.6);
+  }
+
+  .thumbnails-wrapper::-webkit-scrollbar {
+    height: 6px;
   }
 }
 
 @media (max-width: 480px) {
   .thumbnails-wrapper {
-    padding: 12px 8px;
+    padding: 10px 6px !important;
     gap: 6px;
   }
 
   .thumbnail-button {
-    width: 70px;
-    height: 52px;
+    min-width: 68px !important;
+    width: 68px !important;
+    height: 50px !important;
     border: 2px solid transparent;
+  }
+
+  /* Mantém visualização de ~4.5 thumbnails por tela */
+  .thumbnails-wrapper::after {
+    width: 25px;
+  }
+}
+
+@media (max-width: 380px) {
+  .thumbnails-wrapper {
+    padding: 8px 4px !important;
+    gap: 5px;
+  }
+
+  .thumbnail-button {
+    min-width: 62px !important;
+    width: 62px !important;
+    height: 46px !important;
+  }
+
+  .thumbnails-wrapper::after {
+    width: 20px;
+  }
+}
+
+@media (max-width: 320px) {
+  .thumbnail-button {
+    min-width: 58px !important;
+    width: 58px !important;
+    height: 43px !important;
+  }
+}
+
+/* Container das Thumbnails com Navegação */
+.thumbnails-container {
+  position: relative;
+  width: 100%;
+  background: #252525;
+}
+
+/* Botões de Navegação (Setas) - Ocultos no Desktop */
+.thumbnail-nav-btn {
+  display: none;
+}
+
+/* Indicador de Scroll - Oculto no Desktop */
+.scroll-hint {
+  display: none;
+}
+
+/* Estilos Mobile para Navegação */
+@media (max-width: 768px) {
+  .thumbnail-nav-btn {
+    display: flex !important;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100 !important; /* Z-index bem alto para ficar acima de tudo */
+    background: rgba(255, 236, 64, 0.9) !important;
+    color: #252525 !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease;
+  }
+
+  .thumbnail-nav-btn:hover,
+  .thumbnail-nav-btn:active {
+    background: rgba(255, 215, 0, 1) !important;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5) !important;
+  }
+
+  .thumbnail-nav-btn mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .thumbnail-nav-left {
+    left: 4px;
+  }
+
+  .thumbnail-nav-right {
+    right: 4px;
+  }
+
+  /* Indicador de Scroll */
+  .scroll-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: rgba(255, 236, 64, 0.15);
+    color: #FFEC40;
+    font-size: 0.75rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 236, 64, 0.3);
+    animation: pulse-hint 2s ease-in-out infinite;
+  }
+
+  .scroll-hint mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    animation: swipe-animation 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-hint {
+    0%, 100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes swipe-animation {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .thumbnail-nav-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+  }
+
+  .thumbnail-nav-btn mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .scroll-hint {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+  }
+
+  .scroll-hint mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -431,7 +663,13 @@ mat-card,
   }
 
   .info-container {
-    gap: 16px;
+    gap: 14px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-container {
+    gap: 12px !important;
   }
 }
 
@@ -614,14 +852,14 @@ mat-card,
 
   .specs-card mat-card-header,
   .specs-card mat-card-content {
-    padding: 12px;
+    padding: 8px 4px !important;
   }
 }
 
 @media (max-width: 480px) {
   .specs-card mat-card-header,
   .specs-card mat-card-content {
-    padding: 10px;
+    padding: 6px 3px !important;
   }
 }
 
@@ -659,15 +897,17 @@ mat-card,
 @media (max-width: 768px) {
   .specs-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
-    margin-top: 12px;
+    gap: 10px !important;
+    margin-top: 8px;
+    width: 100% !important;
+    padding: 0 !important;
   }
 }
 
 @media (max-width: 480px) {
   .specs-grid {
-    gap: 12px;
-    margin-top: 10px;
+    gap: 8px !important;
+    margin-top: 6px;
   }
 }
 
@@ -687,15 +927,17 @@ mat-card,
 
 @media (max-width: 768px) {
   .spec-item {
-    padding: 10px 6px !important;
-    gap: 8px;
+    padding: 8px 4px !important;
+    gap: 6px;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
 
 @media (max-width: 480px) {
   .spec-item {
-    padding: 8px 4px !important;
-    gap: 6px;
+    padding: 6px 3px !important;
+    gap: 5px;
   }
 }
 
@@ -710,13 +952,30 @@ mat-card,
   height: 28px !important;
   color: rgb(43, 41, 41) !important;
   flex-shrink: 0;
+}
 
+@media (max-width: 768px) {
+  .spec-icon {
+    font-size: 22px !important;
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .spec-icon {
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
 }
 
 .spec-content {
   flex: 1;
   min-width: 0;
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 .spec-label {
@@ -729,9 +988,17 @@ mat-card,
   word-wrap: break-word;
 }
 
+@media (max-width: 768px) {
+  .spec-label {
+    font-size: 0.75rem !important;
+    letter-spacing: 0.3px;
+  }
+}
+
 @media (max-width: 480px) {
   .spec-label {
-    font-size: 0.8rem;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.2px;
   }
 }
 
@@ -746,10 +1013,17 @@ mat-card,
   overflow-wrap: break-word;
 }
 
+@media (max-width: 768px) {
+  .spec-value {
+    font-size: 0.95rem !important;
+    gap: 6px;
+  }
+}
+
 @media (max-width: 480px) {
   .spec-value {
-    font-size: 1rem;
-    gap: 6px;
+    font-size: 0.85rem !important;
+    gap: 5px;
   }
 }
 
@@ -1312,10 +1586,25 @@ mat-card,
   .description-card mat-card-header,
   .description-card mat-card-content,
   .actions-card mat-card-content {
-    padding-left: 4px !important;
-    padding-right: 4px !important;
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+
+  /* Forçar largura dos spec-items */
+  .spec-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .specs-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
@@ -1344,6 +1633,19 @@ mat-card,
     width: 100% !important;
     overflow-x: hidden !important;
     box-sizing: border-box !important;
+  }
+
+  /* Forçar specs-card e grid a respeitarem limites */
+  .specs-card,
+  .specs-grid,
+  .spec-item,
+  .spec-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
   /* Textos específicos que precisam quebrar */
@@ -1395,12 +1697,14 @@ mat-card,
 
   /* Restaurar estilos específicos dos thumbnails */
   .thumbnail-button {
-    width: 80px !important;
-    height: 60px !important;
+    min-width: 75px !important;
+    width: 75px !important;
+    height: 56px !important;
   }
 
   .thumbnails-wrapper {
     width: 100% !important;
+    overflow-x: auto !important;
   }
 
   .galeria-card,

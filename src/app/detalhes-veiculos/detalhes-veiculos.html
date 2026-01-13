@@ -49,19 +49,43 @@
               style="cursor: zoom-in;" />
           </div>
 
-          <!-- Miniaturas -->
-          <div class="thumbnails-wrapper" *ngIf="veiculo.urlsFotos && veiculo.urlsFotos.length > 1">
+          <!-- Miniaturas com Controles de Navegação -->
+          <div class="thumbnails-container" *ngIf="veiculo.urlsFotos && veiculo.urlsFotos.length > 1">
+            <!-- Botão Scroll Esquerda (Mobile) -->
             <button mat-icon-button
-                    *ngFor="let url of veiculo.urlsFotos; let i = index"
-                    class="thumbnail-button"
-                    [class.active]="selectedImage === url || (!selectedImage && i === 0)"
-                    (click)="selectImage(url)">
-              <img
-                [src]="getImagemUrl(url)"
-                [alt]="'Foto ' + (i + 1)"
-                class="thumbnail-image"
-                (error)="onThumbnailError($event)">
+                    class="thumbnail-nav-btn thumbnail-nav-left"
+                    (click)="scrollThumbnails('left')"
+                    *ngIf="veiculo.urlsFotos.length > 4">
+              <mat-icon>chevron_left</mat-icon>
             </button>
+
+            <div class="thumbnails-wrapper" #thumbnailsWrapper>
+              <button mat-icon-button
+                      *ngFor="let url of veiculo.urlsFotos; let i = index"
+                      class="thumbnail-button"
+                      [class.active]="selectedImage === url || (!selectedImage && i === 0)"
+                      (click)="selectImage(url)">
+                <img
+                  [src]="getImagemUrl(url)"
+                  [alt]="'Foto ' + (i + 1)"
+                  class="thumbnail-image"
+                  (error)="onThumbnailError($event)">
+              </button>
+            </div>
+
+            <!-- Botão Scroll Direita (Mobile) -->
+            <button mat-icon-button
+                    class="thumbnail-nav-btn thumbnail-nav-right"
+                    (click)="scrollThumbnails('right')"
+                    *ngIf="veiculo.urlsFotos.length > 4">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+
+            <!-- Indicador de Scroll (Mobile) -->
+            <div class="scroll-hint" *ngIf="veiculo.urlsFotos.length > 4">
+              <mat-icon>swipe</mat-icon>
+              <span>Deslize para ver mais fotos</span>
+            </div>
           </div>
         </mat-card>
       </div>
