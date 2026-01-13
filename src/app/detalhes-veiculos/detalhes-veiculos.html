@@ -182,11 +182,43 @@
     </div>
   </div>
 
-  <!-- Dialog para imagem expandida -->
+  <!-- Dialog para imagem expandida com controles de zoom -->
   <ng-template #imagemExpandida>
     <div class="imagem-expandida-dialog">
-      <img [src]="getImagemUrl(imagemExpandidaUrl || '')" alt="Imagem expandida"
-           style="max-width: 90vw; max-height: 90vh; display: block; margin: auto;"/>
+      <!-- Botão Fechar -->
+      <button mat-icon-button class="dialog-close-button" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <!-- Indicador de Zoom -->
+      <div class="zoom-indicator" *ngIf="zoomLevel > 1">
+        <mat-icon style="vertical-align: middle; font-size: 18px; margin-right: 4px;">zoom_in</mat-icon>
+        {{ zoomLevel }}x
+      </div>
+
+      <!-- Imagem -->
+      <img
+        #expandedImage
+        [src]="getImagemUrl(imagemExpandidaUrl || '')"
+        alt="Imagem expandida"
+        [class.zoomed]="zoomLevel === 2"
+        [class.zoomed-max]="zoomLevel === 3"
+        (click)="toggleZoom()"
+        [style.transform]="'scale(' + zoomLevel + ')'"
+      />
+
+      <!-- Controles de Zoom -->
+      <div class="zoom-controls">
+        <button mat-mini-fab (click)="zoomOut()" [disabled]="zoomLevel <= 1">
+          <mat-icon>zoom_out</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="resetZoom()" [disabled]="zoomLevel === 1">
+          <mat-icon>fit_screen</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="zoomIn()" [disabled]="zoomLevel >= 3">
+          <mat-icon>zoom_in</mat-icon>
+        </button>
+      </div>
     </div>
   </ng-template>
 

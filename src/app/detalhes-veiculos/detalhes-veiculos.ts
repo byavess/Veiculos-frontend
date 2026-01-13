@@ -22,7 +22,11 @@ export class DetalhesVeiculos implements OnInit {
   selectedImage: string | null = null;
 
   @ViewChild('imagemExpandida') imagemExpandidaTemplate!: TemplateRef<any>;
+  @ViewChild('expandedImage') expandedImage: any;
   imagemExpandidaUrl: string | null = null;
+
+  // Controle de zoom
+  zoomLevel: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -110,11 +114,44 @@ export class DetalhesVeiculos implements OnInit {
 
   openImagemExpandida(url: string): void {
     this.imagemExpandidaUrl = url;
+    this.zoomLevel = 1; // Reset zoom ao abrir
     this.dialog.open(this.imagemExpandidaTemplate, {
       data: url,
       panelClass: 'imagem-expandida-dialog-panel',
-      maxWidth: '95vw',
-      maxHeight: '95vh'
+      maxWidth: '98vw',
+      maxHeight: '98vh',
+      width: '98vw',
+      height: '98vh',
+      hasBackdrop: true,
+      backdropClass: 'dialog-backdrop-dark',
+      disableClose: false
     });
+  }
+
+  // Métodos de controle de zoom
+  zoomIn(): void {
+    if (this.zoomLevel < 3) {
+      this.zoomLevel++;
+    }
+  }
+
+  zoomOut(): void {
+    if (this.zoomLevel > 1) {
+      this.zoomLevel--;
+    }
+  }
+
+  resetZoom(): void {
+    this.zoomLevel = 1;
+  }
+
+  toggleZoom(): void {
+    if (this.zoomLevel === 1) {
+      this.zoomLevel = 2;
+    } else if (this.zoomLevel === 2) {
+      this.zoomLevel = 3;
+    } else {
+      this.zoomLevel = 1;
+    }
   }
 }
