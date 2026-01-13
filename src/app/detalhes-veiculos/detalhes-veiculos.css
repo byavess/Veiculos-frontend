@@ -430,13 +430,27 @@
 
 /* Responsivo */
 @media (max-width: 1200px) {
+
+
+  .container-detalhes{
+    
+    width: 100% !important;
+ justify-content: center;
+ display: flex !important;
+ position:center;
+  
+
+  }
+
+
   .detalhes-grid {
     grid-template-columns: 1fr;
     gap: 24px;
+ 
   }
 
   .galeria-container {
-    position: relative;
+    position: flex !;
     top: 0;
     
   }
@@ -449,6 +463,7 @@
 }
 
 @media (max-width: 768px) {
+  
   .container-detalhes {
     padding: 16px;
     
@@ -464,9 +479,10 @@
   }
 
   .main-image-wrapper {
-    width: 100%;
+    width: 75%;
   height: 400px;
-  position: relative;
+  position: flex;
+  justify-items: center;
  
     
   }
@@ -564,28 +580,34 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 380px) {
   /* Ajuste para telas muito pequenas (iPhone SE, etc) */
+  
+  
   .price-section {
     padding: 15px !important;
+   
   }
 
   .price-value {
     font-size: 1.6rem !important;
+      width: 100% !important;
   }
 
   .thumbnails-wrapper {
     padding: 10px 5px !important;
+  
   }
 
   .thumbnail-button {
     width: 70px !important;
     height: 55px !important;
+   
   }
 
   /* Ajuste da Badge de Oferta para não cobrir o título */
   .oferta-badge-detalhes {
-    width: auto !important;
+    width: 100% !important;
     padding: 6px 12px !important;
     right: 5px !important;
   }
