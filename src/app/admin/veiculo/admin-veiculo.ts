@@ -114,13 +114,20 @@ export class AdminVeiculoComponent implements OnInit, OnChanges {
 
   deletarVeiculo(veiculo: IVeiculo): void {
     if (!veiculo || !veiculo.id) return;
+
+    const veiculoInfo = `${veiculo.marca?.nome || ''} ${veiculo.modelo?.modelo || ''} ${veiculo.ano || ''}`.trim();
+    const message = veiculoInfo
+      ? `Tem certeza que deseja deletar o veículo ${veiculoInfo}? Esta ação não pode ser desfeita e todas as imagens associadas serão removidas.`
+      : 'Tem certeza que deseja deletar este veículo? Esta ação não pode ser desfeita e todas as imagens associadas serão removidas.';
+
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '350px',
+      width: '450px',
       data: {
-        title: 'Confirmação',
-        message: 'Tem certeza que deseja deletar este veículo?'
+        title: 'Confirmar Exclusão',
+        message: message
       }
     });
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.adminVeiculoService.deleteVeiculo(veiculo.id).subscribe({

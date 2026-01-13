@@ -22,6 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -41,7 +42,6 @@ import { IndexAdminComponent } from './admin/index-admin/index-admin';
 import { VeiculoService } from './veiculo.service';
 import { PlatformModule } from '@angular/cdk/platform';
 import {ConfirmDialogComponent} from './shared/confirm-dialog.component';
-import {MatDialogActions, MatDialogClose, MatDialogContent} from '@angular/material/dialog';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {AuthErrorInterceptor} from './interceptors/auth-error.interceptor';
 
@@ -86,9 +86,7 @@ registerLocaleData(localePt, 'pt');
     MatDividerModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogClose,
+    MatDialogModule,
     PlatformModule,
     MatCheckbox
 
