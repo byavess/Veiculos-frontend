@@ -421,12 +421,72 @@ mat-card,
   pointer-events: none; /* Evita conflito de eventos */
 }
 
+.nav-arrow {
+
+  background-color: #FFEC40 !important; /* Amarelo conforme solicitado */
+  color: #000000 !important; /* Seta preta */
+  z-index: 10;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+
+  overflow: visible !important
+  
+  
+ 
+}
+
+.nav-arrow left {
+  left: 5px;
+
+  
+}
+
+.right-arrow {
+  margin-right: -50px !important;
+
+}
+
+.thumbnail-container-wrapper {
+  position: relative; /* Essencial para que as setas obedeçam os limites deste bloco */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+
+/* Ajustes específicos para MOBILE */
 @media (max-width: 768px) {
+  button.nav-arrow.mat-mdc-icon-button {
+    width: 28px !important;
+    height: 28px !important;
+    
+  display: relative !important;
+  
+
+  }
+
+  .left-arrow {
+    left: 5px !important; /* Margin esquerda de 5px */
+  
+  }
+
+  .right-arrow {
+    right: 5px !important; /* Margin direita de 5px (resolve o botão sumido) */
+    
+  }
+
   .thumbnails-wrapper {
     padding: 12px 8px !important;
     gap: 8px;
     /* Adiciona indicação visual de que há mais conteúdo para rolar */
-    position: relative;
+    position: flex;
     scroll-snap-type: x proximity; /* Snap suave ao rolar */
   }
 
@@ -466,7 +526,10 @@ mat-card,
   .thumbnails-wrapper {
     padding: 10px 6px !important;
     gap: 6px;
+      
   }
+  .thumbnails-wrapper::-webkit-scrollbar {
+    display: none;}
 
   .thumbnail-button {
     min-width: 68px !important;
@@ -485,8 +548,10 @@ mat-card,
   .thumbnails-wrapper {
     padding: 8px 4px !important;
     gap: 5px;
+    
   }
-
+.thumbnails-wrapper::-webkit-scrollbar {
+    display: none;}
   .thumbnail-button {
     min-width: 62px !important;
     width: 62px !important;
@@ -496,6 +561,17 @@ mat-card,
   .thumbnails-wrapper::after {
     width: 20px;
   }
+  
+  .left-arrow {
+    left: 5px !important; /* Margin esquerda de 5px */
+   margin-top: 30px !important; /* Ajusta a altura para ficar centralizado nas miniaturas */
+  
+  }
+
+  .right-arrow {
+    right: 5px !important; /* Margin direita de 5px (resolve o botão sumido) */
+     margin-top: 30px !important;
+  }
 }
 
 @media (max-width: 320px) {
@@ -504,11 +580,12 @@ mat-card,
     width: 58px !important;
     height: 43px !important;
   }
+  
 }
 
 /* Container das Thumbnails */
 .thumbnails-container {
-  position: relative;
+position: relative !important;
   width: 100%;
   background: #252525;
   padding: 15px 0;
@@ -581,6 +658,7 @@ mat-card,
     height: 64px !important;
     min-width: 85px !important;
   }
+  
 }
 
 @media (max-width: 480px) {
@@ -589,6 +667,8 @@ mat-card,
     height: 56px !important;
     min-width: 75px !important;
   }
+
+  
 }
 
 /* Info Container */
@@ -1250,7 +1330,7 @@ mat-card,
 }
 
 .btn-info {
-  border: 2px solid #FFEC40 !important;
+  border: 2px solid #ffa640 !important;
 
 }
 
@@ -1617,6 +1697,8 @@ mat-card,
   .oferta-badge-detalhes {
     padding: 6px 10px !important;
   }
+
+  
 }
 
 /* Regras específicas para prevenir overflow em mobile (apenas nos elementos problemáticos) */
@@ -1630,6 +1712,7 @@ mat-card,
     overflow-x: hidden !important;
     box-sizing: border-box !important;
   }
+  
 
   /* Forçar specs-card e grid a respeitarem limites */
   .specs-card,

@@ -554,7 +554,7 @@ overflow: visible !important;
   background-color: #252525;
   display: flex;
   margin-bottom: 20px;
-  margin-top: -50px;
+  margin-top: -55px;
 }
 
 /*parte do fundo dos 4 filtros*/
@@ -1244,8 +1244,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   position: absolute !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
-  background: rgba(0, 0, 0, 0.7) !important;
-  color: white !important;
+  background:#d1b828 !important;
+  color: rgb(90, 84, 84) !important;
   width: 40px !important;
   height: 40px !important;
   min-width: 40px !important;
@@ -1283,7 +1283,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 }
 
 .carrossel-btn:hover {
-  background: rgba(33, 150, 243, 0.95) !important;
+  background: rgb(61, 59, 59) !important;
   transform: translateY(-50%) scale(1.15) !important;
 }
 

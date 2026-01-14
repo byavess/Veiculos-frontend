@@ -36,6 +36,10 @@ export class DetalhesVeiculos implements OnInit {
     private dialog: MatDialog
   ) {}
 
+
+  currentIndex: number = 0;
+  private autoPlayInterval: any;
+
   ngOnInit(): void {
     this.carregarDetalhes();
   }
@@ -79,7 +83,16 @@ export class DetalhesVeiculos implements OnInit {
   }
 
   selectImage(url: string): void {
-    this.selectedImage = url;
+   this.selectedImage = url;
+
+
+  }
+  arrowImagem(index: number): void {
+    this.currentIndex = index;
+       this.stopAutoPlay();
+  this.startAutoPlay();
+
+
   }
 
 
@@ -154,4 +167,57 @@ export class DetalhesVeiculos implements OnInit {
       this.zoomLevel = 1;
     }
   }
+
+
+
+nextSlide(veiculo: any): void {
+  if (veiculo && veiculo.urlsFotos) {
+    this.currentIndex = (this.currentIndex < veiculo.urlsFotos.length - 1) 
+      ? this.currentIndex + 1 
+      : 0;
+
+    // LINHA QUE FALTA: Atualiza a foto principal
+    this.selectedImage = veiculo.urlsFotos[this.currentIndex];
+  }
+}
+
+previousSlide(veiculo: any): void {
+  if (veiculo && veiculo.urlsFotos) {
+    this.currentIndex = (this.currentIndex > 0) 
+      ? this.currentIndex - 1 
+      : veiculo.urlsFotos.length - 1;
+
+    // LINHA QUE FALTA: Atualiza a foto principal
+    this.selectedImage = veiculo.urlsFotos[this.currentIndex];
+  }
+}
+
+goToSlide(index: number): void {
+  // Alterado de currentSlide para currentIndex para sincronizar com as setas
+  this.currentIndex = index; 
+  
+  this.stopAutoPlay();
+  this.startAutoPlay();
+}
+
+startAutoPlay(): void {
+  // Evita criar múltiplos intervalos se um já existir
+  this.stopAutoPlay(); 
+  
+  this.autoPlayInterval = setInterval(() => {
+    // Busca o valor atual do observable para passar para o slide
+    this.veiculo$.subscribe(v => {
+      if (v) this.nextSlide(v);
+    }).unsubscribe();
+  }, 5000);
+}
+
+stopAutoPlay(): void {
+  if (this.autoPlayInterval) {
+    clearInterval(this.autoPlayInterval);
+  }
+}
+
+
+
 }
