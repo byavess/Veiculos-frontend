@@ -27,14 +27,14 @@ mat-card,
 
 /* Container Principal */
 .container-detalhes {
-width: 100% !important;
+  width: 100% !important;
   margin: 0 auto;
   padding: 30px 20px;
   background: #252525;
   min-height: 100vh;
   overflow-x: hidden;
- 
- 
+
+
   box-sizing: border-box;
 }
 
@@ -43,10 +43,10 @@ width: 100% !important;
     padding: 8px 4px !important;
     width: 100% !important;
     height: 80% !important;
-    
-    
-    
-    
+
+
+
+
   }
 }
 
@@ -54,7 +54,7 @@ width: 100% !important;
   .container-detalhes {
     padding: 6px 3px !important;
     max-width: 100% ;
-    
+
   }
 }
 
@@ -62,8 +62,8 @@ width: 100% !important;
 .back-button {
   margin-bottom: 30px;
   background-image: linear-gradient(135deg, #756b6b 0%, #FFEC40 100%);
-    border: 1px solid #777777;
-    box-shadow: 0 4px 6px #FFD700;
+  border: 1px solid #777777;
+  box-shadow: 0 4px 6px #FFD700;
   transition: all 0.3s ease;
 }
 
@@ -137,7 +137,7 @@ width: 100% !important;
   .detalhes-grid {
     grid-template-columns: 1fr;
     gap: 24px;
-  
+
   }
 }
 
@@ -167,45 +167,38 @@ width: 100% !important;
 /* Galeria Container  abaixo das miniaturas*/
 .galeria-container {
   position:relative;
-  top: -37px !important;
+  top: 0 !important;
   height: fit-content;
   max-height: calc(100vh - 100px);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-    z-index: 20 !important; 
-display: flex !important;
-  width: 100%;
+  z-index: 20 !important;
+  display: flex !important;
   background: #252525;
   padding: 15px 0;
-  display: flex !important;
-  
-  
-
- 
-
 }
 
 @media (max-width: 1024px) {
   .galeria-container {
     position: relative;
-    top: -10px !important;
+    top: 0 !important;
     max-height: none;
     width: 100% !important;
     max-width: 100% !important;
     z-index: 1 !important ;
-    
   }
 }
 
 .galeria-card {
   border-radius: 16px !important;
-  overflow: hidden;
+  overflow: visible !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
   position: relative;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  height: auto;
 }
 
 @media (max-width: 768px) {
@@ -217,7 +210,7 @@ display: flex !important;
     box-sizing: border-box !important;
   }
 
- 
+
 }
 
 
@@ -262,10 +255,10 @@ display: flex !important;
 }
 
 .oferta-icon {
-    font-size: 18px !important;
+  font-size: 18px !important;
   width: 18px !important;
   height: 18px !important;
- background-image: linear-gradient(135deg, #756b6b 0%, #FFEC40 100%);
+  background-image: linear-gradient(135deg, #756b6b 0%, #FFEC40 100%);
   animation: rotate-icon 3s linear infinite;
 }
 
@@ -332,39 +325,24 @@ display: flex !important;
 }
 
 
-
-
-
-
-
-/*xxxxxxxxxxxxxxxxxxxxx*/
-
 @media (max-width: 768px) {
   .main-image-wrapper {
-
-
     display: block  !important;
- 
     width: 100% !important;
     position:relative;
     overflow: hidden;
-      max-width: 100vw !important;
+    max-width: 100vw !important;
     box-sizing: border-box !important;
-      object-fit: cover; 
-  
-   
-    
-
+    object-fit: cover;
   }
 
   .main-image {
-    
-   position: flex;
-top: 0;
-left: 0;
-width: 100% !important;
-height: 100% !important;
- object-fit: cover; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
     object-position: center;
     display: block;
   }
@@ -383,7 +361,7 @@ height: 100% !important;
   }
 
   .main-image {
-    
+
   }
 }
 
@@ -403,33 +381,45 @@ height: 100% !important;
   }
 }
 
-/* Miniaturas */
-.thumbnails-wrapper {
+/* ========== MINIATURAS (THUMBNAILS) ========== */
+
+/* Container das Thumbnails */
+.thumbnails-container {
+  position: relative;
+  width: 100%;
+  background: #252525;
+  padding: 15px 0;
+}
+
+.thumbnail-container-wrapper {
+  position: relative;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+
+/* Wrapper com scroll horizontal - Base (Desktop) */
+.thumbnails-wrapper {
+  display: flex !important;
+  gap: 12px;
   padding: 20px;
   overflow-x: auto;
- overflow-y: visible !important; /* Mude para visible se possível para as setas aparecerem */
+  overflow-y: hidden;
   background: #252525;
   scrollbar-width: thin;
   scrollbar-color: #FFEC40 #252525;
-  -webkit-overflow-scrolling: touch; /* Smooth scroll no iOS */
-  scroll-behavior: smooth; /* Scroll suave */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
-  z-index: 10 !important;
-
-
-
-  
+  position: relative !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 10;
 }
-
-
-.main-image-wrapper{
-  padding: -20px !important;
-}
-
-
 
 .thumbnails-wrapper::-webkit-scrollbar {
   height: 8px;
@@ -450,18 +440,21 @@ height: 100% !important;
   background: #ffd700;
 }
 
+/* Botões das Miniaturas - Base (Desktop) */
 .thumbnail-button {
-  flex-shrink: 0; /* Impede que as miniaturas encolham */
-  min-width: 100px; /* Garante largura mínima */
+  flex-shrink: 0;
+  min-width: 100px;
   width: 100px;
   height: 75px;
-  padding: 0 !important;
+  padding: 0;
   border: 3px solid transparent;
-  border-radius: 8px !important;
+  border-radius: 8px;
   overflow: hidden;
   transition: all 0.3s ease;
   background: #1a1a1a;
   cursor: pointer;
+  display: block !important;
+  visibility: visible !important;
 }
 
 .thumbnail-button.active {
@@ -475,133 +468,166 @@ height: 100% !important;
   transform: translateY(-2px) scale(1.03);
 }
 
-.thumbnail-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none; /* Evita conflito de eventos */
-}
-
-.nav-arrow {
-
-  background-color: #FFEC40 !important; /* Amarelo conforme solicitado */
-  color: #000000 !important; /* Seta preta */
-  z-index: 999 !important;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-
-  overflow: visible !important
-  
-  
- 
-}
-
-
-
-
-.thumbnail-container-wrapper {
-  position: relative; /* Essencial para que as setas obedeçam os limites deste bloco */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-
-/* Ajustes específicos para MOBILE */
-
-/* Container das Thumbnails */
-.thumbnails-container {
-position: relative !important;
-  width: 100%;
-  background: #252525;
-  padding: 15px 0;
-}
-
-/* Wrapper com scroll horizontal */
-.thumbnails-wrapper {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 10px 5px;
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: #FFEC40 #1a1a1a;
-}
-
-.thumbnails-wrapper::-webkit-scrollbar {
-  height: 6px;
-}
-
-.thumbnails-wrapper::-webkit-scrollbar-track {
-  background: #1a1a1a;
-  border-radius: 10px;
-}
-
-.thumbnails-wrapper::-webkit-scrollbar-thumb {
-  background: #FFEC40;
-  border-radius: 10px;
-}
-
-.thumbnails-wrapper::-webkit-scrollbar-thumb:hover {
-  background: #FFD700;
-}
-
-.thumbnail-button {
-  flex-shrink: 0;
-  width: 100px !important;
-  height: 75px !important;
-  min-width: 100px !important;
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-  overflow: hidden;
-  border-radius: 8px;
-  background: #1a1a1a;
-  padding: 0;
-  cursor: pointer;
-}
-
-.thumbnail-button:hover {
-  border-color: #FFD700;
-  transform: scale(1.05);
-}
-
-.thumbnail-button.active {
-  border-color: #FFEC40;
-  box-shadow: 0 0 10px rgba(255, 236, 64, 0.5);
-}
-
+/* Imagens das Miniaturas */
 .thumbnail-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 6px;
   display: block;
+  pointer-events: none;
 }
 
+/* Setas de Navegação */
+.nav-arrow {
+  background-color: #FFEC40 !important;
+  color: #000000 !important;
+  z-index: 999 !important;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-arrow:hover {
+  background-color: #FFD700 !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Responsividade para Tablet */
+@media (max-width: 1024px) {
+  .thumbnails-wrapper {
+    padding: 15px 10px;
+    gap: 10px;
+  }
+
+  .thumbnail-button {
+    min-width: 90px;
+    width: 90px;
+    height: 68px;
+  }
+}
+
+/* Responsividade para Mobile Grande */
 @media (max-width: 768px) {
-  .thumbnail-button {
-    width: 85px !important;
-    height: 64px !important;
-    min-width: 85px !important;
+  .thumbnails-wrapper {
+    padding: 12px 40px;
+    gap: 8px;
+    scroll-snap-type: x proximity;
+    position: relative !important;
+    max-width: 100vw;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
-  
+
+  .thumbnail-button {
+    min-width: 85px;
+    width: 85px;
+    height: 64px;
+    border: 2px solid transparent;
+    scroll-snap-align: start;
+    touch-action: manipulation;
+  }
+
+  .thumbnail-button.active {
+    border: 3px solid #FFEC40;
+    box-shadow: 0 0 15px rgba(255, 236, 64, 0.6);
+  }
+
+  .nav-arrow {
+    position: absolute !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .nav-arrow.left {
+    left: 4px !important;
+  }
+
+  .nav-arrow.right {
+    right: 4px !important;
+  }
 }
 
+/* Responsividade para Mobile Médio */
 @media (max-width: 480px) {
-  .thumbnail-button {
-    width: 75px !important;
-    height: 56px !important;
-    min-width: 75px !important;
+  .thumbnails-wrapper {
+    padding: 10px 35px;
+    gap: 6px;
+    max-width: 100vw;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
-  
+  .thumbnails-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .thumbnail-button {
+    min-width: 75px;
+    width: 75px;
+    height: 56px;
+  }
+
+  .nav-arrow {
+    position: absolute !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .nav-arrow.left {
+    left: 3px !important;
+  }
+
+  .nav-arrow.right {
+    right: 3px !important;
+  }
+}
+
+/* Responsividade para Mobile Pequeno */
+@media (max-width: 380px) {
+  .thumbnails-wrapper {
+    padding: 8px 30px;
+    gap: 5px;
+    max-width: 100vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .thumbnail-button {
+    min-width: 68px;
+    width: 68px;
+    height: 51px;
+  }
+
+  .nav-arrow {
+    position: absolute !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .nav-arrow.left {
+    left: 2px !important;
+  }
+
+  .nav-arrow.right {
+    right: 2px !important;
+  }
 }
 
 /* Info Container */
@@ -639,9 +665,9 @@ position: relative !important;
 
   .info-container {
     gap: 14px !important;
-     z-index: 99 !important; 
+    z-index: 99 !important;
 
-position: relative;
+    position: relative;
 
   }
 }
@@ -649,8 +675,8 @@ position: relative;
 @media (max-width: 480px) {
   .info-container {
     gap: 12px !important;
-     z-index: 1; 
-    
+    z-index: 1;
+
   }
 }
 
@@ -1285,21 +1311,25 @@ position: relative;
 /* Responsivo */
 @media (max-width: 1200px) {
 
-/* Estilos para Dialog de Imagem Expandida - VERSÃO AMPLIADA */
-.imagem-expandida-dialog {
-  background: rgba(0, 0, 0, 0.98);
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+  /* Estilos para Dialog de Imagem Expandida - VERSÃO AMPLIADA */
+  .imagem-expandida-dialog {
+    background: rgba(0, 0, 0, 0.98);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
-    
+
+
+.imagem-expandida-dialog {
+  position: relative !important;
+}
 
 .imagem-expandida-dialog img {
   max-width: 95vw;
@@ -1412,15 +1442,24 @@ position: relative;
 }
 
 .close-dialog-button {
-   
-      top: 15px;
-      left :15px ;
+  position: absolute !important;
+  top: 15px !important;
+  left: 15px !important;
+  z-index: 9999 !important;
+  background-color: rgba(255, 236, 64, 0.95) !important;
+  color: #000000 !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.3s ease !important;
+}
 
-   
- 
-      
-   
-    }
+.close-dialog-button:hover {
+  background-color: #FFEC40 !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7) !important;
+}
 
 
 /* Animação de entrada do dialog */
@@ -1448,13 +1487,13 @@ position: relative;
   overflow: hidden !important;
 }
 
-::ng-deep .imagem-expandida-dialog-panel .mat-mdc-dialog-container {
+::ng-deep .imagem-expandida_dialog-panel .mat-mdc-dialog-container {
   background: rgba(0, 0, 0, 0.98) !important;
   box-shadow: none !important;
   padding: 0 !important;
 }
 
-::ng-deep .imagem-expandida-dialog-panel .mat-mdc-dialog-surface {
+::ng-deep .imagem-expandida_dialog-panel .mat-mdc-dialog-surface {
   background: transparent !important;
 }
 
@@ -1542,226 +1581,22 @@ position: relative;
 
   .oferta-badge-detalhes {
     padding: 6px 10px !important;
-  
+
   }
 
-  
-}
-
-/* arrows mobile*/
-@media (max-width: 768px) {
-
-
-
-.nav-arrow {
-visibility: visible !important; 
-display: flex !important; 
-position: absolute !important;
-top: 98% !important;
-transform: translateY(-45%) !important;
-z-index: 9999 !important;
-background-color: #FFEC40 !important;
-color: #000 !important;
-width: 32px !important;
-height: 32px !important;
-min-width: 32px !important;
-border-radius: 50% !important;
-box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
 
 }
 
-.nav-arrow.right {
-    display: flex !important; /* Garanta que ela não está como 'none' */
-    position: absolute;
-    right: 215px;
-   
-
-  }
-
-  .nav-arrow.left {
-    display: flex !important; /* Garanta que ela não está como 'none' */
-    position: absolute;
-  }
-
-   
-
-
-  .detalhes-wrapper,
-  .detalhes-grid,
-  .info-container {
-    max-width: 100vw !important;
-    width: 100% !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-  }
-/* Posicionamento individual */
-button.nav-arrow:nav-left {
-left: 5px !important;
-
-}
-/*backdrop-filter: blur(4px);  Efeito de vidro */
-
-.close-dialog-button {
-      position: absolute !important;
-      top: 15px;
-      left: 15px;
-    }
-
-  /* Forçar specs-card e grid a respeitarem limites */
-  .specs-card,
-  .specs-grid,
-  .spec-item,
-  .spec-content {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  /* Textos específicos que precisam quebrar */
-  .description-text,
-  .veiculo-title,
-  .veiculo-subtitle,
-  .spec-label,
-  .spec-value,
-  .price-label,
-  .price-value {
-    max-width: 100% !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Apenas botões de ação (não os thumbnails) */
-  .actions-buttons button,
-  .btn-whatsapp,
-  .btn-info,
-  .back-button {
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Cards de informação (excluindo galeria) */
-  .header-card,
-  .specs-card,
-  .description-card,
-  .actions-card {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Exceções: não afetar thumbnails e galeria */
-  .thumbnail-button,
-  .thumbnail-image,
-  .thumbnails-wrapper,
-  .galeria-card,
-
-    .main-image-wrapper,
-  .main-image {
-   
-width: 100% !important;
-
-  }
-
-  /* Restaurar estilos específicos dos thumbnails */
-  .thumbnail-button {
-    min-width: 75px !important;
-    width: 75px !important;
-    height: 56px !important;
-  }
-
-  .thumbnails-wrapper {
-    width: 100% !important;
-    overflow-x:auto !important;
-    
-     
-   
-  }
-
-  .galeria-card
-  {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .thumbnails-wrapper {
-    padding: 10px 6px !important;
-    gap: 6px;
-   
-      
-  }
-  .thumbnails-wrapper::-webkit-scrollbar {
-    display: none;}
-
-  .thumbnail-button {
-    min-width: 68px !important;
-    width: 68px !important;
-    height: 50px !important;
-    border: 2px solid transparent;
-  }
-
-  /* Mantém visualização de ~4.5 thumbnails por tela */
-  .thumbnails-wrapper::after {
-    width: 25px;
-  }
-}
+/* Seção removida - regras de setas já definidas nas media queries de Mobile Grande, Médio e Pequeno acima */
 
 @media (max-width: 380px) {
-  .thumbnails-wrapper {
-    padding: 8px 4px !important;
-    gap: 5px;
- 
-   
-    
-  }
-.thumbnails-wrapper::-webkit-scrollbar {
-    display: none;}
-  .thumbnail-button {
-    min-width: 62px !important;
-    width: 62px !important;
-    height: 46px !important;
-  }
-
   .thumbnails-wrapper::after {
     width: 20px;
   }
-  
- 
-  .nav-arrow {
-
-  visibility: visible !important; 
-display: flex !important; 
-position: absolute !important;
-top: 50% !important;
-transform: translateY(-50%) !important;
-
-background-color: #FFEC40 !important;
-color: #000 !important;
-width: 32px !important;
-height: 32px !important;
-min-width: 32px !important;
-border-radius: 50% !important;
-box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
-  
- 
-}
-
 }
 
 @media (max-width: 320px) {
-  .thumbnail-button {
-    min-width: 58px !important;
-    width: 58px !important;
-    height: 43px !important;
-  }
-  
+  /* Ajustes extras para telas muito pequenas */
 }
 
 
@@ -1773,150 +1608,156 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
   }
 
 
-
   .detalhes-grid {
     grid-template-columns: 1fr;
     gap: 24px;
- 
+
   }
 
-  
 
   .specs-grid {
     grid-template-columns: 1fr;
-  
-    
 
-  .zoom-controls {
-    bottom: 16px;
-    padding: 10px 16px;
+
+    .zoom-controls {
+      bottom: 16px;
+      padding: 10px 16px;
+
+    }
 
   }
-  
+
+  /* Responsividade para mobile */
+  @media (max-width: 768px) {
+    .imagem-expandida-dialog {
+      padding: 0;
+    }
+
+    .imagem-expandida-dialog img {
+      max-width: 96vw;
+      max-height: 90vh;
+      border-radius: 2px;
+    }
+
+    .close-dialog-button {
+      top: 10px !important;
+      left: 10px !important;
+      width: 36px !important;
+      height: 36px !important;
+    }
+
+    .dialog-close-button {
+      top: 12px !important;
+      right: 12px !important;
+    }
+
+    .zoom-controls {
+      bottom: 12px;
+      padding: 8px 12px;
+      gap: 8px;
+    }
+
+    .zoom-indicator {
+      top: 32px;
+      left: 12px;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
+
+    /* Zoom touch otimizado */
+    .imagem-expandida-dialog img.zoomed {
+      width: 140% !important;
+    }
+
+    .imagem-expandida-dialog img.zoomed-max {
+      width: 180% !important;
+    }
+  }
+
+  /* Responsividade para mobile pequeno */
+  @media (max-width: 480px) {
+    .imagem-expandida-dialog img {
+      max-width: 98vw;
+      max-height: 85vh;
+    }
+
+    .close-dialog-button {
+      top: 8px !important;
+      left: 8px !important;
+      width: 32px !important;
+      height: 32px !important;
+    }
+
+    .zoom-controls {
+      bottom: 8px;
+      padding: 6px 10px;
+      gap: 6px;
+      border-radius: 25px;
+    }
+
+    .zoom-controls button {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      padding: 0 !important;
+    }
+
+    .zoom-indicator {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+    }
+  }
+
+  @media (width: 1920px) and (height: 1080px) {
+    .thumbnails-wrapper {
+      gap: 16px;
+      padding: 24px 0;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100vw;
+      height: 90px;
+      /* Removido flex-wrap: wrap */
+    }
+
+    .thumbnail-button {
+      min-width: 110px;
+      width: 110px;
+      height: 80px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    /* Adiciona fade nas bordas para indicar scroll */
+    .thumbnails-wrapper::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 30px;
+      background: linear-gradient(to right, rgba(37, 37, 37, 0), rgba(37, 37, 37, 0.95));
+      pointer-events: none;
+      z-index: 1;
+    }
+  }
 }
 
-/* Responsividade para mobile */
-@media (max-width: 768px) {
-  .imagem-expandida-dialog {
-    padding: 0;
-  }
-
-  .imagem-expandida-dialog img {
-    max-width: 96vw;
-    max-height: 90vh;
-    border-radius: 2px;
-  }
-
-  .dialog-close-button {
-    top: 12px !important;
-    right: 12px !important;
-  }
-
-  .zoom-controls {
-    bottom: 12px;
-    padding: 8px 12px;
-    gap: 8px;
-  }
-
-  .zoom-indicator {
-    top: 32px;
-    left: 12px;
-    font-size: 0.85rem;
-    padding: 6px 12px;
-  }
-
-  /* Zoom touch otimizado */
-  .imagem-expandida-dialog img.zoomed {
-    width: 140% !important;
-  }
-
-  .imagem-expandida-dialog img.zoomed-max {
-    width: 180% !important;
-  }
-}
-
-/* Responsividade para mobile pequeno */
-@media (max-width: 480px) {
-  .imagem-expandida-dialog img {
-    max-width: 98vw;
-    max-height: 85vh;
-  }
-
-  .zoom-controls {
-    bottom: 8px;
-    padding: 6px 10px;
-    gap: 6px;
-    border-radius: 25px;
-  }
-
-  .zoom-controls button {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important;
-    padding: 0 !important;
-  }
-
-  .zoom-indicator {
-    font-size: 0.8rem;
-    padding: 5px 10px;
-  }
-}
-}
-
-
-
-
-@media (max-width: 768px) {
-
-
-
+@media (min-width: 1280px) and (max-width: 1399px) {
   .thumbnails-wrapper {
-  padding: 35px 8px !important;
-  gap: 8px;
-    /* Adiciona indicação visual de que há mais conteúdo para rolar */
-  position: flex;
-  scroll-snap-type: x proximity; /* Snap suave ao rolar */
-  width: 100%;
-  background: #252525;
-  padding: 15px 0;
-  z-index: 100;
- 
-  
- 
-
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100vw;
+    height: 80px;
+    padding: 40px 0;
   }
- 
-
-  /* Adiciona fade nas bordas para indicar scroll */
-  .thumbnails-wrapper::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 30px;
-    background: linear-gradient(to right, rgba(37, 37, 37, 0), rgba(37, 37, 37, 0.95));
-    pointer-events: none;
-    z-index: 1;
-  }
-
   .thumbnail-button {
-    min-width: 75px !important;
-    width: 75px !important;
-    height: 56px !important;
-    border: 2px solid transparent;
-    scroll-snap-align: start; /* Alinha ao rolar */
-    touch-action: manipulation; /* Melhora resposta ao toque */
-  }
-
-  .thumbnail-button.active {
-    border: 3px solid #FFEC40;
-    box-shadow: 0 0 15px rgba(255, 236, 64, 0.6);
-  }
-
-  .thumbnails-wrapper::-webkit-scrollbar {
-    height: 6px;
+    min-width: 90px;
+    width: 90px;
+    height: 65px;
   }
 }
-
-

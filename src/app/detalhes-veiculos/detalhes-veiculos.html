@@ -51,9 +51,9 @@
 
           <!-- Miniaturas -->
           <div class="thumbnails-wrapper" *ngIf="veiculo.urlsFotos && veiculo.urlsFotos.length > 1">
-                    <button mat-icon-button class="nav-arrow left " (click)="previousSlide(veiculo)">
+            <button mat-icon-button class="nav-arrow left" (click)="previousSlide(veiculo)">
               <mat-icon>chevron_left</mat-icon>
-              </button>
+            </button>
                 <button mat-icon-button
                     *ngFor="let url of veiculo.urlsFotos; let i = index"
                     class="thumbnail-button"
@@ -65,16 +65,16 @@
                 class="thumbnail-image"
                 (error)="onThumbnailError($event)">
             </button>
-            <button mat-icon-button class="nav-arrow right " (click)="nextSlide(veiculo)">
+            <button mat-icon-button class="nav-arrow right" (click)="nextSlide(veiculo)">
               <mat-icon>chevron_right</mat-icon>
-               </button>
+            </button>
 
           </div>
 
 
-  
 
-  
+
+
 
 
 
@@ -200,15 +200,42 @@
   <!-- Dialog para imagem expandida -->
   <ng-template #imagemExpandida>
     <div class="imagem-expandida-dialog">
-       <button 
-          mat-icon-button 
-          class="close-dialog-button" 
-          mat-dialog-close
-          aria-label="Fechar">
-          <mat-icon>close</mat-icon>
+      <!-- Botão de Fechar -->
+      <button
+        mat-icon-button
+        class="close-dialog-button"
+        mat-dialog-close
+        aria-label="Fechar">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <!-- Indicador de Zoom -->
+      <div class="zoom-indicator" *ngIf="zoomLevel > 1">
+        Zoom: {{ zoomLevel }}x
+      </div>
+
+      <!-- Imagem Principal com Zoom -->
+      <img
+        #expandedImage
+        [src]="getImagemUrl(imagemExpandidaUrl || '')"
+        alt="Imagem expandida"
+        [class.zoomed]="zoomLevel === 2"
+        [class.zoomed-max]="zoomLevel === 3"
+        (click)="toggleZoom()"
+        style="display: block; margin: auto;" />
+
+      <!-- Controles de Zoom -->
+      <div class="zoom-controls">
+        <button mat-mini-fab color="primary" (click)="zoomOut()" [disabled]="zoomLevel === 1" aria-label="Diminuir zoom">
+          <mat-icon>zoom_out</mat-icon>
         </button>
-      <img [src]="getImagemUrl(imagemExpandidaUrl || '')" alt="Imagem expandida"
-           style="max-width: 90vw; max-height: 90vh; display: block; margin: auto;"/>
+        <button mat-mini-fab color="primary" (click)="resetZoom()" [disabled]="zoomLevel === 1" aria-label="Resetar zoom">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="zoomIn()" [disabled]="zoomLevel === 3" aria-label="Aumentar zoom">
+          <mat-icon>zoom_in</mat-icon>
+        </button>
+      </div>
     </div>
   </ng-template>
 
