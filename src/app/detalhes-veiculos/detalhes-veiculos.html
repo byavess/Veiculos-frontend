@@ -51,10 +51,10 @@
 
           <!-- Miniaturas -->
           <div class="thumbnails-wrapper" *ngIf="veiculo.urlsFotos && veiculo.urlsFotos.length > 1">
-                    <button mat-icon-button class="nav-arrow " (click)="previousSlide(veiculo)">
-    <mat-icon>chevron_left</mat-icon>
-  </button>
-            <button mat-icon-button
+                    <button mat-icon-button class="nav-arrow left " (click)="previousSlide(veiculo)">
+              <mat-icon>chevron_left</mat-icon>
+              </button>
+                <button mat-icon-button
                     *ngFor="let url of veiculo.urlsFotos; let i = index"
                     class="thumbnail-button"
                     [class.active]="selectedImage === url || (!selectedImage && i === 0)"
@@ -65,9 +65,9 @@
                 class="thumbnail-image"
                 (error)="onThumbnailError($event)">
             </button>
-            <button mat-icon-button class="nav-arrow " (click)="nextSlide(veiculo)">
-    <mat-icon>chevron_right</mat-icon>
-  </button>
+            <button mat-icon-button class="nav-arrow rigth " (click)="nextSlide(veiculo)">
+              <mat-icon>chevron_right</mat-icon>
+               </button>
 
           </div>
 
@@ -200,6 +200,13 @@
   <!-- Dialog para imagem expandida -->
   <ng-template #imagemExpandida>
     <div class="imagem-expandida-dialog">
+       <button 
+          mat-icon-button 
+          class="close-dialog-button" 
+          mat-dialog-close
+          aria-label="Fechar">
+          <mat-icon>close</mat-icon>
+        </button>
       <img [src]="getImagemUrl(imagemExpandidaUrl || '')" alt="Imagem expandida"
            style="max-width: 90vw; max-height: 90vh; display: block; margin: auto;"/>
     </div>

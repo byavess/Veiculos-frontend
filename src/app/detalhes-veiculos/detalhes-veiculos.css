@@ -2,14 +2,35 @@
 body {
   overflow-x: hidden;
   max-width: 100vw;
-  width: 100%;
-  position: relative;
+  width: 100% !important;
+  position: relative ;
 }
 
-/* Garante box-sizing para todos os elementos */
+
+
+
+
+
+
+
+
+
+/* Garante box-sizing para todos os elementos   
 *, *::before, *::after {
   box-sizing: border-box;
-}
+
+}*/ 
+
+
+
+
+
+
+
+
+
+
+
 
 /* Regras específicas para Angular Material Cards */
 mat-card,
@@ -30,25 +51,30 @@ mat-card,
 
 /* Container Principal */
 .container-detalhes {
-  max-width: 1400px;
+width: 100% !important;
   margin: 0 auto;
   padding: 30px 20px;
   background: #252525;
   min-height: 100vh;
   overflow-x: hidden;
-  width: 100%;
+ 
   box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
   .container-detalhes {
     padding: 8px 4px !important;
+    width: 100% !important;
+    height: 80% !important;
+    
+    
   }
 }
 
 @media (max-width: 480px) {
   .container-detalhes {
     padding: 6px 3px !important;
+    max-width: 100% ;
   }
 }
 
@@ -370,6 +396,8 @@ mat-card,
   box-sizing: border-box;
 }
 
+
+
 .thumbnails-wrapper::-webkit-scrollbar {
   height: 8px;
 }
@@ -441,16 +469,8 @@ mat-card,
  
 }
 
-.nav-arrow left {
-  left: 5px;
 
-  
-}
 
-.right-arrow {
-  margin-right: -50px !important;
-
-}
 
 .thumbnail-container-wrapper {
   position: relative; /* Essencial para que as setas obedeçam os limites deste bloco */
@@ -462,126 +482,6 @@ mat-card,
 
 
 /* Ajustes específicos para MOBILE */
-@media (max-width: 768px) {
-  button.nav-arrow.mat-mdc-icon-button {
-    width: 28px !important;
-    height: 28px !important;
-    
-  display: relative !important;
-  
-
-  }
-
-  .left-arrow {
-    left: 5px !important; /* Margin esquerda de 5px */
-  
-  }
-
-  .right-arrow {
-    right: 5px !important; /* Margin direita de 5px (resolve o botão sumido) */
-    
-  }
-
-  .thumbnails-wrapper {
-    padding: 12px 8px !important;
-    gap: 8px;
-    /* Adiciona indicação visual de que há mais conteúdo para rolar */
-    position: flex;
-    scroll-snap-type: x proximity; /* Snap suave ao rolar */
-  }
-
-  /* Adiciona fade nas bordas para indicar scroll */
-  .thumbnails-wrapper::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 30px;
-    background: linear-gradient(to right, rgba(37, 37, 37, 0), rgba(37, 37, 37, 0.95));
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .thumbnail-button {
-    min-width: 75px !important;
-    width: 75px !important;
-    height: 56px !important;
-    border: 2px solid transparent;
-    scroll-snap-align: start; /* Alinha ao rolar */
-    touch-action: manipulation; /* Melhora resposta ao toque */
-  }
-
-  .thumbnail-button.active {
-    border: 3px solid #FFEC40;
-    box-shadow: 0 0 15px rgba(255, 236, 64, 0.6);
-  }
-
-  .thumbnails-wrapper::-webkit-scrollbar {
-    height: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .thumbnails-wrapper {
-    padding: 10px 6px !important;
-    gap: 6px;
-      
-  }
-  .thumbnails-wrapper::-webkit-scrollbar {
-    display: none;}
-
-  .thumbnail-button {
-    min-width: 68px !important;
-    width: 68px !important;
-    height: 50px !important;
-    border: 2px solid transparent;
-  }
-
-  /* Mantém visualização de ~4.5 thumbnails por tela */
-  .thumbnails-wrapper::after {
-    width: 25px;
-  }
-}
-
-@media (max-width: 380px) {
-  .thumbnails-wrapper {
-    padding: 8px 4px !important;
-    gap: 5px;
-    
-  }
-.thumbnails-wrapper::-webkit-scrollbar {
-    display: none;}
-  .thumbnail-button {
-    min-width: 62px !important;
-    width: 62px !important;
-    height: 46px !important;
-  }
-
-  .thumbnails-wrapper::after {
-    width: 20px;
-  }
-  
-  .left-arrow {
-    left: 5px !important; /* Margin esquerda de 5px */
-   margin-top: 30px !important; /* Ajusta a altura para ficar centralizado nas miniaturas */
-  
-  }
-
-  .right-arrow {
-    right: 5px !important; /* Margin direita de 5px (resolve o botão sumido) */
-     margin-top: 30px !important;
-  }
-}
-
-@media (max-width: 320px) {
-  .thumbnail-button {
-    min-width: 58px !important;
-    width: 58px !important;
-    height: 43px !important;
-  }
-  
-}
 
 /* Container das Thumbnails */
 .thumbnails-container {
@@ -1472,110 +1372,17 @@ position: relative !important;
   cursor: grabbing;
 }
 
-/* Responsividade para tablets */
-@media (max-width: 1024px) {
-  .imagem-expandida-dialog img {
-    max-width: 92vw;
-    max-height: 92vh;
-  }
+.close-dialog-button {
+   
+      top: 15px;
+   left :15px ;
 
-
-
-  .detalhes-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+   
  
-  }
-
-  .galeria-container {
-    position: flex !;
-    top: 0;
-    width: 100% !important;
-    display: flex !important;
       
+   
+    }
 
-  
-    
-  }
-
-  .specs-grid {
-    grid-template-columns: 1fr;
-  
-    
-
-  .zoom-controls {
-    bottom: 16px;
-    padding: 10px 16px;
-
-  }
-}
-
-/* Responsividade para mobile */
-@media (max-width: 768px) {
-  .imagem-expandida-dialog {
-    padding: 0;
-  }
-
-  .imagem-expandida-dialog img {
-    max-width: 96vw;
-    max-height: 90vh;
-    border-radius: 2px;
-  }
-
-  .dialog-close-button {
-    top: 12px !important;
-    right: 12px !important;
-  }
-
-  .zoom-controls {
-    bottom: 12px;
-    padding: 8px 12px;
-    gap: 8px;
-  }
-
-  .zoom-indicator {
-    top: 12px;
-    left: 12px;
-    font-size: 0.85rem;
-    padding: 6px 12px;
-  }
-
-  /* Zoom touch otimizado */
-  .imagem-expandida-dialog img.zoomed {
-    width: 140% !important;
-  }
-
-  .imagem-expandida-dialog img.zoomed-max {
-    width: 180% !important;
-  }
-}
-
-/* Responsividade para mobile pequeno */
-@media (max-width: 480px) {
-  .imagem-expandida-dialog img {
-    max-width: 98vw;
-    max-height: 85vh;
-  }
-
-  .zoom-controls {
-    bottom: 8px;
-    padding: 6px 10px;
-    gap: 6px;
-    border-radius: 25px;
-  }
-
-  .zoom-controls button {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important;
-    padding: 0 !important;
-  }
-
-  .zoom-indicator {
-    font-size: 0.8rem;
-    padding: 5px 10px;
-  }
-}
 
 /* Animação de entrada do dialog */
 @keyframes dialogFadeIn {
@@ -1703,7 +1510,24 @@ position: relative !important;
 
 /* Regras específicas para prevenir overflow em mobile (apenas nos elementos problemáticos) */
 @media (max-width: 768px) {
-  /* Forçar largura máxima em todo o conteúdo */
+
+
+
+.nav-arrow {
+visibility: visible !important; 
+display: flex !important; 
+position: absolute !important;
+top: 50% !important;
+transform: translateY(-50%) !important;
+z-index: 100 !important;
+background-color: #FFEC40 !important;
+color: #000 !important;
+width: 32px !important;
+height: 32px !important;
+min-width: 32px !important;
+border-radius: 50% !important;
+box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+}
   .detalhes-wrapper,
   .detalhes-grid,
   .info-container {
@@ -1712,6 +1536,22 @@ position: relative !important;
     overflow-x: hidden !important;
     box-sizing: border-box !important;
   }
+/* Posicionamento individual */
+button.nav-arrow:nav-left {
+left: 5px !important;
+
+}
+/*backdrop-filter: blur(4px);  Efeito de vidro */
+
+.close-dialog-button {
+      position: absolute !important;
+      top: 15px;
+      left: 15px;
+    }
+
+
+
+
   
 
   /* Forçar specs-card e grid a respeitarem limites */
@@ -1783,7 +1623,7 @@ position: relative !important;
 
   .thumbnails-wrapper {
     width: 100% !important;
-    overflow-x: auto !important;
+    overflow-x:auto !important;
   }
 
   .galeria-card,
@@ -1792,4 +1632,233 @@ position: relative !important;
     max-width: 100% !important;
   }
 }
+
+@media (max-width: 480px) {
+  .thumbnails-wrapper {
+    padding: 10px 6px !important;
+    gap: 6px;
+      
+  }
+  .thumbnails-wrapper::-webkit-scrollbar {
+    display: none;}
+
+  .thumbnail-button {
+    min-width: 68px !important;
+    width: 68px !important;
+    height: 50px !important;
+    border: 2px solid transparent;
+  }
+
+  /* Mantém visualização de ~4.5 thumbnails por tela */
+  .thumbnails-wrapper::after {
+    width: 25px;
+  }
 }
+
+@media (max-width: 380px) {
+  .thumbnails-wrapper {
+    padding: 8px 4px !important;
+    gap: 5px;
+ 
+   
+    
+  }
+.thumbnails-wrapper::-webkit-scrollbar {
+    display: none;}
+  .thumbnail-button {
+    min-width: 62px !important;
+    width: 62px !important;
+    height: 46px !important;
+  }
+
+  .thumbnails-wrapper::after {
+    width: 20px;
+  }
+  
+ 
+  .nav-arrow {
+
+  visibility: visible !important; 
+display: flex !important; 
+position: absolute !important;
+top: 50% !important;
+transform: translateY(-50%) !important;
+z-index: 100 !important;
+background-color: #FFEC40 !important;
+color: #000 !important;
+width: 32px !important;
+height: 32px !important;
+min-width: 32px !important;
+border-radius: 50% !important;
+box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+  
+ 
+}
+
+}
+
+@media (max-width: 320px) {
+  .thumbnail-button {
+    min-width: 58px !important;
+    width: 58px !important;
+    height: 43px !important;
+  }
+  
+}
+
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+  .imagem-expandida-dialog img {
+    max-width: 92vw;
+    max-height: 92vh;
+  }
+
+
+
+  .detalhes-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+ 
+  }
+
+  .galeria-container {
+    position: flex !;
+    top: 0;
+    width: 100% !important;
+    display: flex !important;
+      
+
+  
+    
+  }
+
+  .specs-grid {
+    grid-template-columns: 1fr;
+  
+    
+
+  .zoom-controls {
+    bottom: 16px;
+    padding: 10px 16px;
+
+  }
+  
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+  .imagem-expandida-dialog {
+    padding: 0;
+  }
+
+  .imagem-expandida-dialog img {
+    max-width: 96vw;
+    max-height: 90vh;
+    border-radius: 2px;
+  }
+
+  .dialog-close-button {
+    top: 12px !important;
+    right: 12px !important;
+  }
+
+  .zoom-controls {
+    bottom: 12px;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .zoom-indicator {
+    top: 32px;
+    left: 12px;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  /* Zoom touch otimizado */
+  .imagem-expandida-dialog img.zoomed {
+    width: 140% !important;
+  }
+
+  .imagem-expandida-dialog img.zoomed-max {
+    width: 180% !important;
+  }
+}
+
+/* Responsividade para mobile pequeno */
+@media (max-width: 480px) {
+  .imagem-expandida-dialog img {
+    max-width: 98vw;
+    max-height: 85vh;
+  }
+
+  .zoom-controls {
+    bottom: 8px;
+    padding: 6px 10px;
+    gap: 6px;
+    border-radius: 25px;
+  }
+
+  .zoom-controls button {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    padding: 0 !important;
+  }
+
+  .zoom-indicator {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+}
+}
+
+
+
+
+@media (max-width: 768px) {
+
+
+
+  .thumbnails-wrapper {
+    padding: 12px 8px !important;
+    gap: 8px;
+    /* Adiciona indicação visual de que há mais conteúdo para rolar */
+    position: flex;
+    scroll-snap-type: x proximity; /* Snap suave ao rolar */
+  }
+
+  /* Adiciona fade nas bordas para indicar scroll */
+  .thumbnails-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(to right, rgba(37, 37, 37, 0), rgba(37, 37, 37, 0.95));
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .thumbnail-button {
+    min-width: 75px !important;
+    width: 75px !important;
+    height: 56px !important;
+    border: 2px solid transparent;
+    scroll-snap-align: start; /* Alinha ao rolar */
+    touch-action: manipulation; /* Melhora resposta ao toque */
+  }
+
+  .thumbnail-button.active {
+    border: 3px solid #FFEC40;
+    box-shadow: 0 0 15px rgba(255, 236, 64, 0.6);
+  }
+
+  .thumbnails-wrapper::-webkit-scrollbar {
+    height: 6px;
+  }
+}
+
+
