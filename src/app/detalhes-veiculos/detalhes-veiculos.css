@@ -3,7 +3,14 @@ body {
   overflow-x: hidden;
   max-width: 100vw;
   width: 100% !important;
-  position: relative ;
+  position: relative;
+}
+
+/* Previne scroll quando dialog está aberto */
+body.cdk-global-scrollblock {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
 }
 
 
@@ -473,7 +480,7 @@ mat-card,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 0;
   display: block;
   pointer-events: none;
 }
@@ -511,13 +518,15 @@ mat-card,
     min-width: 90px;
     width: 90px;
     height: 68px;
+    overflow: hidden;
+    border-radius: 8px;
   }
 }
 
 /* Responsividade para Mobile Grande */
 @media (max-width: 768px) {
   .thumbnails-wrapper {
-    padding: 12px 40px;
+    padding: 12px 15px;
     gap: 8px;
     scroll-snap-type: x proximity;
     position: relative !important;
@@ -533,6 +542,8 @@ mat-card,
     border: 2px solid transparent;
     scroll-snap-align: start;
     touch-action: manipulation;
+    overflow: hidden;
+    border-radius: 8px;
   }
 
   .thumbnail-button.active {
@@ -540,28 +551,16 @@ mat-card,
     box-shadow: 0 0 15px rgba(255, 236, 64, 0.6);
   }
 
+  /* Ocultar setas de navegação no mobile */
   .nav-arrow {
-    position: absolute !important;
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-  }
-
-  .nav-arrow.left {
-    left: 4px !important;
-  }
-
-  .nav-arrow.right {
-    right: 4px !important;
+    display: none !important;
   }
 }
 
 /* Responsividade para Mobile Médio */
 @media (max-width: 480px) {
   .thumbnails-wrapper {
-    padding: 10px 35px;
+    padding: 10px 15px;
     gap: 6px;
     max-width: 100vw;
     overflow-x: auto;
@@ -576,30 +575,20 @@ mat-card,
     min-width: 75px;
     width: 75px;
     height: 56px;
+    overflow: hidden;
+    border-radius: 8px;
   }
 
+  /* Ocultar setas de navegação no mobile */
   .nav-arrow {
-    position: absolute !important;
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-  }
-
-  .nav-arrow.left {
-    left: 3px !important;
-  }
-
-  .nav-arrow.right {
-    right: 3px !important;
+    display: none !important;
   }
 }
 
 /* Responsividade para Mobile Pequeno */
 @media (max-width: 380px) {
   .thumbnails-wrapper {
-    padding: 8px 30px;
+    padding: 8px 15px;
     gap: 5px;
     max-width: 100vw;
     overflow-x: auto;
@@ -610,23 +599,13 @@ mat-card,
     min-width: 68px;
     width: 68px;
     height: 51px;
+    overflow: hidden;
+    border-radius: 8px;
   }
 
+  /* Ocultar setas de navegação no mobile */
   .nav-arrow {
-    position: absolute !important;
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 22px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-  }
-
-  .nav-arrow.left {
-    left: 2px !important;
-  }
-
-  .nav-arrow.right {
-    right: 2px !important;
+    display: none !important;
   }
 }
 
@@ -1328,24 +1307,44 @@ mat-card,
 
 
 .imagem-expandida-dialog {
-  position: relative !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: #000000 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  animation: dialogFadeIn 0.3s ease-out;
 }
 
 .imagem-expandida-dialog img {
-  max-width: 95vw;
-  max-height: 95vh;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border-radius: 4px;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 0;
   cursor: zoom-in;
-  transition: transform 0.3s ease;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  box-shadow: none;
+  filter: brightness(1);
+  display: block !important;
+  margin: 0 auto !important;
+  position: relative !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 
 
 .imagem-expandida-dialog img:hover {
-  transform: scale(1.02);
+  filter: brightness(1.05);
 }
 
 /* Botão fechar customizado no dialog */
@@ -1372,61 +1371,57 @@ mat-card,
   font-weight: bold !important;
 }
 
-/* Controles de zoom */
-.zoom-controls {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  padding: 12px 20px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 238, 64, 0.3);
-  z-index: 1000;
-}
 
-.zoom-controls button {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  transition: all 0.3s ease !important;
-}
-
-.zoom-controls button:hover {
-  background: rgba(255, 238, 64, 0.3) !important;
-  border-color: #FFEC40 !important;
-  transform: scale(1.1) !important;
-}
-
-.zoom-controls mat-icon {
-  color: white !important;
-}
-
-/* Indicador de zoom */
+/* Indicador de zoom - Design Moderno Minimalista */
 .zoom-indicator {
   position: absolute;
   top: 20px;
-  left: 20px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 238, 64, 0.3);
-  z-index: 1000;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  color: #FFEC40;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: 2px solid rgba(255, 236, 64, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: zoomIndicatorPulse 0.3s ease-out;
+  max-width: 120px;
+  box-sizing: border-box;
 }
 
-/* Estados de zoom da imagem */
+@keyframes zoomIndicatorPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Estados de zoom da imagem - Tela Cheia */
 .imagem-expandida-dialog img.zoomed {
   cursor: zoom-out;
   max-width: none !important;
   max-height: none !important;
   width: 150% !important;
   height: auto;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center center;
+  margin: 0 auto !important;
+  display: block;
+  position: relative !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 
 .imagem-expandida-dialog img.zoomed-max {
@@ -1435,38 +1430,54 @@ mat-card,
   max-height: none !important;
   width: 200% !important;
   height: auto;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center center;
+  margin: 0 auto !important;
+  display: block;
+  position: relative !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 
 .imagem-expandida-dialog img.zoomed-max:active {
   cursor: grabbing;
+  transition: none;
 }
 
 .close-dialog-button {
   position: absolute !important;
-  top: 15px !important;
-  left: 15px !important;
+  top: 20px !important;
+  left: 20px !important;
   z-index: 9999 !important;
-  background-color: rgba(255, 236, 64, 0.95) !important;
-  color: #000000 !important;
-  width: 40px !important;
-  height: 40px !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(10px) !important;
+  color: #FFFFFF !important;
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 50% !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-  transition: all 0.3s ease !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .close-dialog-button:hover {
-  background-color: #FFEC40 !important;
-  transform: scale(1.1) !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7) !important;
+  background-color: rgba(255, 236, 64, 0.95) !important;
+  color: #000000 !important;
+  border-color: #FFEC40 !important;
+  transform: scale(1.1) rotate(90deg) !important;
+  box-shadow: 0 6px 24px rgba(255, 236, 64, 0.4) !important;
+}
+
+.close-dialog-button mat-icon {
+  transition: transform 0.3s ease !important;
 }
 
 
-/* Animação de entrada do dialog */
+/* Animações do dialog - Design Moderno */
 @keyframes dialogFadeIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.98);
   }
   to {
     opacity: 1;
@@ -1474,32 +1485,85 @@ mat-card,
   }
 }
 
-.imagem-expandida-dialog {
-  animation: dialogFadeIn 0.3s ease-out;
+@keyframes dialogFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
 }
 
-/* Estilo para o overlay do dialog (mat-dialog-container) */
+/* Estilo para o overlay do dialog (mat-dialog-container) - TELA CHEIA MODERNA */
 ::ng-deep .imagem-expandida-dialog-panel {
-  max-width: 98vw !important;
-  max-height: 98vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  width: 100vw !important;
+  height: 100vh !important;
   background: transparent !important;
   box-shadow: none !important;
   overflow: hidden !important;
+  border-radius: 0 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-::ng-deep .imagem-expandida_dialog-panel .mat-mdc-dialog-container {
-  background: rgba(0, 0, 0, 0.98) !important;
+::ng-deep .imagem-expandida-dialog-panel .mat-mdc-dialog-container {
+  background: #000000 !important;
   box-shadow: none !important;
   padding: 0 !important;
+  border-radius: 0 !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-::ng-deep .imagem-expandida_dialog-panel .mat-mdc-dialog-surface {
+::ng-deep .imagem-expandida-dialog-panel .mat-mdc-dialog-surface {
   background: transparent !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
 }
 
-/* Backdrop escuro do dialog */
+/* Garante contenção do conteúdo do dialog */
+::ng-deep .imagem-expandida-dialog-panel .mat-mdc-dialog-content,
+::ng-deep .imagem-expandida-dialog-panel [mat-dialog-content] {
+  overflow: hidden !important;
+  max-width: 100vw !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Garante que o backdrop também contenha tudo */
+::ng-deep .cdk-overlay-container {
+  overflow: hidden !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  max-width: 100vw !important;
+  overflow: hidden !important;
+}
+
+/* Backdrop escuro do dialog - PRETO TOTAL */
 ::ng-deep .dialog-backdrop-dark {
-  background: rgba(0, 0, 0, 0.95) !important;
+  background: #000000 !important;
+  backdrop-filter: none !important;
 }
 
 
@@ -1602,109 +1666,156 @@ mat-card,
 
 /* Responsividade para tablets */
 @media (max-width: 1024px) {
+  .imagem-expandida-dialog {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
   .imagem-expandida-dialog img {
-    max-width: 92vw;
-    max-height: 92vh;
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
   }
 
 
   .detalhes-grid {
     grid-template-columns: 1fr;
     gap: 24px;
-
   }
-
 
   .specs-grid {
     grid-template-columns: 1fr;
-
-
-    .zoom-controls {
-      bottom: 16px;
-      padding: 10px 16px;
-
-    }
 
   }
 
   /* Responsividade para mobile */
   @media (max-width: 768px) {
     .imagem-expandida-dialog {
-      padding: 0;
+      padding: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      overflow: hidden !important;
+      margin: 0 !important;
     }
 
     .imagem-expandida-dialog img {
-      max-width: 96vw;
-      max-height: 90vh;
-      border-radius: 2px;
+      max-width: 85vw !important;
+      max-height: 85vh !important;
+      width: auto !important;
+      height: auto !important;
+      border-radius: 0;
+      object-fit: contain !important;
+      position: relative !important;
+      margin: 0 auto !important;
+      display: block !important;
+      left: 0 !important;
+      right: 0 !important;
+      transform: translateX(0) !important;
     }
 
     .close-dialog-button {
-      top: 10px !important;
-      left: 10px !important;
-      width: 36px !important;
-      height: 36px !important;
-    }
-
-    .dialog-close-button {
-      top: 12px !important;
-      right: 12px !important;
-    }
-
-    .zoom-controls {
-      bottom: 12px;
-      padding: 8px 12px;
-      gap: 8px;
+      top: 15px !important;
+      left: 15px !important;
+      width: 44px !important;
+      height: 44px !important;
     }
 
     .zoom-indicator {
-      top: 32px;
-      left: 12px;
-      font-size: 0.85rem;
-      padding: 6px 12px;
+      top: 15px !important;
+      right: 15px !important;
+      font-size: 0.85rem !important;
+      padding: 8px 16px !important;
     }
+
 
     /* Zoom touch otimizado */
     .imagem-expandida-dialog img.zoomed {
-      width: 140% !important;
+      width: 120% !important;
+      max-width: 120vw !important;
+      transform-origin: center center !important;
+      margin: 0 auto !important;
+      display: block !important;
+      position: relative !important;
+      left: 0 !important;
+      right: 0 !important;
+      transform: translateX(0) !important;
     }
 
     .imagem-expandida-dialog img.zoomed-max {
-      width: 180% !important;
+      width: 140% !important;
+      max-width: 140vw !important;
+      transform-origin: center center !important;
+      margin: 0 auto !important;
+      display: block !important;
+      position: relative !important;
+      left: 0 !important;
+      right: 0 !important;
+      transform: translateX(0) !important;
     }
   }
 
   /* Responsividade para mobile pequeno */
   @media (max-width: 480px) {
+    .imagem-expandida-dialog {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
     .imagem-expandida-dialog img {
-      max-width: 98vw;
-      max-height: 85vh;
+      max-width: 80vw !important;
+      max-height: 80vh !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      position: relative !important;
+      margin: 0 auto !important;
+      display: block !important;
+      left: 0 !important;
+      right: 0 !important;
+      transform: translateX(0) !important;
     }
 
     .close-dialog-button {
-      top: 8px !important;
-      left: 8px !important;
-      width: 32px !important;
-      height: 32px !important;
-    }
-
-    .zoom-controls {
-      bottom: 8px;
-      padding: 6px 10px;
-      gap: 6px;
-      border-radius: 25px;
-    }
-
-    .zoom-controls button {
-      width: 36px !important;
-      height: 36px !important;
-      min-width: 36px !important;
-      padding: 0 !important;
+      top: 12px !important;
+      left: 12px !important;
+      width: 40px !important;
+      height: 40px !important;
     }
 
     .zoom-indicator {
-      font-size: 0.8rem;
-      padding: 5px 10px;
+      top: 12px !important;
+      right: 12px !important;
+      font-size: 0.8rem !important;
+      padding: 6px 14px !important;
     }
   }
 

@@ -223,19 +223,6 @@
         [class.zoomed-max]="zoomLevel === 3"
         (click)="toggleZoom()"
         style="display: block; margin: auto;" />
-
-      <!-- Controles de Zoom -->
-      <div class="zoom-controls">
-        <button mat-mini-fab color="primary" (click)="zoomOut()" [disabled]="zoomLevel === 1" aria-label="Diminuir zoom">
-          <mat-icon>zoom_out</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" (click)="resetZoom()" [disabled]="zoomLevel === 1" aria-label="Resetar zoom">
-          <mat-icon>refresh</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" (click)="zoomIn()" [disabled]="zoomLevel === 3" aria-label="Aumentar zoom">
-          <mat-icon>zoom_in</mat-icon>
-        </button>
-      </div>
     </div>
   </ng-template>
 
