@@ -28,7 +28,7 @@ export class Home implements OnInit, OnDestroy {
   pageSizeOptions: number[] = [12, 24, 36];
   loading: boolean = false;
   erroCarregamento: boolean = false;
-  private whatsappNumber = '5561984152810';
+  private whatsappNumber = '5561995729366';
   private defaultMessage = 'Olá! Gostaria de mais de mais informações sobre os veiculos disponíveis?';
   anoCorrente: number = new Date().getFullYear();
 
@@ -107,7 +107,24 @@ export class Home implements OnInit, OnDestroy {
       }
     });
   }
+  
+  filtrarPorMarcaCard(marcaId: number): void {
+  // 1. Atualiza o valor da marca no formulário (filtroForm)
+  this.filtroForm.patchValue({ 
+    marca: marcaId,
+    modelo: null // Limpa o modelo conforme sua lógica no onMarcaChange
+  });
 
+  // 2. Chama o seu método onMarcaChange que você já tem
+  // Ele vai carregar os modelos daquela marca e aplicar os filtros
+  this.onMarcaChange();
+
+  // 3. Scroll suave para a lista de veículos para o usuário ver o resultado
+  const element = document.querySelector('.veiculos-container');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+}
   carregarModelos(marcaId?: number): void {
     this.veiculoService.getModelos(marcaId).subscribe({
       next: (modelos) => {

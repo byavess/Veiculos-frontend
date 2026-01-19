@@ -17,7 +17,7 @@
   /* GARANTIA DO FUNDO PRETO PURO */
   background-color: var(--background-color) !important;
   color: var(--text-light);
-  height: 64px;
+  height: 90px;
   background-color: #000000 !important;
   background: #000000 !important;
 }
@@ -41,6 +41,7 @@
   height: 100%;
   display: flex;
   align-items: center;
+
 }
 
 .main-logo {

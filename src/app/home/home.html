@@ -1,38 +1,38 @@
 <body>
-<section class="hero-banner-carousel">
-  <div class="carousel-wrapper">
+ <!--<section class="hero-banner-carousel">
+  <div class="carousel-wrapper">-->
     <!-- Slide 1 -->
-    <div class="carousel-slide" [class.active]="currentSlide === 0">
+    <!--<div class="carousel-slide" [class.active]="currentSlide === 0">
       <div class="slide-background slide-bg-1"></div>
       <div class="hero-overlay">
         <div class="hero-content">
           <h1 class="hero-title animate-fade-in">Encontre o carro dos seus sonhos</h1>
-          <p class="hero-subtitle animate-fade-in-delay">+ de 50 veículos seminovos com garantia e procedência</p>
-          <button mat-raised-button color="accent" class="hero-button animate-fade-in-delay-2"
+          <p class="hero-subtitle animate-fade-in-delay">+ de 50 veículos seminovos com garantia e procedência</p>-->
+           <!--<button mat-raised-button color="accent" class="hero-button animate-fade-in-delay-2"
                   (click)="scrollToVehicles()">
             VER ESTOQUE
-          </button>
-        </div>
+          </button>-->
+            <!--</div>
       </div>
-    </div>
+    </div>-->
 
     <!-- Slide 2 -->
-    <div class="carousel-slide" [class.active]="currentSlide === 1">
+    <!--<div class="carousel-slide" [class.active]="currentSlide === 1">
       <div class="slide-background slide-bg-2"></div>
       <div class="hero-overlay">
         <div class="hero-content">
           <h1 class="hero-title animate-fade-in">Financiamento Facilitado</h1>
-          <p class="hero-subtitle animate-fade-in-delay">Parcele em até 60 meses com as melhores taxas do mercado</p>
-          <button mat-raised-button color="accent" class="hero-button animate-fade-in-delay-2"
+          <p class="hero-subtitle animate-fade-in-delay">Parcele em até 60 meses com as melhores taxas do mercado</p>-->
+           <!--<button mat-raised-button color="accent" class="hero-button animate-fade-in-delay-2"
                   (click)="contatoWhatsApp()">
             SIMULAR FINANCIAMENTO
-          </button>
-        </div>
+          </button>-->
+       <!-- </div>
       </div>
-    </div>
+    </div>-->
 
     <!-- Slide 3 -->
-    <div class="carousel-slide" [class.active]="currentSlide === 2">
+     <!--<div class="carousel-slide" [class.active]="currentSlide === 2">
       <div class="slide-background slide-bg-3"></div>
       <div class="hero-overlay">
         <div class="hero-content">
@@ -45,18 +45,18 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Controles do Carrossel -->
-    <button mat-icon-button class="carousel-control carousel-prev" (click)="previousSlide()">
+   <!-- <button mat-icon-button class="carousel-control carousel-prev" (click)="previousSlide()">
       <mat-icon>chevron_left</mat-icon>
     </button>
     <button mat-icon-button class="carousel-control carousel-next" (click)="nextSlide()">
       <mat-icon>chevron_right</mat-icon>
-    </button>
+    </button>-->
 
     <!-- Indicadores -->
-    <div class="carousel-indicators">
+    <!-- <div class="carousel-indicators">
       <button
         *ngFor="let slide of [0, 1, 2]; let i = index"
         class="indicator"
@@ -66,10 +66,16 @@
       </button>
     </div>
   </div>
-</section>
+</section>-->
 
 <!-- Vitrine de Veículos -->
 <section class="vehicles-section">
+
+  
+
+
+
+
   <div class="container">
 
 
@@ -77,7 +83,7 @@
 
 
     <section class="filtros-estoque">
-      <div class="filtros-container">
+       <!--<div class="filtros-container">
         <h2 class="filtro-titulo">Encontre seu novo veículo!</h2>
         <form [formGroup]="filtroForm">
           <div class="filtro-geral-pesquisa">
@@ -121,11 +127,11 @@
             Limpar filtros
           </button>
 
-      </div>
+      </div>-->
 
       <form [formGroup]="filtroForm" *ngIf="showDetailedFilters" class="filtros-detalhados-painel">
 
-        <div class="filtros-grid">
+          <!--<div class="filtros-grid">
 
           <div class="filtro-group">
             <mat-form-field appearance="outline" class="filtro-mat-field">
@@ -191,11 +197,11 @@
             </mat-form-field>
           </div>
 
-        </div>
+        </div> -->
 
 
         <!-- Botão Limpar Filtros Centralizado -->
-        <div class="btn-grupo-filtros">
+          <!--<div class="btn-grupo-filtros">
           <button type="button" mat-raised-button class="btn-limpar-filtros" (click)="limparFiltros()">
             <mat-icon>filter_alt</mat-icon>
             Limpar filtros
@@ -206,13 +212,14 @@
             <mat-icon>attach_money</mat-icon>
             Quero vender
           </button>
-        </div>
-
+        </div>  -->
 
       </form>
 
 
     </section>
+    
+
 
     <!-- Loading -->
     <div *ngIf="loading" class="loading-estoque">
@@ -232,7 +239,7 @@
     <section *ngIf="!loading && !erroCarregamento" class="veiculos-container">
 
       <!-- Barra de Ordenação -->
-      <div class="ordenacao-container" *ngIf="veiculos.length > 0" >
+    <!--  <div class="ordenacao-container" *ngIf="veiculos.length > 0" >
         <div class="ordenacao-info">
           <mat-icon class="ordenacao-icon">sort</mat-icon>
           <span class="ordenacao-label">Ordenar por:</span>
@@ -253,7 +260,7 @@
         <div class="resultados-info">
           <span class="total-veiculos">{{ totalElements }} veículos</span>
         </div>
-      </div>
+      </div>-->
 
       <div class="veiculos-grid" *ngIf="veiculos.length > 0">
         <!-- Cards de veículos com Material Card -->
@@ -299,7 +306,7 @@
                   </span>
               </div>
 
-              <div class="veiculo-badge">{{ veiculo.ano }}</div>
+              <!--<div class="veiculo-badge">{{ veiculo.ano }}</div>-->
 
               <!-- Badge de Oferta Especial -->
               <div class="oferta-badge" *ngIf="veiculo.emOferta">
