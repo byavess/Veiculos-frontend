@@ -1558,7 +1558,7 @@ mat-card-title.veiculo-nome {
   /* 🔥 A CORREÇÃO REAL */
   position: absolute;
   bottom: 2px;
-  left: 42.5% !important;
+  left: 4%;
   margin-top: 55px !important; 
   transform: translateX(-50%)
   
@@ -1954,18 +1954,29 @@ mat-card-actions.card-botoes {
   }
 
   .veiculo-preco {
-    display: flex !important;
-   
+  
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #333333;
+   background-image: linear-gradient(
+    to bottom,
+    #f7f7f7 0%, /* Prata Brilhante */ #c3c3c3 50%, /* Cinza Médio */ #a0a0a0 51%, /* Cinza Sombra (Dá a linha de cromo) */ #e3e3e3 100%
+  ) !important;
 
-margin-top: 25px !important;
-  align-self: center; 
-    width: 260px !important;
-    padding: 2px;
-    align-items: center !important; 
-    justify-content: center;
-    margin-right: 55px !important;
-    
-    
+   text-align: center;
+  padding: 8px 12px;
+
+  border-radius: 15px;
+  border: 1px solid #c0c0c0c0;
+
+  width: 240px;
+
+  /* 🔥 A CORREÇÃO REAL */
+  position: absolute;
+  bottom: 2px;
+  left: 42.5% !important;
+  margin-top: 55px !important; 
+  transform: translateX(-50%)
   
     
     
