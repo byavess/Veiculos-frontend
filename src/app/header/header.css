@@ -154,6 +154,9 @@ flex-shrink: 0;
 }
 
 
+
+
+
 /* administrador*/
 .user-actions .action-icon-button:hover .mat-icon {
   color: #FFD700 !important;
@@ -168,6 +171,7 @@ flex-shrink: 0;
 /*localização icon*/
 .action-icon-button {
   color: #FFD700 !important;
+   
 }
 
 

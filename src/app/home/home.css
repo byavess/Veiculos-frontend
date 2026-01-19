@@ -1443,6 +1443,7 @@ mat-card-content.card-conteudo {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  height: 200px ;
 }
 
 /* Mat-card-title personalizado */
@@ -1486,10 +1487,11 @@ mat-card-title.veiculo-nome {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 15px !important;
   padding: 12px;
   background: #f8f9fa;
   border-radius: 8px;
+  
 
 }
 
@@ -1497,6 +1499,7 @@ mat-card-title.veiculo-nome {
   display: flex;
   align-items: center;
   gap: 6px;
+  
 }
 
 .info-icon {
@@ -1537,18 +1540,38 @@ mat-card-title.veiculo-nome {
 
 .veiculo-preco {
   font-size: 1.4rem;
+  font-weight: 500;
   color: #333333;
-  font-weight: 600;
-  text-align: center;
-  margin: 15px 0;
-  padding: 8px 12px;
-  background-image: linear-gradient(
+   background-image: linear-gradient(
     to bottom,
     #f7f7f7 0%, /* Prata Brilhante */ #c3c3c3 50%, /* Cinza Médio */ #a0a0a0 51%, /* Cinza Sombra (Dá a linha de cromo) */ #e3e3e3 100%
   ) !important;
-  border-radius: 8px;
+
+   text-align: center;
+  padding: 8px 12px;
+
+  border-radius: 15px;
   border: 1px solid #c0c0c0c0;
+
+  width: 240px;
+
+  /* 🔥 A CORREÇÃO REAL */
+  position: absolute;
+  bottom: 2px;
+  left: 42.5% !important;
+  margin-top: 55px !important; 
+  transform: translateX(-50%)
+  
+   
+ 
+  
 }
+
+
+
+
+
+
 
 /* Mat-card-actions personalizado */
 mat-card-actions.card-botoes {
@@ -1574,8 +1597,9 @@ mat-card-actions.card-botoes {
   font-size: 0.9rem !important;
   letter-spacing: 0.5px !important;
   padding: 10px 20px !important;
-  height: 44px !important;
+  height: 24px !important;
   line-height: 24px !important;
+  margin-top: -45px;
   color: #333333;
   border: 1px solid #c0c0c0c0;
   background-image: linear-gradient(
@@ -1928,6 +1952,23 @@ mat-card-actions.card-botoes {
     width: 35px;
     height: 35px;
   }
+
+  .veiculo-preco {
+    display: flex !important;
+   
+
+margin-top: 25px !important;
+  align-self: center; 
+    width: 260px !important;
+    padding: 2px;
+    align-items: center !important; 
+    justify-content: center;
+    margin-right: 55px !important;
+    
+    
+  
+    
+    
 }
 
 @media (max-width: 480px) {
@@ -2279,10 +2320,4 @@ body {
   }
 }
 
-
-
-
-
-
-
-
+}
