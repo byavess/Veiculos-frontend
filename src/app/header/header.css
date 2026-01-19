@@ -13,11 +13,13 @@
   /* Sombra escura para destacar o header no topo */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
   padding: 0;
-  z-index: 100;
+ 
   /* GARANTIA DO FUNDO PRETO PURO */
   background-color: var(--background-color) !important;
   color: var(--text-light);
-  height: 90px;
+  height: 80px !important;
+  min-height: 64px;
+
   background-color: #000000 !important;
   background: #000000 !important;
 }
@@ -41,7 +43,6 @@
   height: 100%;
   display: flex;
   align-items: center;
-
 }
 
 .main-logo {
@@ -265,6 +266,7 @@ flex-shrink: 0;
  display: flex;
   align-items: center;
   gap: 0px;
+  margin-right: 15px;
 
 }
 .user-name {
@@ -275,8 +277,10 @@ font-size: 13px;
 
 /* 2. Mostra o ícone apenas em telas menores (Mobile) */
 @media (max-width: 992px) {
+
+  
   .phone-mobile-only {
-    display: flex !important; /* Ou inline-flex para botões mat-icon */
+    display: inline-flex !important; /* Ou inline-flex para botões mat-icon */
     
   }
   .user-actions {
@@ -330,6 +334,6 @@ font-size: 13px;
 
 }
 
+
+
 }
-
-

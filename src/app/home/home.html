@@ -222,21 +222,21 @@
 
 
     <!-- Loading -->
-    <div *ngIf="loading" class="loading-estoque">
+    <!--  <div *ngIf="loading" class="loading-estoque">
       <div class="spinner"></div>
       <p>Carregando veículos...</p>
-    </div>
+    </div>-->
 
     <!-- Erro -->
-    <div *ngIf="erroCarregamento && !loading" class="erro-estoque">
+      <!--<div *ngIf="erroCarregamento && !loading" class="erro-estoque">
       <p>❌ Erro ao carregar estoque. Tente novamente.</p>
       <button (click)="carregarVeiculos()" class="btn-recarregar">
         Recarregar
       </button>
-    </div>
+    </div>-->
 
     <!-- Grid de Veículos -->
- 
+  
     <section *ngIf="!loading && !erroCarregamento" class="veiculos-container">
 
       <!-- Barra de Ordenação -->
