@@ -236,6 +236,7 @@
     </div>
 
     <!-- Grid de Veículos -->
+ 
     <section *ngIf="!loading && !erroCarregamento" class="veiculos-container">
 
       <!-- Barra de Ordenação -->
@@ -389,15 +390,20 @@
 
       <!-- Paginação com Material -->
       <mat-paginator
-        *ngIf="veiculos.length > 0"
+        *ngIf="veiculos.length> 0"
         [length]="totalElements"
         [pageSize]="pageSize"
         [pageIndex]="pageIndex"
         [pageSizeOptions]="pageSizeOptions"
         (page)="onPageChange($event)"
         showFirstLastButtons
-        aria-label="Selecione a página">
+        aria-label="Selecione a página" >
       </mat-paginator>
+
+   
+
+
+    
     </section>
 
     <!-- Botão WhatsApp Flutuante -->
