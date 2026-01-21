@@ -1487,11 +1487,10 @@ mat-card-title.veiculo-nome {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 15px !important;
+  margin-bottom: 15px;
   padding: 12px;
   background: #f8f9fa;
   border-radius: 8px;
-  
 
 }
 
@@ -1499,7 +1498,6 @@ mat-card-title.veiculo-nome {
   display: flex;
   align-items: center;
   gap: 6px;
-  
 }
 
 .info-icon {
@@ -1540,9 +1538,12 @@ mat-card-title.veiculo-nome {
 
 .veiculo-preco {
   font-size: 1.4rem;
-  font-weight: 500;
   color: #333333;
-   background-image: linear-gradient(
+  font-weight: 600;
+  text-align: center;
+  margin: 5px 0;
+  padding: 8px 12px;
+  background-image: linear-gradient(
     to bottom,
     #f7f7f7 0%, /* Prata Brilhante */ #c3c3c3 50%, /* Cinza Médio */ #a0a0a0 51%, /* Cinza Sombra (Dá a linha de cromo) */ #e3e3e3 100%
   ) !important;
@@ -1558,20 +1559,12 @@ mat-card-title.veiculo-nome {
   /* 🔥 A CORREÇÃO REAL */
   position: absolute;
   bottom: 2px;
-  left: 4%;
+  left: 40%;
   margin-top: 55px !important; 
   transform: translateX(-50%)
   
-   
- 
   
 }
-
-
-
-
-
-
 
 /* Mat-card-actions personalizado */
 mat-card-actions.card-botoes {
@@ -1952,34 +1945,6 @@ mat-card-actions.card-botoes {
     width: 35px;
     height: 35px;
   }
-
-  .veiculo-preco {
-  
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: #333333;
-   background-image: linear-gradient(
-    to bottom,
-    #f7f7f7 0%, /* Prata Brilhante */ #c3c3c3 50%, /* Cinza Médio */ #a0a0a0 51%, /* Cinza Sombra (Dá a linha de cromo) */ #e3e3e3 100%
-  ) !important;
-
-   text-align: center;
-  padding: 8px 12px;
-
-  border-radius: 15px;
-  border: 1px solid #c0c0c0c0;
-
-  width: 240px;
-
-  /* 🔥 A CORREÇÃO REAL */
-  position: absolute;
-  bottom: 2px;
-  left: 42.5% !important;
-  margin-top: 55px !important; 
-  transform: translateX(-50%)
-  
-    
-    
 }
 
 @media (max-width: 480px) {
@@ -2032,7 +1997,7 @@ mat-card-actions.card-botoes {
   background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
   color: white;
   padding: 50px 20px 30px;
-  margin-top: 60px;
+ 
 }
 
 .footer-content {
@@ -2080,11 +2045,15 @@ mat-card-actions.card-botoes {
   .footer-content {
     grid-template-columns: 3fr;
     gap: 30px;
+    margin-top: 0%;
+
   }
 
   .main-footer {
-    padding: 40px 20px 20px;
+    padding: 20px 20px 20px;
+    
   }
+
 
 }
 
@@ -2331,4 +2300,10 @@ body {
   }
 }
 
-}
+
+
+
+
+
+
+
