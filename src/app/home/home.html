@@ -240,7 +240,7 @@
     <section *ngIf="!loading && !erroCarregamento" class="veiculos-container">
 
       <!-- Barra de Ordenação -->
-    <!--  <div class="ordenacao-container" *ngIf="veiculos.length > 0" >
+      <div class="ordenacao-container" *ngIf="veiculos.length > 0" >
         <div class="ordenacao-info">
           <mat-icon class="ordenacao-icon">sort</mat-icon>
           <span class="ordenacao-label">Ordenar por:</span>
@@ -261,7 +261,7 @@
         <div class="resultados-info">
           <span class="total-veiculos">{{ totalElements }} veículos</span>
         </div>
-      </div>-->
+      </div>
 
       <div class="veiculos-grid" *ngIf="veiculos.length > 0">
         <!-- Cards de veículos com Material Card -->
