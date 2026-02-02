@@ -69,23 +69,23 @@
 </section>-->
 
 <!-- Vitrine de Veículos -->
-<section class="vehicles-section">
+      <section class="vehicles-section">
 
   
 
 
 
 
-  <div class="container">
+        <div class="container">
 
 
-    <!-- Filtros -->
+           <!-- Filtros -->
 
 
-    <section class="filtros-estoque">
-       <!--<div class="filtros-container">
-        <h2 class="filtro-titulo">Encontre seu novo veículo!</h2>
-        <form [formGroup]="filtroForm">
+        <section class="filtros-estoque">
+       <div class="filtros-container">
+         <h2 class="filtro-titulo">Encontre seu novo veículo!</h2>
+         <form [formGroup]="filtroForm">
           <div class="filtro-geral-pesquisa">
             <mat-form-field appearance="outline" class="filtro-pesquisa-mat-field">
               <input matInput
@@ -95,18 +95,18 @@
               <mat-icon matPrefix>search</mat-icon>
             </mat-form-field>
           </div>
-        </form>
-        <div class="toggle-filtros-detalhe">
+         </form>
+         <!-- <div class="toggle-filtros-detalhe">
           <button mat-button
                   (click)="toggleFiltros()">
             <mat-icon *ngIf="!showDetailedFilters">arrow_downward</mat-icon>
             <mat-icon *ngIf="showDetailedFilters">arrow_upward</mat-icon>
             Mais filtros
-          </button>
-        </div>
+            </button>
+            </div>-->
 
 
-        <div *ngIf="!showDetailedFilters" class="botoes-iniciais">
+         <!--<div *ngIf="!showDetailedFilters" class="botoes-iniciais">
 
           <button type="button" mat-raised-button class="btn-indique-ganhe" (click)="openWhatsApp()"
                     >
@@ -121,17 +121,24 @@
             Quero vender
           </button>
 
-        </div>
+         </div>
          <button *ngIf="!showDetailedFilters" type="button" mat-raised-button class="btn-limpar-filtros1" (click)="limparFiltros()">
             <mat-icon>filter_alt</mat-icon>
             Limpar filtros
-          </button>
+          </button>-->
 
-      </div>-->
+          </div>
 
-      <form [formGroup]="filtroForm" *ngIf="showDetailedFilters" class="filtros-detalhados-painel">
 
-          <!--<div class="filtros-grid">
+
+
+
+
+          
+
+         <form [formGroup]="filtroForm" *ngIf="showDetailedFilters" class="filtros-detalhados-painel">
+
+          <div class="filtros-grid">
 
           <div class="filtro-group">
             <mat-form-field appearance="outline" class="filtro-mat-field">
@@ -197,11 +204,11 @@
             </mat-form-field>
           </div>
 
-        </div> -->
+        </div> 
 
 
         <!-- Botão Limpar Filtros Centralizado -->
-          <!--<div class="btn-grupo-filtros">
+         <!--  <div class="btn-grupo-filtros">
           <button type="button" mat-raised-button class="btn-limpar-filtros" (click)="limparFiltros()">
             <mat-icon>filter_alt</mat-icon>
             Limpar filtros
@@ -212,7 +219,7 @@
             <mat-icon>attach_money</mat-icon>
             Quero vender
           </button>
-        </div>  -->
+        </div> -->
 
       </form>
 
@@ -222,18 +229,18 @@
 
 
     <!-- Loading -->
-    <!--  <div *ngIf="loading" class="loading-estoque">
+      <div *ngIf="loading" class="loading-estoque">
       <div class="spinner"></div>
       <p>Carregando veículos...</p>
-    </div>-->
+    </div>
 
     <!-- Erro -->
-      <!--<div *ngIf="erroCarregamento && !loading" class="erro-estoque">
+      <div *ngIf="erroCarregamento && !loading" class="erro-estoque">
       <p>❌ Erro ao carregar estoque. Tente novamente.</p>
       <button (click)="carregarVeiculos()" class="btn-recarregar">
         Recarregar
       </button>
-    </div>-->
+    </div>
 
     <!-- Grid de Veículos -->
   
@@ -242,8 +249,8 @@
       <!-- Barra de Ordenação -->
       <div class="ordenacao-container" *ngIf="veiculos.length > 0" >
         <div class="ordenacao-info">
-          <mat-icon class="ordenacao-icon">sort</mat-icon>
-          <span class="ordenacao-label">Ordenar por:</span>
+            <!-- <mat-icon class="ordenacao-icon">sort</mat-icon>-->
+             <!--<span class="ordenacao-label">Ordenar por:</span>-->
 
           <mat-form-field appearance="outline" class="ordenacao-select">
             <mat-select [(value)]="ordenacaoSelecionada" (selectionChange)="aplicarOrdenacao()">

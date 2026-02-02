@@ -278,6 +278,8 @@
 .vehicles-section {
   padding: 4rem 2rem;
   color : rgb(5, 5, 5) !important;
+  margin-top: -35px !important
+
 }
 
 .section-title {
@@ -523,56 +525,83 @@ overflow: visible !important;
   color: white;
   margin-bottom: 30px; /* Espaço entre o título e o campo de busca */
   text-align: center;
+
 }
 
-/* Ajuste opcional para telas menores */
+/* Ajuste opcional para telas menores 'titulo' */
 @media (max-width: 768px) {
   .filtro-titulo {
     font-size: 26px;
+    margin-top: 20px;
+
+  
+    
 
   }
 }
 
 
-/* Filtros */
+/* Filtros  titulo e filtro geral*/
 .filtros-estoque {
-  height: auto !important;
-  min-height: auto !important;
-  overflow: visible;
+
+
   border-radius: 8px;
-  padding: 30px;
-  margin-bottom: 1px;
-  z-index: 1050 !important;
+  padding: 45px;
+  margin-bottom: 7px;
+
 
 }
 
 
+
+
+
+
+
+/*fitro  abaixo do titulo*/
 .filtros-container {
-  height: 200px !important;
+  height: 85px !important;
   max-width: 1200px;
-  margin: 0 auto;
+
   flex-direction: column;
   align-items: center;
   background-color: #252525;
   display: flex;
-  margin-bottom: 20px;
+
   margin-top: -55px;
+
+ 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 /*parte do fundo dos 4 filtros*/
 .filtros-detalhados-painel {
   margin-top: 15px;
   margin-bottom: 20px;
   margin-right: 350px;
-  height: 50px;
+  height: 5px;
   width: 100%;
   padding: 20px;
   border-radius: 28px;
   justify-content: center;
-  background-color: #252525 !important; /* Cor da caixa de filtros detalhados */
-  z-index: 1050 ;
+  background-color: #252525 ; /* Cor da caixa de filtros detalhados */
+  z-index: 999 !important ;
 
 }
+
+
+
+
 
 
 
@@ -585,12 +614,20 @@ overflow: visible !important;
     padding: 20px 10px !important; /* Reduz o padding lateral */
     width: 100% !important;
     box-sizing: border-box !important;
+    z-index: -999 !important;
+    
+ 
   }
 
   .filtros-detalhados-painel > * {
     flex: 1 1 100%; /* Ocupa a largura total (ou quase total) no mobile */
     max-width: 100%;
+    
+    
      }
+
+
+
 
 
 }
@@ -602,6 +639,7 @@ overflow: visible !important;
   margin-bottom: 5px;
    margin-left: auto !important;
   margin-right: auto !important;
+  
 
 }
 
@@ -619,11 +657,16 @@ overflow: visible !important;
 
 }
 
+
 @media (max-width: 768px) {
   .filtro-geral-pesquisa {
-    width: 100% !important;
-    padding: 0 10px !important; /* Pequeno respiro nas bordas da tela */
+width: 100% !important;
+    padding: 0 10px !important;
+    margin-bottom: 0 !important; /* Zera a margem que cria o buraco */
     box-sizing: border-box !important;
+    display: block !important;
+   
+    
   }
 
   .filtro-pesquisa-mat-field {
@@ -633,13 +676,7 @@ overflow: visible !important;
     border-radius: 8px !important;
   }
 
-    .filtro-geral-pesquisa {
-    width: 100% !important;
-    padding: 0 10px !important; /* Pequeno respiro nas bordas da tela */
-    box-sizing: border-box !important;
-    display: block !important;
-    margin: 0 auto !important; /* Força centralização horizontal */
-  }
+ 
 }
 
 
@@ -649,12 +686,15 @@ overflow: visible !important;
 
 .toggle-filtros-detalhe {
   color: #ffc107;
+
+  
 }
 
 
 .toggle-filtros-detalhe .mat-icon {
   /* Cor que você deseja (amarelo/laranja) */
   color: #ffc107 !important;
+  
 
   /* Opcional: Para garantir que o ícone tenha o tamanho desejado */
   font-size: 25px !important;
@@ -1030,25 +1070,31 @@ overflow: visible !important;
 
 @media (max-width: 768px) {
   .ordenacao-container {
-     display: flex;
+   display: flex !important;
     flex-direction: column;
     align-items: stretch;
-    /* Reduzimos o padding exagerado que estava embolando o layout */
     padding: 15px !important;
-    gap: 20px !important;
-    background-color: transparent;
+    gap: 10px !important;
+  background-color: #252525 ; 
+    
 
-    /* Garante que o container ocupe espaço no fluxo e empurre o que vem abaixo */
-    position: relative;
+    /* CORREÇÃO DE POSICIONAMENTO */
+    position: relative !important;
+    top: -340px !important; /* Em vez de margin, usamos top para mover o elemento no eixo */
+    z-index: 10 !important; /* Garante que ele fique ACIMA do fundo preto */
+    
     width: 100%;
     height: auto;
-    min-height: min-content;
+    
+    /* AJUSTE DE MARGEM PARA O CONTEÚDO ABAIXO */
+    /* Como subimos o bloco em 60px, precisamos compensar embaixo para os carros subirem junto */
+    margin-bottom: -360px !important; 
 
-    /* Transição para quando o filtro interno abrir */
     transition: all 0.3s ease-in-out;
-    margin-bottom: 90px;
     border-radius: 8px;
     box-sizing: border-box;
+    
+   
 
   }
 
@@ -1150,9 +1196,6 @@ overflow: visible !important;
 }
 
 
-
-
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 
@@ -2179,9 +2222,15 @@ mat-card-actions.card-botoes {
   gap: 16px;
   justify-content: center;
   align-items: center;
-  margin: 24px 0;
 
+}
 
+.botoes-iniciais button {
+  min-width: 160px;
+  max-width: 100%;
+  flex: 1 1 160px;
+  margin: 0;
+  width: auto;
 }
 
 .btn-queroVender-filtro {
@@ -2199,13 +2248,7 @@ mat-card-actions.card-botoes {
 
 }
 
-.botoes-iniciais button {
-  min-width: 160px;
-  max-width: 100%;
-  flex: 1 1 160px;
-  margin: 0;
-  width: auto;
-}
+
 @media (max-width: 900px) {
   .botoes-iniciais {
     gap: 10px;
@@ -2254,9 +2297,8 @@ body {
 
 /* Prevenir overflow horizontal em todas as telas */
 @media (max-width: 768px) {
-  .vehicles-section,
-  .features-section,
-  .filtros-estoque {
+
+  .features-section   {
     padding-left: 10px !important;
     padding-right: 10px !important;
     overflow-x: hidden !important;
@@ -2266,9 +2308,28 @@ body {
     
 
   }
+
+   .filtros-estoque{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+
+    
+
+  }
   .vehicles-section{
-    margin-top: 3px !important;
-  
+
+
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+ 
+    margin-top: -53px !important;
+
   }
   
 
@@ -2279,8 +2340,11 @@ body {
     max-width: 100% !important;
     overflow-x: hidden !important;
     box-sizing: border-box !important;
+
+  
+
    
-    
+
 
   }
 
