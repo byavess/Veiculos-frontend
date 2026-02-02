@@ -23,7 +23,7 @@ export class Home implements OnInit, OnDestroy {
   veiculos: IVeiculo[] = [];
 
   totalElements: number = 0;
-  pageSize: number = 12;
+  pageSize: number = 500;
   pageIndex: number = 0;
   pageSizeOptions: number[] = [12, 24, 36];
   loading: boolean = false;
